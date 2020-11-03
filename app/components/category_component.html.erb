@@ -1,0 +1,17 @@
+
+<div class="w-full max-w-xs mt-2">
+  <div class="md:flex md:items-center mb-6">
+    <div class="md:w-3/3" data-target="form.category_wrapper">
+      <label class="inline-flex items-center mt-3" data-wrapper-id="<%= @data[:wrapper_id]%>">
+        <span class="ml-2 text-gray-700">
+          <input class="input-box focus:outline-none focus:shadow-outline" data-input-id="<%= @data[:input_id]%>" type="text" value="Lunch" data-target="form.category_name" data-reflex="keyup->Example#type_category">
+        </span>
+        <div class="ml-2 h-5 w-5 cursor-pointer" data-action="click->form#delete_category" data-delete-id="<%= @data[:delete_id]%>">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#D3D3D3">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </div>
+      </label>
+    </div>
+  </div>
+</div>

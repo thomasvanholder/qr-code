@@ -1,0 +1,18 @@
+<div class="w-full max-w-xs mt-2">
+  <div class="md:flex md:items-center mb-6">
+    <div class="md:w-3/3" data-target="form.category_wrapper">
+      <label class="inline-flex items-center mt-3" data-id-input="1">
+        <span class="ml-2 text-gray-700">
+          <input class="shadow appearance-none border rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" data-id="1" type="text" value="Lunch" data-target="form.category_name" data-reflex="keyup->Example#type_category">
+        </span>
+        <div class="ml-2 h-5 w-5 cursor-pointer" data-action="click->form#delete_category" data-id="1">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#D3D3D3">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </div>
+      </label>
+    </div>
+  </div>
+  <span class="underline hover:text-teal-900 cursor-pointer text-teal-700" data-action="click->form#duplicate_category_input">add category</span>
+</div>
+
