@@ -1,119 +1,111 @@
-$main-bg:        #1BBC9B;
-$nav-color:      #FFFFFF;
-$nav-bg-active:  #333;
-$screen-bg:      #fff;
-$duration:       300ms;
-$ease:           ease-in-out;
+.iphone-x {
+  width: 360px;
+  height: 780px;
+  border-radius: 40px;
+  box-shadow: 0px 0px 0px 11px #1f1f1f, 0px 0px 0px 13px #191919, 0px 0px 0px 20px #111;
+  // position: relative;
+  // background-color: #7371ee;
+  // background-image: linear-gradient(60deg, #7371ee 1%,#a1d9d6 100%);
+  position: fixed;
 
-.iphone {
-  width: 16.06em;
-  height: 30.6em;
-  border-radius: 1.875em;
-  margin: 2em;
-  position: relative;
-  display:inline-block;
-  background: #4f5b66;
-}
-
-.iphone__item {
-  width: 16.06em;
-  height:1em;
-  position: absolute;
-  bottom:-2em;
-  color: darken($main-bg, 10%);
-  text-align: center;
-}
-
-.iphone__power-btn{
-  width: 2.188em;
-  height: .188em;
-  background: #4f5b66;
-  position: absolute;
-  right: 2.5em;
-  top: -.188em;
-}
-
-.iphone__left-btn {
-  width: .188em;
-  height: 1.250em;
-  top: 3.250em;
-  left: -.188em;
-  position: absolute;
-  background: #4f5b66;
-
-  &:before {
+  &:before,
+  &:after{
     content: '';
-    width: .188em;
-    height: .875em;
     position: absolute;
-    top: 3em;
-    background: #e0e0e0;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
+  // home button indicator
   &:after {
-    content: '';
-    width: .188em;
-    height: .875em;
-    position: absolute;
-    top: 5.5em;
-    background: #e0e0e0;
+    bottom: 7px;
+    width: 140px;
+    height: 4px;
+    background-color: #f2f2f2;
+    border-radius: 10px;
   }
-}
 
-.iphone__details {
-  width: .438em;
-  height: .438em;
-  border-radius: 100%;
-  position: relative;
-  top: 1.313em;
-  left: 8em;
-  background: #7c7c7c;
-
+  // frontal camera/speaker frame
   &:before {
-    content: '';
-    width: 2.5em;
-    height: .25em;
-    border-radius: .25em;
-    position: absolute;
-    top: 1em;
-    left: -1em;
-    background: #7c7c7c;
+    top: 0px;
+    width: 56%;
+    height: 30px;
+    background-color: #1f1f1f;
+    border-radius: 0px 0px 40px 40px;
   }
-}
 
-.iphone__home-btn {
-  width: 2.25em;
-  height: 2.25em;
-  border-radius: 100%;
-  position: absolute;
-  bottom: 1em;
-  right: 6.75em;
-  background: #4f5b66;
-
-  &:before {
-    content: '';
-    width: .813em;
-    height: .813em;
-    border: .15em solid #a8a8a8;
-    border-radius: .2em;
+  i,
+  b,
+  s,
+  span {
     position: absolute;
-    top: .6em;
-    left: .57em;
+    display: block;
+    color: transparent;
   }
-}
 
-.iphone__screen {
-  width: 14.5em;
-  height: 22.938em;
-  position: absolute;
-  top: 3.75em;
-  left: .750em;
-  overflow: hidden;
-}
+  // speaker
+  i {
+    top: 0px;
+    left: 50%;
+    transform: translate(-50%, 6px);
+    height: 8px;
+    width: 15%;
+    background-color: #101010;
+    border-radius: 8px;
+    box-shadow: inset 0px -3px 3px 0px rgba(256, 256, 256, 0.2);
+  }
 
-.iphone__content {
-  position: relative;
-  background-color: $screen-bg;
-  width:100%;
-  height:100%;
+  // camera
+  b {
+    left: 10%;
+    top: 0px;
+    transform: translate(180px, 4px);
+    width: 12px;
+    height: 12px;
+    background-color: #101010;
+    border-radius: 12px;
+    box-shadow: inset 0px -3px 2px 0px rgba(256, 256, 256, 0.2);
+
+    &:after {
+      content: '';
+      position: absolute;
+      background-color: #2d4d76;
+      width: 6px;
+      height: 6px;
+      top: 2px;
+      left: 2px;
+      top: 3px;
+      left: 3px;
+      display: block;
+      border-radius: 4px;
+      box-shadow: inset 0px -2px 2px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  // time
+  s {
+    top: 50px;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    width: 100%;
+    font-size: 70px;
+    font-weight: 100;
+    padding-top: 60px;
+  }
+
+  // action buttons
+  span {
+    bottom: 50px;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    left: 30px;
+
+    & + span {
+      left: auto;
+      right: 30px;
+    }
+  }
 }

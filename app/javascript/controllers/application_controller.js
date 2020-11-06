@@ -5,11 +5,8 @@ import StimulusReflex from 'stimulus_reflex'
  * All StimulusReflex controllers should inherit from this class.
  *
  * Example:
- *
  *   import ApplicationController from './application_controller'
- *
  *   export default class extends ApplicationController { ... }
- *
  * Learn more at: https://docs.stimulusreflex.com
  */
 export default class extends Controller {
@@ -23,14 +20,10 @@ export default class extends Controller {
    * Using the lifecycle is optional, so feel free to delete these stubs if you don't need them.
    *
    * Arguments:
-   *
    *   element - the element that triggered the reflex
    *             may be different than the Stimulus controller's this.element
-   *
    *   reflex - the name of the reflex e.g. "Example#demo"
-   *
    *   error/noop - the error message (for reflexError), otherwise null
-   *
    *   reflexId - a UUID4 or developer-provided unique identifier for each Reflex
    */
 

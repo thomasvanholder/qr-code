@@ -1,177 +1,132 @@
-import { Controller } from "stimulus";
-
-export default class extends Controller {
+import ApplicationController from "./application_controller";
+/* This is the custom StimulusReflex controller for the Example Reflex.
+ * Learn more at: https://docs.stimulusreflex.com
+ */
+export default class extends ApplicationController {
   static targets = [
-    "restaurant",
-    "restaurant_input",
-    "category",
-    "category_name",
-    "category_print",
-    "category_input",
-    "category_wrapper",
-    "item_name",
-    "item_print",
-    "item_input",
-    "item_wrapper",
-    "item_price",
-    "item_description",
+    "logo_input",
+    "logo_output",
+    "meal_picture_input",
+    "meal_picture_output",
+    "links_category",
+    "list_tabs",
+    "list_panels",
+    "template_category_field",
+    "template_category_print",
+    "template_item_print",
+    "categories",
+    "items",
+    "template_tab_print",
+    "template_panel_print",
+    "template_wrapper"
   ];
 
-  type_name() {
-    this.restaurantTarget.innerText = this.restaurant_inputTarget.value;
+  connect() {
+    super.connect();
+    // add your code here, if applicable
   }
 
-  type_category(e) {
-    let inputId = e.target.dataset.id;
-    let kids = this.category_printTarget.children;
+  add_category(event) {
+    const id = new Date().getTime(); // create random time-stamp as unique category identifier
+    // 1. create extra input
+    this.add_element(id, this.template_category_printTarget, this.categoriesTarget, "beforeend");
+    //2. print on iphone
+    this.add_element(id, this.template_category_fieldTarget, this.links_categoryTarget, "beforebegin");
+    // 3. print on tab nav
+    this.add_element(id, this.template_tab_printTarget, this.list_tabsTarget, "beforeend");
+    // 4. print tab panel
+    this.add_element(id, this.template_panel_printTarget, this.list_panelsTarget, "beforeend");
+  }
 
-    for (let i = 0; i < kids.length; i++) {
-      if (kids[i].dataset.id == inputId) {
-        kids[i].innerText = e.target.value;
+  add_element(id, input, output, position) {
+    const content = input.innerHTML.replace(/NEW_CATEGORY/g, id);
+    output.insertAdjacentHTML(position, content);
+  }
+
+
+  add_item(event) {
+    const category_id = event.target.dataset.category
+    const menu_item_id = new Date().getTime();
+    // console.log(`Category ID: ${category_id}`)
+    // console.log(`Menu item ID: ${menu_item_id}`)
+
+    let all_templates = this.template_wrapperTarget.getElementsByTagName("template");
+    for (let template of all_templates) {
+      // get correct template which matches category_id
+      if (template.innerHTML.includes(category_id)) {
+        const content = template.innerHTML.replace(/NEW_MENU_ITEM/g,menu_item_id);
+        event.target.insertAdjacentHTML("beforebegin", content);
       }
     }
+
+     const print_content = this.template_item_printTarget.innerHTML.replace(
+       /NEW_MENU_ITEM/g,
+       menu_item_id
+     );
+     this.itemsTarget.insertAdjacentHTML("beforeend", print_content);
   }
 
-  type_item(e) {
-    let inputId = e.target.dataset.id;
-    let kids = this.item_printTarget.children;
 
-    for (let i = 0; i < kids.length; i++) {
-      if (kids[i].dataset.id == inputId) {
-        kids[i].innerText = e.target.value;
-      }
+
+  delete_category(event) {
+    this.delete_element(this.categoriesTarget, event, "category");
+  }
+
+  delete_item(event) {
+    this.delete_element(this.itemsTarget, event, "item");
+  }
+
+  delete_element(target, event, id_selector) {
+    // 1. delete 2-fold (in browser and in DB)
+    let wrapper = event.target.closest(".nested-fields"); // look in parent for class
+    if (wrapper.dataset.newRecord == "true") {
+      // remove field if it's a new record added during session
+      wrapper.remove();
+    } else {
+      // remove field from db by setting hidden-field value to true
+      wrapper.querySelector("input[name*='_destroy']").value = 1;
+      wrapper.style.display = "none"; //remove visibility from page
     }
-  }
 
-  type_price(e) {
-    let inputId = e.target.dataset.idItemPrice;
-    let kids = this.item_printTarget.children;
-
-    for (let i = 0; i < kids.length; i++) {
-      if (kids[i].dataset.idPrice == inputId) {
-        kids[i].innerText = `$${e.target.value}`;
-      }
-    }
-  }
-
-  type_description(e) {
-    let inputId = e.target.dataset.idItemDescription;
-
-    let kids = this.item_printTarget.children;
-    for (let i = 0; i < kids.length; i++) {
-      if (kids[i].dataset.idDescription == inputId) {
-        kids[i].innerText = e.target.value;
-      }
-    }
-  }
-
-  // duplicate_category_input() {
-  //   let count = this.category_wrapperTarget.childElementCount + 1;
-  //   // create new checkmark and input field
-  //   this.category_wrapperTarget.insertAdjacentHTML(
-  //     "beforeend",
-  //     `<label class="inline-flex items-center mt-3" data-id-input="${count}">
-  //       <span class="ml-2 text-gray-700">
-  //         <input class="shadow appearance-none border rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" data-id="${count}" type="text" placeholder="..." data-target="form.category_name" data-action="keyup->form#type_category">
-  //       </span>
-  //       <div class="ml-2 h-5 w-5 cursor-pointer" data-action="click->form#delete_category" data-id="${count}">
-  //         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#D3D3D3">
-  //           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-  //         </svg>
-  //       </div>
-  //     </label>`
-  //   );
-  //   // create new category div on iphone screen
-  //   this.category_printTarget.insertAdjacentHTML(
-  //     "beforeend",
-  //     `<div class="mt-3" data-id="${count}">...</div>`
-  //   );
-  // }
-
-  duplicate_item_input() {
-    let count = this.item_wrapperTarget.childElementCount + 1;
-
-    this.item_wrapperTarget.insertAdjacentHTML(
-      "beforeend",
-      ` <label class="inline-flex items-center my-3" data-id-input="${count}">
-        <span class="w-3/4 ml-2 text-gray-700">
-          <input class="shadow appearance-none border rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" data-id="${count}" type="text" placeholder="Spaghetti" data-target="form.item_name" data-action="keyup->form#type_item">
-        </span>
-        <div class="w-1/4 ml-2 relative rounded-md shadow-sm">
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <span class="text-gray-500 sm:text-sm sm:leading-5">$</span>
-          </div>
-          <input class="shadow appearance-none border rounded w-full py-2 pl-6 pr-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="0.00" data-id-item-price="${count}" data-target="form.item_price"data-action="keyup->form#type_price">
-        </div>
-        <div class="ml-2 h-5 w-5 cursor-pointer" data-action="click->form#delete_item" data-id="${count}">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#D3D3D3">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </div>
-      </label>
-      <span class="ml-2 text-gray-700" data-id-desc-input="${count}">
-        <input class="shadow appearance-none border rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" data-id-item-description="${count}" type="text" placeholder="description" data-target="form.item_description" data-action="keyup->form#type_description">
-      </span>`
+     // 2. delete printed element
+    let input_element = wrapper.querySelector("input");
+    let extracted_id = input_element.name.replace(/\D/g, "");
+    let print_element = target.querySelector(
+      `#${id_selector}-${extracted_id}`
     );
-
-    this.item_printTarget.insertAdjacentHTML(
-      "beforeend",
-      `<div class="mt-3" data-id="${count}">Spagehtti</div>
-      <div class="font-thin text-xs pr-4" data-id-description="${count}">description</div>
-      <div class="" data-id-price="${count}">$0.00</div>`
-    );
+    print_element.remove();
   }
 
-  delete_category(e) {
-    let inputId = e.path[1].dataset.id;
+  preview_logo() {
+    const input = this.logo_inputTarget;
+    const output = this.logo_outputTarget;
 
-    // 1. delete input field category
-    let inputKids = this.category_wrapperTarget.children;
-    for (let i = 0; i < inputKids.length; i++) {
-      if (inputKids[i].dataset.idInput == inputId) {
-        inputKids[i].remove();
-      }
-    }
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
 
-    // 2.delete category placeholder on iphone screen
-    let kids = this.category_printTarget.children;
-    for (let i = 0; i < kids.length; i++) {
-      if (kids[i].dataset.id == inputId) {
-        kids[i].remove();
-      }
+      reader.onload = function () {
+        output.src = reader.result;
+      };
+
+      reader.readAsDataURL(input.files[0]);
     }
   }
 
-  delete_item(e) {
-    let inputId = e.path[1].dataset.id;
-    console.log(inputId);
+  preview_meal_picture(event) {
+    let extracted_id = event.target.name.replace(/\D/g, "");
+    let input = event.target;
 
-    // 1. delete input field category
-    let inputKids = this.item_wrapperTarget.children;
-    for (let i = 0; i < inputKids.length; i++) {
-      if (inputKids[i].dataset.idInput == inputId) {
-        inputKids[i].remove();
-      }
-      if (inputKids[i].dataset.idDescInput == inputId) {
-        inputKids[i].remove();
-      }
-    }
+    let output = this.itemsTarget;
+    let img_element = output.querySelector(`#item-picture-${extracted_id}`);
 
-    // 2.delete category placeholder on iphone screen
-    let kids = this.item_printTarget.children;
-    for (let i = 0; i < kids.length; i++) {
-      // remove item name
-      if (kids[i].dataset.id == inputId) {
-        kids[i].remove();
-      }
-      if (kids[i].dataset.idDescription == inputId) {
-        kids[i].remove();
-      }
-      // remove item price
-      if (kids[i].dataset.idPrice == inputId) {
-        kids[i].remove();
-      }
+    if (input.files && input.files[0]) {
+      let reader = new FileReader();
 
+      reader.onload = function () {
+        img_element.src = reader.result;
+      };
+
+      reader.readAsDataURL(input.files[0]);
     }
   }
 }

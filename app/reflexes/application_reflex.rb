@@ -2,7 +2,7 @@
 
 class ApplicationReflex < StimulusReflex::Reflex
   # Put application wide Reflex behavior in this file.
-  #
+  delegate :render, to: ApplicationController
   # Example:
   #
   #   # If your ActionCable connection is: `identified_by :current_user`

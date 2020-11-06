@@ -33,6 +33,12 @@ gem 'font-awesome-sass'
 
 gem "view_component", require: "view_component/engine"
 
+
+gem 'cloudinary', '~> 1.16.0'
+
+# create QR code
+gem 'rqrcode'
+
 group :development, :test do
   gem 'pry-byebug'
   gem 'pry-rails'
