@@ -66,17 +66,28 @@ export default class extends ApplicationController {
      this.itemsTarget.insertAdjacentHTML("beforeend", print_content);
   }
 
+  delete_item(event) {
+    let wrapper = event.target.closest(".nested-fields"); // look in parent for class
+    if (wrapper.dataset.newRecord == "true") {
+      // remove field if it's a new record added during session
+      wrapper.remove();
+    } else {
+      // remove field from db by setting hidden-field value to true
+      wrapper.querySelector("input[name*='_destroy']").value = 1;
+      wrapper.style.display = "none"; //remove visibility from page
+    }
 
+    // 3. delete printed element
+    let input_element = wrapper.querySelector("input");
+    let extracted_id = input_element.name.match(
+      /[i][t][e][m][s].[a-z]{3,}\S\S\d{5,}/
+    );
+    let regex_id = extracted_id[0].split("[").pop()
+    let print_element = this.itemsTarget.querySelector(`#item-${regex_id}`);
+    print_element.remove();
+  }
 
   delete_category(event) {
-    this.delete_element(this.categoriesTarget, event, "category");
-  }
-
-  delete_item(event) {
-    this.delete_element(this.itemsTarget, event, "item");
-  }
-
-  delete_element(target, event, id_selector) {
     // 1. delete 2-fold (in browser and in DB)
     let wrapper = event.target.closest(".nested-fields"); // look in parent for class
     if (wrapper.dataset.newRecord == "true") {
@@ -107,8 +118,8 @@ export default class extends ApplicationController {
      // 3. delete printed element
     let input_element = wrapper.querySelector("input");
     let extracted_id = input_element.name.replace(/\D/g, "");
-    let print_element = target.querySelector(
-      `#${id_selector}-${extracted_id}`
+    let print_element = this.categoriesTarget.querySelector(
+      `#category-${extracted_id}`
     );
     print_element.remove();
   }
