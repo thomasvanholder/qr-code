@@ -88,7 +88,23 @@ export default class extends ApplicationController {
       wrapper.style.display = "none"; //remove visibility from page
     }
 
-     // 2. delete printed element
+    // 2a. delete nav element
+    let element_id = wrapper.querySelector("input[name*='_destroy']");
+    let regex_id = element_id.name.match(/\d{5,}/)[0];
+    console.log(regex_id)
+
+    let all_tabs = this.list_tabsTarget.getElementsByTagName("li");
+      for (let tab of all_tabs) {
+        if (tab.innerHTML.includes(regex_id)) {  // match extracted_id
+          tab.remove()
+        }
+      }
+    // 2b. delete panel element
+    let one_panel = this.list_panelsTarget.querySelector(`#link-${regex_id}`);
+    let panel_div = one_panel.parentElement;
+    panel_div.remove()
+
+     // 3. delete printed element
     let input_element = wrapper.querySelector("input");
     let extracted_id = input_element.name.replace(/\D/g, "");
     let print_element = target.querySelector(
