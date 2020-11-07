@@ -1,11 +1,5 @@
 import { Controller } from "stimulus";
 
-// export default class extends Controller {
-//   connect() {
-//     console.log("Hello, Stimulus!", this.element);
-//   }
-// }
-
 export default class extends Controller {
   static targets = ["nav", "section"];
 
@@ -14,7 +8,6 @@ export default class extends Controller {
   }
 
   isInViewport(el) {
-    console.log("inside viewport")
     const rect = el.getBoundingClientRect();
     return (
         rect.top >= 0 &&
