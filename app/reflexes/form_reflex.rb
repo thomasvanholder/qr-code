@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'pry'
+# require 'pry'
 
 # Any declared instance variables will be made available to the Rails controller and view.
 class FormReflex < ApplicationReflex
