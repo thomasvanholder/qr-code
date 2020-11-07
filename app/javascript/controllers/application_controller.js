@@ -8,7 +8,7 @@ import StimulusReflex from 'stimulus_reflex'
  *   import ApplicationController from './application_controller'
  *   export default class extends ApplicationController { ... }
  * Learn more at: https://docs.stimulusreflex.com
- */
+*/
 export default class extends Controller {
   connect () {
     StimulusReflex.register(this)

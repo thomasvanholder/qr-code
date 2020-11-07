@@ -30,3 +30,8 @@
     opacity: 0;
     filter: alpha(opacity=0);
 }
+
+
+.active-tab {
+  @apply text-teal-600 border-teal-600 border-b;
+}

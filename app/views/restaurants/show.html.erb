@@ -1,23 +1,49 @@
 <div class="container mx-auto">
 
-  <h2>
-  <%= @restaurant.name %>
-  <%= cl_image_tag(@restaurant.picture.key, width: 400, height: 300, crop: :fill) %>
-  </h2>
+  <div class="flex flex-row pt-8 pl-2 items-center space-x-3">
+    <%= cl_image_tag(@restaurant.picture.key, class:"rounded w-24 h-24") %>
+    <h1 class="text-2xl"><%= @restaurant.name %></h1>
+  </div>
 
-  <% if @restaurant.categories %>
-
-    <% @restaurant.categories.each do |category| %>
-    <h2 class="text-lg font-semibold"> <%= category.name %></h2>
-
-      <% category.items.each do |item| %>
-        <li> <%= item.name %> $ <%= item.price %></li>
-        <small><%= item.description %></small>
-        <%#= cl_image_tag(item.picture.key, width: 100, height: 75, crop: :fill) %>
+  <!-- tab navs -->
+  <div data-controller="active-tab" data-action="scroll@window->active-tab#highlight_nav">
+    <div class="pl-5 flex space-x-2 py-8 mb-4 sticky bg-white top-0 border-b font-semibold">
+      <% @restaurant.categories.each do |category| %>
+        <a id="nav-<%= category.name %>" data-category="<%= category.name %>" data-target="active-tab.nav" href="#<%= category.name %>"><%= category.name.capitalize %></a>
       <% end %>
+    </div>
 
-    <% end %>
-  <% end %>
+
+
+    <div>
+      <% if @restaurant.categories %>
+        <% @restaurant.categories.each do |category| %>
+
+          <div id="category-<%=category.name%>" data-category="<%=category.name%>" data-target="active-tab.section">
+            <h2 class="text-lg font-semibold px-5 mx-3 border-b py-3" id="<%= category.name %>"><%= category.name.capitalize %></h2>
+            <% category.items.each do |item| %>
+              <!-- MENU ITEM element -->
+              <div class="flex space-x-2 pl-2 pr-6 my-4">
+                <%= cl_image_tag(item.picture.key, class:"rounded h-20 w-20") %>
+                <div class="w-3/4">
+                  <p class="font-semibold flex justify-between">
+                    <span><%= item.name %></span>
+                    <span>$<%= item.price %></span>
+                  </p>
+                  <small><%= item.description %></small>
+                </div>
+              </div>
+            <% end %>
+          </div>
+
+
+        <% end %>
+      <% end %>
+    </div>
+
+  </div>
 </div>
 
-<%= @svg.html_safe %>
+<%#= @svg.html_safe %>
+
+

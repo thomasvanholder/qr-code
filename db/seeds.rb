@@ -1,7 +1,58 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+require 'faker'
+require "open-uri"
+
+Item.destroy_all
+Category.destroy_all
+Restaurant.destroy_all
+
+start_time = Time.now
+stars =  "-" * 25
+puts "Starting seeds: #{start_time}"
+
+
+puts stars
+puts "-> Creating restaurants"
+1.times do
+  file = URI.open('https://source.unsplash.com/400x300/?logo')
+  restaurant = Restaurant.new(
+    name: Faker::Restaurant.name
+  )
+  restaurant.picture.attach(io: file, filename: 'logo.png', content_type: 'image/png')
+  restaurant.save
+end
+puts "#{Restaurant.count} restaurants created"
+
+
+puts stars
+puts "-> Creating categories"
+CATEGORIES = %w[breakfast lunch dinner desert snacks vegan fish]
+Restaurant.all.each do |restaurant|
+  5.times do
+    Category.create(
+      name: CATEGORIES.sample,
+      restaurant: restaurant
+    )
+  end
+end
+puts "#{Category.count} categories created"
+
+puts stars
+puts "-> Creating menu items"
+Category.all.each do |category|
+  4.times do
+    menu_item = Item.new(
+      name: Faker::Food.dish,
+      price: rand(5..25),
+      description: Faker::Food.description.slice(0..65),
+      category: category
+    )
+    file = URI.open("https://source.unsplash.com/400x300/?#{category.name}")
+    menu_item.picture.attach(io: file, filename: 'food.png', content_type: 'image/png')
+    menu_item.save
+  end
+end
+puts "#{Item.count} items created"
+
+
+puts stars
+puts "End seed in #{(Time.now - start_time).round(2)} s)"

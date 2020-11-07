@@ -79,13 +79,18 @@ export default class extends ApplicationController {
 
     // 3. delete printed element
     let input_element = wrapper.querySelector("input");
-    let extracted_id = input_element.name.match(
-      /[i][t][e][m][s].[a-z]{3,}\S\S\d{5,}/
-    );
-    let regex_id = extracted_id[0].split("[").pop()
+    let regex_id = this.extract_menu_item_id(input_element)
     let print_element = this.itemsTarget.querySelector(`#item-${regex_id}`);
     print_element.remove();
   }
+
+  extract_menu_item_id(element) {
+    let extracted_id = element.name.match(
+      /[i][t][e][m][s].[a-z]{3,}\S\S\d{5,}/
+    );
+    return extracted_id[0].split("[").pop();
+  }
+
 
   delete_category(event) {
     // 1. delete 2-fold (in browser and in DB)
@@ -124,6 +129,7 @@ export default class extends ApplicationController {
     print_element.remove();
   }
 
+
   preview_logo() {
     const input = this.logo_inputTarget;
     const output = this.logo_outputTarget;
@@ -140,11 +146,10 @@ export default class extends ApplicationController {
   }
 
   preview_meal_picture(event) {
-    let extracted_id = event.target.name.replace(/\D/g, "");
+    let regex_id = this.extract_menu_item_id(event.target);
     let input = event.target;
-
     let output = this.itemsTarget;
-    let img_element = output.querySelector(`#item-picture-${extracted_id}`);
+    let img_element = output.querySelector(`#item-picture-${regex_id}`);
 
     if (input.files && input.files[0]) {
       let reader = new FileReader();

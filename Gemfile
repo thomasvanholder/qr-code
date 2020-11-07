@@ -39,6 +39,9 @@ gem 'cloudinary', '~> 1.16.0'
 # create QR code
 gem 'rqrcode'
 
+gem 'faker'
+gem 'addressable', '~> 2.7' # avoid URI to break
+
 group :development, :test do
   gem 'pry-byebug'
   gem 'pry-rails'
