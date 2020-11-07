@@ -8,7 +8,20 @@ class RestaurantsController < ApplicationController
 
   def show
     @restaurant = Restaurant.find(params[:id])
-    show_page_url = request.base_url + request.path
+  end
+
+  def create
+    @restaurant = Restaurant.new(restaurant_params)
+    if @restaurant.save
+      redirect_to edit_restaurant_url(@restaurant) #, notice: "Project succesfully saved"
+    else
+      render :home
+    end
+  end
+
+  def edit
+    @restaurant = Restaurant.find(params[:id])
+   show_page_url = request.base_url + request.path
     qrcode = RQRCode::QRCode.new(show_page_url)
     @svg = qrcode.as_svg(
       offset: 0, # no padding
@@ -17,15 +30,6 @@ class RestaurantsController < ApplicationController
       module_size: 6, # all modules 6px each (size)
       standalone: true
     )
-  end
-
-  def create
-    @restaurant = Restaurant.new(restaurant_params)
-    if @restaurant.save
-      redirect_to @restaurant #, notice: "Project succesfully saved"
-    else
-      render :home
-    end
   end
 
   private
