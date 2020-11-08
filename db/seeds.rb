@@ -17,7 +17,7 @@ puts "-> Creating restaurants"
   restaurant = Restaurant.new(
     name: Faker::Restaurant.name
   )
-  restaurant.picture.attach(io: file, filename: 'logo.png', content_type: 'image/png', use_filename: true, folder: "qrcode/#{restaurant.name}")
+  restaurant.picture.attach(io: file, filename: 'logo.png', content_type: 'image/png')
   restaurant.save
 end
 puts "#{Restaurant.count} restaurants created"
