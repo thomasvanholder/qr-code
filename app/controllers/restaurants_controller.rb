@@ -21,8 +21,7 @@ class RestaurantsController < ApplicationController
 
   def edit
     @restaurant = Restaurant.find(params[:id])
-   show_page_url = request.base_url + request.path
-    qrcode = RQRCode::QRCode.new(show_page_url)
+    qrcode = RQRCode::QRCode.new(restaurant_url(@restaurant))
     @svg = qrcode.as_svg(
       offset: 0, # no padding
       color: '000', # color black
