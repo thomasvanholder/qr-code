@@ -1,10 +1,10 @@
 <div class="w-full max-w-xs mt-2">
   <div class="md:flex md:items-center mb-6">
     <div class="md:w-1/3">
-      <%= form.label :Restaurant, class:"input-label md:text-right md:mb-0" %>
+      <%= form.label :Restaurant, class: "input-label md:text-right md:mb-0" %>
     </div>
     <div class="md:w-2/3">
-      <%= form.text_field :name, class:"input-box focus:outline-none focus:shadow-outline", placeholder:"Casa Alberto", data: { reflex:"keyup->Form#print_restaurant" } %>
+      <%= form.text_field :name, class: "input-box focus:outline-none focus:shadow-outline", placeholder: "Casa Alberto", data: { reflex: "keyup->Form#print_restaurant" } %>
     </div>
   </div>
 </div>
@@ -12,12 +12,12 @@
 <div class="w-full max-w-xs mt-2">
   <div class="md:flex md:items-center mb-6">
     <div class="md:w-1/3">
-     <%= form.label :Logo, class:"input-label md:text-right md:mb-0" %>
+     <%= form.label :Logo, class: "input-label md:text-right md:mb-0" %>
     </div>
     <div class="md:w-2/3">
       <div class="relative overflow-hidden shadow border rounded-full h-20 w-20 p-4">
         <%= image_tag('icons/upload.svg', alt: "upload icon") %>
-        <%= form.file_field :picture, class:"input-uploader rounded-full", data: { target: "form.logo_input", action: "form#preview_logo" } %>
+        <%= form.file_field :picture, class: "input-uploader rounded-full", data: { target: "form.logo_input", action: "form#preview_logo" } %>
       </div>
     </div>
   </div>

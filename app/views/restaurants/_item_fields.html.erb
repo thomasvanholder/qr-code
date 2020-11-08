@@ -1,30 +1,29 @@
-<%= content_tag :div, class:"nested-fields flex", data: { new_record: form.object.new_record? } do %>
+<%= content_tag :div, class: "nested-fields flex", data: { new_record: form.object.new_record? } do %>
 
   <div class="md:flex md:items-center mt-auto mr-3">
       <div class="relative overflow-hidden shadow border rounded h-16 w-16 p-4">
         <%= image_tag('icons/upload.svg', alt: "upload icon") %>
-        <%= form.file_field :picture, class:"input-uploader rounded", data: { target: "form.meal_picture_input", action: "form#preview_meal_picture" } %>
+        <%= form.file_field :picture, class: "input-uploader rounded", data: { target: "form.meal_picture_input", action: "form#preview_meal_picture" } %>
       </div>
   </div>
 
   <div>
   <div class="flex flex-row items-center mt-3 border-b border-dashed">
 
-    <%= form.text_field :name, class:"w-9/12", data: { reflex: "keyup->Form#print_item" }, placeholder: "meal name"  %>
+    <%= form.text_field :name, class: "w-9/12", data: { reflex: "keyup->Form#print_item" }, placeholder: "meal name" %>
 
     <div class="w-3/12 ml-2 relative">
       <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
         <span class="text-gray-500 sm:text-sm sm:leading-5">$</span>
       </div>
-        <%= form.text_field :price, class:"appearance-none w-full py-2 pl-6 pr-3 text-gray-700 leading-tight", data: { reflex: "keyup->Form#print_price" } %>
+        <%= form.text_field :price, class: "appearance-none w-full py-2 pl-6 pr-3 text-gray-700 leading-tight", data: { reflex: "keyup->Form#print_price" } %>
         <%#= form.text_field :price, class:"shadow appearance-none border rounded w-full py-2 pl-6 pr-3 text-gray-700 leading-tight", data: { reflex: "keyup->Form#print_price" } %>
     </div>
-  <%= image_tag "icons/delete.svg", class:"ml-2 h-5 w-5 cursor-pointer", data: { action: "click->form#delete_item" } %>
+  <%= image_tag "icons/delete.svg", class: "ml-2 h-5 w-5 cursor-pointer", data: { action: "click->form#delete_item" } %>
   </div>
 
-  <%= form.text_field :description, class:"mt-2 w-full border-b border-dashed", data: { reflex: "keyup->Form#print_description" }, placeholder: "description"   %>
+  <%= form.text_field :description, class: "mt-2 w-full border-b border-dashed", data: { reflex: "keyup->Form#print_description" }, placeholder: "description" %>
   </div>
-
 
   <%= form.hidden_field :_destroy %>
 <% end %>
