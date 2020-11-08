@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # require 'pry'
 
 # Any declared instance variables will be made available to the Rails controller and view.
@@ -32,11 +33,11 @@ class FormReflex < ApplicationReflex
 
   def extract_id(string)
     # get 5 or more digits to match [1604647606030]
-    return string.match(/\d{5,}/)[0]
+    string.match(/\d{5,}/)[0]
   end
 
   def extract_menu_id(string)
     # get  5 or more digits to match [1604647606030] ending with [name], split after first ]
-    return element.name.match(/[i][t][e][m][s].[a-z]{3,}\S\S\d{5,}/)[0].partition('[').last
+    element.name.match(/[items].[a-z]{3,}\S\S\d{5,}/)[0].partition("[").last
   end
 end

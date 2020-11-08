@@ -13,7 +13,7 @@ class RestaurantsController < ApplicationController
   def create
     @restaurant = Restaurant.new(restaurant_params)
     if @restaurant.save
-      redirect_to edit_restaurant_url(@restaurant) #, notice: "Project succesfully saved"
+      redirect_to edit_restaurant_url(@restaurant) # , notice: "Project succesfully saved"
     else
       render :home
     end
@@ -24,8 +24,8 @@ class RestaurantsController < ApplicationController
     qrcode = RQRCode::QRCode.new(restaurant_url(@restaurant))
     @svg = qrcode.as_svg(
       offset: 0, # no padding
-      color: '000', # color black
-      shape_rendering: 'crispEdges',
+      color: "000", # color black
+      shape_rendering: "crispEdges",
       module_size: 6, # all modules 6px each (size)
       standalone: true
     )
@@ -39,7 +39,7 @@ class RestaurantsController < ApplicationController
       :name,
       :picture,
       # item attributes are nested inside each category
-      categories_attributes: [:id, :name, :_destroy , items_attributes: [:id, :name, :price, :description, :picture, :_destroy]]
-      )
+      categories_attributes: [:id, :name, :_destroy, items_attributes: [:id, :name, :price, :description, :picture, :_destroy]]
+    )
   end
 end
