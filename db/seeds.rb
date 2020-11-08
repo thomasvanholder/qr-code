@@ -27,9 +27,9 @@ puts stars
 puts "-> Creating categories"
 CATEGORIES = %w[breakfast lunch dinner desert snacks vegan fish]
 Restaurant.all.each do |restaurant|
-  4.times do
+  5.times do |num|
     Category.create(
-      name: CATEGORIES.sample,
+      name: CATEGORIES[num],
       restaurant: restaurant
     )
   end
