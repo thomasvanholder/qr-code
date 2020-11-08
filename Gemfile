@@ -31,16 +31,11 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'autoprefixer-rails'
 gem 'font-awesome-sass'
 
-gem "view_component", require: "view_component/engine"
-
-
 gem 'cloudinary', '~> 1.16.0'
-
 # create QR code
 gem 'rqrcode'
-
 gem 'faker'
-gem 'addressable', '~> 2.7' # avoid URI to break
+gem "stimulus_reflex", "~> 3.3"
 
 group :development, :test do
   gem 'pry-byebug'
@@ -71,4 +66,3 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem "stimulus_reflex", "~> 3.3"

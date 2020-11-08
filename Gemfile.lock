@@ -229,8 +229,6 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.7)
-    view_component (2.21.0)
-      activesupport (>= 5.0.0, < 7.0)
     web-console (4.0.4)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -255,7 +253,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  addressable (~> 2.7)
   autoprefixer-rails
   bootsnap (>= 1.4.2)
   byebug
@@ -279,7 +276,6 @@ DEPENDENCIES
   stimulus_reflex (~> 3.3)
   turbolinks (~> 5)
   tzinfo-data
-  view_component
   web-console (>= 3.3.0)
   webdrivers
   webpacker (~> 4.0)
