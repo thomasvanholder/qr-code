@@ -15,12 +15,12 @@
      <%= form.label :Logo, class: "input-label md:text-right md:mb-0" %>
     </div>
     <div class="md:w-2/3">
-      <div class="relative overflow-hidden shadow border rounded-full h-20 w-20 p-4">
-        <%= image_tag('icons/upload.svg', alt: "upload icon") %>
-        <%= form.file_field :picture, class: "input-uploader rounded-full", data: { target: "form.logo_input", action: "form#preview_logo" } %>
+      <div class="relative overflow-hidden shadow border rounded-full h-20 w-20">
+        <%= image_tag('icons/upload.svg', alt: "upload icon", class:"p-4") %>
+        <%= form.file_field :picture, class: "input-uploader", data: { target: "form.logo_input", action: "form#preview_logo" } %>
       </div>
       <div class="hidden place-items-center">
-        <img class="h-20 w-20 shadow border rounded-full" data-target="form.logo_output"></img>
+        <img class="h-20 w-20 shadow border rounded-full cursor-pointer" data-target="form.logo_output"></img>
         <%= image_tag "icons/delete.svg", class: "ml-2 h-5 w-5 cursor-pointer", data: { action: "click->form#delete_logo" } %>
       </div>
     </div>

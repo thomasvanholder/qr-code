@@ -1,0 +1,42 @@
+<div class="container mx-auto max-w-lg px-5">
+  <div class="flex flex-row pt-8 pl-2 items-center space-x-4">
+    <%= cl_image_tag(@restaurant.picture.key, class: "rounded w-24 h-24") %>
+    <h1 class="text-2xl"><%= @restaurant.name %></h1>
+  </div>
+
+  <!-- tab navs -->
+  <div data-controller="active-tab" data-action="scroll@window->active-tab#highlight_nav">
+    <div class="pl-5 flex space-x-2 py-8 mb-4 sticky bg-white border-b font-semibold overflow-auto" style="top:25px;">
+      <% @restaurant.categories.each do |category| %>
+        <a id="nav-<%= category.name %>" data-category="<%= category.name %>" data-target="active-tab.nav" href="#<%= category.name %>"><%= category.name.capitalize %></a>
+      <% end %>
+    </div>
+
+    <div>
+      <% if @restaurant.categories %>
+        <% @restaurant.categories.each do |category| %>
+
+          <div id="<%= category.name %>" style="margin-top: -90px; position: absolute;"></div>
+          <div data-category="<%= category.name %>" data-target="active-tab.section">
+            <h2 class="text-lg font-semibold border-b py-3"><%= category.name.capitalize %></h2>
+            <% category.items.each do |item| %>
+              <!-- MENU ITEM element -->
+              <div class="flex space-x-2 my-4 justify-between">
+                <%= cl_image_tag(item.picture.key, class: "rounded h-20 w-20") %>
+                <div class="">
+                  <p class="font-semibold flex justify-between">
+                    <span><%= item.name %></span>
+                    <span>$<%= item.price %></span>
+                  </p>
+                  <small><%= item.description %></small>
+                </div>
+              </div>
+            <% end %>
+          </div>
+
+        <% end %>
+      <% end %>
+    </div>
+
+  </div>
+</div>

@@ -2,6 +2,16 @@
 
 class RestaurantsController < ApplicationController
   def index
+    @restaurant = Restaurant.first # sample restaurant
+
+    qrcode = RQRCode::QRCode.new(restaurant_url(@restaurant))
+    @svg = qrcode.as_svg(
+      offset: 0, # no padding
+      color: "000", # color black
+      shape_rendering: "crispEdges",
+      module_size: 6, # all modules 6px each (size)
+      standalone: true
+    )
   end
 
   def show
