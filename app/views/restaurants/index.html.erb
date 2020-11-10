@@ -16,8 +16,8 @@
 <section class="container max-w-screen-xl mx-auto text-center">
   <h1 class="text-3xl mb-5">Create your own menu in 3 simple steps!</h1>
 
-
   <div class="flex">
+    <!-- LEFT Col-->
     <div class="w-1/3 space-y-5 pt-20 flex flex-col items-end">
       <div class="handwriting">2. <br>
         Add categories</div>
@@ -26,12 +26,12 @@
       </div>
     </div>
 
-
+    <!-- MIDDLE Col-->
     <div class="w-1/3">
       <%= render "phone", restaurant: @restaurant %>
     </div>
 
-
+    <!-- RIGHT Col-->
     <div class="w-1/3 space-y-56 flex flex-col items-start">
       <div>
         <div class="handwriting">1. <br>
@@ -46,13 +46,13 @@
       </div>
     </div>
   </div>
-
 </section>
 
-<section class="text-center mx-auto my-24">
-  <h1 class="text-3xl">Scan live menu on your phone</h1>
+
+<section class="text-center mx-auto my-16">
+  <h1 class="text-3xl">Scan example menu</h1>
   <div>
-    <a href="" class="text-link">or click here</a>
+    <%= link_to "or click here", restaurant_url(@restaurant), class:"text-link" %>
   </div>
 
   <div class="my-3 flex">
@@ -64,9 +64,10 @@
     <div class="w-5/12"></div>
   </div>
 
-  <div class="my-10">
-    <%= link_to "Get Started", restaurant_url(@restaurant), class:"btn-teal hover:bg-transparent hover:text-teal-700"  %>
+   <div class="my-10">
+    <%= link_to "Create Your Own QR-Menu", new_restaurant_url, class:"btn-teal hover:bg-transparent hover:text-teal-700"  %>
   </div>
+
 </section>
 
 

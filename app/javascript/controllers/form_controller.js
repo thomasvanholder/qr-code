@@ -6,8 +6,8 @@ export default class extends ApplicationController {
   static targets = [
     "logo_input",
     "logo_output",
+    "picture_meal_item",
     "meal_picture_input",
-    "meal_picture_output",
     "links_category",
     "list_tabs",
     "list_panels",
@@ -26,36 +26,17 @@ export default class extends ApplicationController {
     // add your code here, if applicable
   }
 
+  // prettier-ignore
   add_category(event) {
     const id = new Date().getTime(); // create random time-stamp as unique category identifier
     // 1. create extra input
-    this.add_element(
-      id,
-      this.template_category_printTarget,
-      this.categoriesTarget,
-      "beforeend"
-    );
-    //2. print on iphone
-    this.add_element(
-      id,
-      this.template_category_fieldTarget,
-      this.links_categoryTarget,
-      "beforebegin"
-    );
+    this.add_element(id, this.template_category_printTarget, this.categoriesTarget, "beforeend");
+    // 2. print on iphone
+    this.add_element(id, this.template_category_fieldTarget, this.links_categoryTarget, "beforebegin");
     // 3. print on tab nav
-    this.add_element(
-      id,
-      this.template_tab_printTarget,
-      this.list_tabsTarget,
-      "beforeend"
-    );
+    this.add_element(id, this.template_tab_printTarget, this.list_tabsTarget, "beforeend");
     // 4. print tab panel
-    this.add_element(
-      id,
-      this.template_panel_printTarget,
-      this.list_panelsTarget,
-      "beforeend"
-    );
+    this.add_element(id, this.template_panel_printTarget, this.list_panelsTarget, "beforeend");
   }
 
   add_element(id, input, output, position) {
@@ -156,7 +137,8 @@ export default class extends ApplicationController {
   preview_logo() {
     const input = this.logo_inputTarget;
     const logos = this.logo_outputTargets;
-    const form_logo = logos[0]
+    const form_logo = logos[0];
+    const phone_logo = logos[1]
 
     if (input.files && input.files[0]) {
       const reader = new FileReader();
@@ -164,10 +146,37 @@ export default class extends ApplicationController {
       reader.onload = function () {
         logos.forEach((logo) => {
           logo.src = reader.result; //set src attribute on target img html element
-          input.parentElement.classList.add("hidden");
-          form_logo.parentElement.classList.remove("hidden")
-          form_logo.parentElement.classList.add("flex") // because flex and hidden are both properties of display
         });
+        phone_logo.classList.remove("hidden")
+        input.parentElement.classList.add("hidden");
+        form_logo.parentElement.classList.remove("hidden");
+        form_logo.parentElement.classList.add("flex"); // because flex and hidden are both properties of display
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  preview_meal_picture(event) {
+    const regex_id = this.extract_menu_item_id(event.target);
+    const input = event.target;
+
+    const pictures = this.picture_meal_itemTargets;
+    const meal_pictures = pictures.filter(pic => pic.dataset.pictureId === regex_id)
+
+    if (input.files && input.files[0]) {
+      let reader = new FileReader();
+
+      reader.onload = function () {
+        meal_pictures.forEach((pic) => {
+          pic.src = reader.result; //set src attribute on target img html element
+        });
+        input.parentElement.classList.add("hidden")
+        meal_pictures[0].parentElement.classList.remove("hidden");
+        meal_pictures[0].parentElement.classList.add("flex");
+        meal_pictures[1].classList.remove("hidden") // show meal pic on phone if hidden
+
+        input.src = reader.result;
       };
 
       reader.readAsDataURL(input.files[0]);
@@ -181,26 +190,27 @@ export default class extends ApplicationController {
     form_logo.classList.add("hidden");
 
     const phone_logo = logos[1];
-    phone_logo.src = "../../assets/icons/photo.svg" // set to original picture icon
+    phone_logo.classList.add("hidden")
+    // phone_logo.src = "../../assets/icons/photo.svg"; // set to original picture icon
 
     const input = this.logo_inputTarget;
     input.parentElement.classList.remove("hidden");
   }
 
-  preview_meal_picture(event) {
-    let regex_id = this.extract_menu_item_id(event.target);
-    let input = event.target;
-    let output = this.itemsTarget;
-    let img_element = output.querySelector(`#item-picture-${regex_id}`);
+  delete_item_picture(event) {
+    const menu_item_id = event.target.dataset.pictureId
 
-    if (input.files && input.files[0]) {
-      let reader = new FileReader();
+    const pictures = this.picture_meal_itemTargets;
+    const meal_pictures = pictures.filter(pic => pic.dataset.pictureId === menu_item_id)
 
-      reader.onload = function () {
-        img_element.src = reader.result;
-      };
+    meal_pictures[0].parentElement.classList.add("hidden")
 
-      reader.readAsDataURL(input.files[0]);
-    }
+    // add standard pic again
+    const inputs = this.meal_picture_inputTargets;
+    const input_picture = inputs.find((pic) => pic.dataset.pictureId === menu_item_id);
+    input_picture.parentElement.classList.remove("hidden")
+
+    // hide the meal pic on phone when deleted
+    meal_pictures[1].classList.add("hidden")
   }
 }

@@ -15,17 +15,17 @@ class FormReflex < ApplicationReflex
   end
 
   def print_item
-    id = extract_menu_id(element.name)
+    id = element.dataset.item
     morph "#item-name-#{id}", element.value
   end
 
   def print_price
-    id = extract_menu_id(element.name)
+    id = element.dataset.item
     morph "#item-price-#{id}", "$#{element.value}"
   end
 
   def print_description
-    id = extract_menu_id(element.name)
+    id = element.dataset.item
     morph "#item-description-#{id}", element.value
   end
 
@@ -34,10 +34,5 @@ class FormReflex < ApplicationReflex
   def extract_id(string)
     # get 5 or more digits to match [1604647606030]
     string.match(/\d{5,}/)[0]
-  end
-
-  def extract_menu_id(string)
-    # get  5 or more digits to match [1604647606030] ending with [name], split after first ]
-    element.name.match(/[items].[a-z]{3,}\S\S\d{5,}/)[0].partition("[").last
   end
 end

@@ -1,7 +1,11 @@
-<div class="flex flex-col max-h-screen sticky" style="top:20px;">
+<div class="flex flex-col max-h-screen sticky" style="top:10px;">
   <h3 class="page-title sm:text-4xl sm:leading-10">
     QR Menu
   </h3>
 
   <%= render "phone" %>
+</div>
+
+<div class="container mx-auto text-center mt-6">
+  <%= link_to "Create Your Own QR-Menu", new_restaurant_url, class:"btn-teal hover:bg-transparent hover:text-teal-700"  %>
 </div>
