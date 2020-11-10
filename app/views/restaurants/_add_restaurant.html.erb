@@ -19,6 +19,11 @@
         <%= image_tag('icons/upload.svg', alt: "upload icon") %>
         <%= form.file_field :picture, class: "input-uploader rounded-full", data: { target: "form.logo_input", action: "form#preview_logo" } %>
       </div>
+      <div class="hidden place-items-center">
+        <img class="h-20 w-20 shadow border rounded-full" data-target="form.logo_output"></img>
+        <%= image_tag "icons/delete.svg", class: "ml-2 h-5 w-5 cursor-pointer", data: { action: "click->form#delete_logo" } %>
+      </div>
     </div>
   </div>
 </div>
+

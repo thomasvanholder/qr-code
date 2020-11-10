@@ -1,109 +1,131 @@
-<div class="container mx-auto py-10">
-
-  <h1 class="mx-auto text-center text-2xl">QR Code Generator</h1>
-
-  <%= form_with model: @restaurant, class: "" do |form| %>
-
-    <div class="grid grid-cols-2 gap-4 mt-20" data-controller="form">
-      <div class="mx-32 text-left">
-
-        <!-- RESTAURANT  -->
-        <h1 class="text-xl">1. Add Restaurant</h1>
-        <hr class="my-3 w-full">
-        <%= render 'add_restaurant', form: form %>
-
-        <!-- CATEGORY  -->
-        <h1 class="text-xl">2. Add Categories</h1>
-        <hr class="my-3 w-full">
-
-        <div data-target="form.template_wrapper">
-
-          <!-- template - CATEGORY INPUT field  -->
-          <template data-target="form.template_category_field">
-            <%= form.fields_for :categories, Category.new, child_index: 'NEW_CATEGORY' do |category| %>
-              <%= render "category_fields", form: category %>
-              <!-- template - ITEM INPUT field  -->
-              <template data-target="form.template_item_field">
-                <%= category.fields_for :items, Item.new, child_index: 'NEW_MENU_ITEM' do |item| %>
-                  <%= render "item_fields", form: item %>
-                <% end %>
-              </template>
-            <% end %>
-          </template>
-
-          <div data-target="form.links_category">
-            <%= button_tag "Add Category", type: 'button', class: "text-link", data: { action: "click->form#add_category", index: "1" } %>
-          </div>
-        </div>
-
-        <!-- template - CATEGORY PRINT TAB    -->
-        <template data-target="form.template_tab_print">
-          <li class="mr-1" data-target="tabs.tab" data-action="click->tabs#change">
-            <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#" id="tab-NEW_CATEGORY">Lunch</a>
-          </li>
-        </template>
-
-        <!-- MENU ITEMS  -->
-        <h1 class="text-xl mt-5">3. Add Menu Items</h1>
-        <hr class="my-3 w-full">
-
-        <!-- template - PANEL - MENU ITEMS    -->
-        <template data-target="form.template_panel_print">
-          <div class="hidden py-4 px-4 border-l border-b border-r" data-target="tabs.panel">
-            <div id="link-NEW_CATEGORY">
-              <%= button_tag "Add Item", type: 'button', class: "text-link mt-5", data: { action: "click->form#add_item", category: "NEW_CATEGORY" } %>
-            </div>
-          </div>
-        </template>
-
-        <div data-controller="tabs" data-tabs-active-tab="-mb-px border-l border-t border-r rounded-t" data-target="form.list_panels">
-          <ul class="list-reset flex border-b overflow-auto" data-target="form.list_tabs">
-            <%# <li class="-mb-px mr-1" data-target="tabs.tab" data-action="click->tabs#change">
-              <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-700 font-semibold no-underline" href="#">Breakfast</a>
-            </li> %>
-          </ul>
-        </div>
-        <%= form.submit "Save QR Menu", class: "mt-24 cursor-pointer bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" %>
-      <div class="text-center border w-64 h-64 mt-5 border-gray-500">QR Code placeholder</div>
-      </div>
-
-      <!-- iphone area -->
-      <div class="text-center flex justify-center p-10">
-        <div class="iphone-x">
-          <i>Speaker</i>
-          <b>Camera</b>
-
-          <!-- iphone: restaurant NAME and LOGO  -->
-          <div class="flex flex-row pt-12 pl-3 items-center space-x-3">
-            <%= image_tag("icons/photo.svg", width: "100px", height: "100px", class: "shadow p-1 rounded-full", data: { target: "form.logo_output" }) %>
-            <div class="text-2xl" id="restaurant-name">Casa Alberto</div>
-          </div>
-
-          <!-- template - iphone: CATEGORY field  -->
-          <template data-target="form.template_category_print">
-            <div class="mt-3 text-lg" id="category-NEW_CATEGORY">Lunch</div>
-          </template>
-          <div class="pl-5 flex space-x-2 overflow-auto" data-target="form.categories"></div>
-          <hr class="mt-5 border-gray-300 w-48 mx-auto">
-
-          <!-- template - iphone: MENU ITEM field  -->
-          <template data-target="form.template_item_print">
-            <div class="text-left text-xs pt-2 flex flex-row space-x-1" id="item-NEW_MENU_ITEM">
-              <%= image_tag "icons/photo.svg", width: "80px", height: "80px", class: "w-1/4 px-2", id: "item-picture-NEW_MENU_ITEM" %>
-
-              <div class="w-2/3">
-                <div id="item-name-NEW_MENU_ITEM">Healthy Bowl</div>
-                <div class="font-thin" id="item-description-NEW_MENU_ITEM">A description about food comes here...</div>
-                <div id="item-price-NEW_MENU_ITEM">$5</div>
-              </div>
-            </div>
-          </template>
-          <div class="px-1 space-y-2" data-target="form.items"></div>
-
-        </div>
-      </div>
+<div class="py-12 bg-white">
+  <div class="max-w-screen-lg mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="lg:text-center">
+      <p class="text-base leading-6 text-teal-600 font-semibold tracking-wide uppercase">Free</p>
+      <h3 class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10">
+        QR Code Creator
+      </h3>
     </div>
 
-  <% end %>
+    <div class="mt-10">
+      <ul class="md:grid md:grid-cols-2 md:gap-x-12 md:gap-y-10">
+        <li>
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <div class="flex items-center justify-center h-12 w-12 rounded-md bg-teal-500 text-white">
+                <!-- Heroicon name: globe-alt -->
+                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                </svg>
+              </div>
+            </div>
+            <div class="ml-4">
+              <h4 class="text-lg leading-6 font-medium text-gray-900">Beatufiul, modern, digital experience 🆕</h4>
+              <p class="mt-2 text-base leading-6 text-gray-600">
+                Customers can view your menu on their personal devices.
+              </p>
+            </div>
+          </div>
+        </li>
+        <li class="mt-10 md:mt-0">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <div class="flex items-center justify-center h-12 w-12 rounded-md bg-teal-500 text-white">
+                <!-- Heroicon name: scale -->
+                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+                </svg>
+              </div>
+            </div>
+            <div class="ml-4">
+              <h4 class="text-lg leading-6 font-medium text-gray-900">Create and update your menu online ✅</h4>
+              <p class="mt-2 text-base leading-6 text-gray-600">
+                No need for re-printing the menu when changes occur.
+              </p>
+            </div>
+          </div>
+        </li>
+        <li class="mt-10 md:mt-0">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <div class="flex items-center justify-center h-12 w-12 rounded-md bg-teal-500 text-white">
+                <!-- Heroicon name: lightning-bolt -->
+                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+            </div>
+            <div class="ml-4">
+              <h4 class="text-lg leading-6 font-medium text-gray-900">Increase turnover by serving guests faster 💰</h4>
+              <p class="mt-2 text-base leading-6 text-gray-600">
+                Guests are not dependent on waiters to review the menu for additional orders.
+              </p>
+            </div>
+          </div>
+        </li>
+        <li class="mt-10 md:mt-0">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <div class="flex items-center justify-center h-12 w-12 rounded-md bg-teal-500 text-white">
+                <!-- Heroicon name: lightning-bolt -->
+                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+            </div>
+            <div class="ml-4">
+              <h4 class="text-lg leading-6 font-medium text-gray-900">Boost productivity of your staff 🚀</h4>
+              <p class="mt-2 text-base leading-6 text-gray-600">
+                Staff can spent time on high-value customer interactions instead of delivering papers around.
+              </p>
+            </div>
+          </div>
+        </li>
+        <li class="mt-10 md:mt-0">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <div class="flex items-center justify-center h-12 w-12 rounded-md bg-teal-500 text-white">
+                <!-- Heroicon name: annotation -->
+                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                </svg>
+              </div>
+            </div>
+            <div class="ml-4">
+              <h4 class="text-lg leading-6 font-medium text-gray-900">Reduce risk of corona transmission 🚸</h4>
+              <p class="mt-2 text-base leading-6 text-gray-600">
+                Provide a clean and hygienic experience for your visitors.
+              </p>
+            </div>
+          </div>
+        </li>
+        <li class="mt-10 md:mt-0">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <div class="flex items-center justify-center h-12 w-12 rounded-md bg-teal-500 text-white">
+                <!-- Heroicon name: lightning-bolt -->
+                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+            </div>
+            <div class="ml-4">
+              <h4 class="text-lg leading-6 font-medium text-gray-900">Grow guest loyalty and customer experience ❤️</h4>
+              <p class="mt-2 text-base leading-6 text-gray-600">
+                Happy customers come back! Give them something to talk about.
+              </p>
+            </div>
+          </div>
+        </li>
+      </ul>
 
+
+    </div>
+  </div>
 </div>
+
+<div class="container max-w-screen-xl mx-auto text-center">
+  <h1 class="text-3xl mb-5">Create your own menu in 3 simple steps!</h1>
+  <a href="/restaurants/new" class="btn-teal hover:bg-transparent hover:text-teal-700">Get Started</a>
+</div>
+

@@ -18,7 +18,7 @@ export default class extends ApplicationController {
     "items",
     "template_tab_print",
     "template_panel_print",
-    "template_wrapper"
+    "template_wrapper",
   ];
 
   connect() {
@@ -29,13 +29,33 @@ export default class extends ApplicationController {
   add_category(event) {
     const id = new Date().getTime(); // create random time-stamp as unique category identifier
     // 1. create extra input
-    this.add_element(id, this.template_category_printTarget, this.categoriesTarget, "beforeend");
+    this.add_element(
+      id,
+      this.template_category_printTarget,
+      this.categoriesTarget,
+      "beforeend"
+    );
     //2. print on iphone
-    this.add_element(id, this.template_category_fieldTarget, this.links_categoryTarget, "beforebegin");
+    this.add_element(
+      id,
+      this.template_category_fieldTarget,
+      this.links_categoryTarget,
+      "beforebegin"
+    );
     // 3. print on tab nav
-    this.add_element(id, this.template_tab_printTarget, this.list_tabsTarget, "beforeend");
+    this.add_element(
+      id,
+      this.template_tab_printTarget,
+      this.list_tabsTarget,
+      "beforeend"
+    );
     // 4. print tab panel
-    this.add_element(id, this.template_panel_printTarget, this.list_panelsTarget, "beforeend");
+    this.add_element(
+      id,
+      this.template_panel_printTarget,
+      this.list_panelsTarget,
+      "beforeend"
+    );
   }
 
   add_element(id, input, output, position) {
@@ -43,27 +63,31 @@ export default class extends ApplicationController {
     output.insertAdjacentHTML(position, content);
   }
 
-
   add_item(event) {
-    const category_id = event.target.dataset.category
+    const category_id = event.target.dataset.category;
     const menu_item_id = new Date().getTime();
     // console.log(`Category ID: ${category_id}`)
     // console.log(`Menu item ID: ${menu_item_id}`)
 
-    let all_templates = this.template_wrapperTarget.getElementsByTagName("template");
+    let all_templates = this.template_wrapperTarget.getElementsByTagName(
+      "template"
+    );
     for (let template of all_templates) {
       // get correct template which matches category_id
       if (template.innerHTML.includes(category_id)) {
-        const content = template.innerHTML.replace(/NEW_MENU_ITEM/g,menu_item_id);
+        const content = template.innerHTML.replace(
+          /NEW_MENU_ITEM/g,
+          menu_item_id
+        );
         event.target.insertAdjacentHTML("beforebegin", content);
       }
     }
 
-     const print_content = this.template_item_printTarget.innerHTML.replace(
-       /NEW_MENU_ITEM/g,
-       menu_item_id
-     );
-     this.itemsTarget.insertAdjacentHTML("beforeend", print_content);
+    const print_content = this.template_item_printTarget.innerHTML.replace(
+      /NEW_MENU_ITEM/g,
+      menu_item_id
+    );
+    this.itemsTarget.insertAdjacentHTML("beforeend", print_content);
   }
 
   delete_item(event) {
@@ -79,7 +103,7 @@ export default class extends ApplicationController {
 
     // 3. delete printed element
     let input_element = wrapper.querySelector("input");
-    let regex_id = this.extract_menu_item_id(input_element)
+    let regex_id = this.extract_menu_item_id(input_element);
     let print_element = this.itemsTarget.querySelector(`#item-${regex_id}`);
     print_element.remove();
   }
@@ -90,7 +114,6 @@ export default class extends ApplicationController {
     );
     return extracted_id[0].split("[").pop();
   }
-
 
   delete_category(event) {
     // 1. delete 2-fold (in browser and in DB)
@@ -107,20 +130,21 @@ export default class extends ApplicationController {
     // 2a. delete nav element
     let element_id = wrapper.querySelector("input[name*='_destroy']");
     let regex_id = element_id.name.match(/\d{5,}/)[0];
-    console.log(regex_id)
+    console.log(regex_id);
 
     let all_tabs = this.list_tabsTarget.getElementsByTagName("li");
-      for (let tab of all_tabs) {
-        if (tab.innerHTML.includes(regex_id)) {  // match extracted_id
-          tab.remove()
-        }
+    for (let tab of all_tabs) {
+      if (tab.innerHTML.includes(regex_id)) {
+        // match extracted_id
+        tab.remove();
       }
+    }
     // 2b. delete panel element
     let one_panel = this.list_panelsTarget.querySelector(`#link-${regex_id}`);
     let panel_div = one_panel.parentElement;
-    panel_div.remove()
+    panel_div.remove();
 
-     // 3. delete printed element
+    // 3. delete printed element
     let input_element = wrapper.querySelector("input");
     let extracted_id = input_element.name.replace(/\D/g, "");
     let print_element = this.categoriesTarget.querySelector(
@@ -129,20 +153,38 @@ export default class extends ApplicationController {
     print_element.remove();
   }
 
-
   preview_logo() {
     const input = this.logo_inputTarget;
-    const output = this.logo_outputTarget;
+    const logos = this.logo_outputTargets;
+    const form_logo = logos[0]
 
     if (input.files && input.files[0]) {
       const reader = new FileReader();
 
       reader.onload = function () {
-        output.src = reader.result;
+        logos.forEach((logo) => {
+          logo.src = reader.result; //set src attribute on target img html element
+          input.parentElement.classList.add("hidden");
+          form_logo.parentElement.classList.remove("hidden")
+          form_logo.parentElement.classList.add("flex") // because flex and hidden are both properties of display
+        });
       };
 
       reader.readAsDataURL(input.files[0]);
     }
+  }
+
+  delete_logo() {
+    const logos = this.logo_outputTargets;
+    const form_logo = logos[0].parentElement; // singular, first hit on page - form
+    form_logo.classList.remove("flex");
+    form_logo.classList.add("hidden");
+
+    const phone_logo = logos[1];
+    phone_logo.src = "../../assets/icons/photo.svg" // set to original picture icon
+
+    const input = this.logo_inputTarget;
+    input.parentElement.classList.remove("hidden");
   }
 
   preview_meal_picture(event) {
