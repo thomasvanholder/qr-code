@@ -1,6 +1,6 @@
 
 <div class="iphone-x overflow-scroll">
-  <div class="w-full flex sticky top-0 bg-white">
+  <div class="w-full flex sticky top-0 bg-white iphone-element">
     <div class="w-1/4"></div>
     <div class="w-2/4 black-box"></div>
     <div class="w-1/4 flex space-x-1 mt-2 pr-4">
@@ -11,3 +11,21 @@
   </div>
   <%= render "phone_content", restaurant: @restaurant %>
 </div>
+
+<style>
+  @media (max-width: 1024px) {
+    .iphone-element {
+      display: none;
+    }
+
+    .iphone-x {
+      position: relative;
+      margin: unset;
+      width: unset;
+      height: unset;
+      background-color: unset;
+      border-radius: unset;
+      box-shadow: unset;
+    }
+  }
+</style>

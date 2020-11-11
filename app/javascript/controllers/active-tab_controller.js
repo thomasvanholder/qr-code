@@ -1,7 +1,7 @@
 import { Controller } from "stimulus";
 
 export default class extends Controller {
-  static targets = ["nav", "section"];
+  static targets = ["nav", "section", "hide_phone"];
 
   connect() {
     // console.log("Hello, Stimulus!", this.element);

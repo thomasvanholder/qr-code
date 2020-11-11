@@ -1,6 +1,10 @@
 <div class="container mx-auto flex items-center justify-center h-screen">
   <div class="text-center">
     <h1 class="font-semibold text-lg mb-4">Your Restaurant QR Code</h1>
-    <%= @svg.html_safe %>
+    <div class="mb-6">
+      <%= @svg.html_safe %>
+    </div>
+    <%= link_to "or click here", restaurant_url(@restaurant), class:"text-link" %>
   </div>
 </div>
+
