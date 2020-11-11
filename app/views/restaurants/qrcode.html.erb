@@ -1,0 +1,23 @@
+<div class="container mx-auto h-screen flex flex-col items-center justify-center">
+
+  <div class="text-center mb-16">
+    <h1 class="font-semibold text-lg mb-1">Scan Restaurant QR Code</h1>
+    <%= link_to "or view here", restaurant_url(@restaurant), class:"text-link" , target: "_blank" %>
+    <div class="mt-6">
+      <%= @svg.html_safe %>
+    </div>
+  </div>
+
+  <%= form_with(url: "/send-email-qr-code", method: "post", remote: true) do %>
+    <div class="mb-4">
+      <span class="text-lg">Hey, there!</span>
+      <p class="text-md text-gray-700">Fill in your email to <span class="underline font-semibold">edit</span> your QR code later.</p>
+    </div>
+    <div class="flex flex-col md:flex-row">
+      <%= email_field_tag(:email, @restaurant.email, placeholder:"example@gmail.com", class:"w-full md:w-64 form-input transition duration-150 ease-in-out sm:text-sm sm:leading-5") %>
+      <%= hidden_field_tag(:id, @restaurant.id) %>
+      <%= submit_tag("Send email  with QR Code", class:"btn-teal hover:bg-transparent hover:text-teal-700") %>
+    </div>
+  <% end %>
+
+</div>

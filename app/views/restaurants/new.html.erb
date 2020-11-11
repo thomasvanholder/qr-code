@@ -9,7 +9,7 @@
   <%= form_with model: @restaurant, class: "" do |form| %>
 
     <div class="grid grid-cols-2 mt-20" data-controller="form">
-      <div class="mx-20 text-left">
+      <div class=" md:mx-8 xl:mx-20 text-left">
 
         <!-- RESTAURANT  -->
         <h1 class="text-xl">1. Add Restaurant</h1>
@@ -68,7 +68,7 @@
           </ul>
 
         </div>
-        <%= form.submit "Save QR Menu", class: "btn-teal hover:bg-transparent hover:text-teal-700" %>
+        <%= form.submit "Create QR Menu", class: "btn-teal hover:bg-transparent hover:text-teal-700 mt-4" %>
       </div>
 
 
@@ -108,13 +108,13 @@
                 <div class="w-full">
                   <p class="font-semibold flex justify-between">
                     <span id="item-name-NEW_MENU_ITEM">Healthy Bowl</span>
-                    <span id="item-price-NEW_MENU_ITEM">$5</span>
+                    <span id="item-price-NEW_MENU_ITEM"></span>
                   </p>
-                  <small id="item-description-NEW_MENU_ITEM">A description about food comes here...</small>
+                  <small id="item-description-NEW_MENU_ITEM"></small>
                 </div>
               </div>
             </template>
-            <div class="space-y-2" data-target="form.items"></div>
+            <div data-target="form.items"></div>
 
           </div>
         </div>

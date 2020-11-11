@@ -37,6 +37,8 @@ gem "rqrcode"
 gem "faker"
 gem "stimulus_reflex", "~> 3.3"
 
+gem "noticed", "~> 1.2"
+
 group :development, :test do
   gem "dotenv-rails"
   gem "pry-rails"
@@ -73,3 +75,4 @@ group :development do
 end
 
 gem "standard", group: [:development, :test]
+

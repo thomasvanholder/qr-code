@@ -25,6 +25,8 @@
 
                 <% if item.picture.attached? %>
                   <%= cl_image_tag(item.picture.key, class: "rounded h-20 w-20") %>
+                <% else %>
+                  <div class="my-2"></div>
                 <% end %>
                 <div class="w-full">
                   <p class="font-semibold flex justify-between">
