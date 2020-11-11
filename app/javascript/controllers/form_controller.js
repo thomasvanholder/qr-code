@@ -19,6 +19,7 @@ export default class extends ApplicationController {
     "template_tab_print",
     "template_panel_print",
     "template_wrapper",
+    "delete_icon_meal_picture"
   ];
 
   connect() {
@@ -171,15 +172,17 @@ export default class extends ApplicationController {
         meal_pictures.forEach((pic) => {
           pic.src = reader.result; //set src attribute on target img html element
         });
-        input.parentElement.classList.add("hidden")
+        input.parentElement.classList.add("hidden");
         meal_pictures[0].parentElement.classList.remove("hidden");
         meal_pictures[0].parentElement.classList.add("flex");
-        meal_pictures[1].classList.remove("hidden") // show meal pic on phone if hidden
+        meal_pictures[1].classList.remove("hidden"); // show meal pic on phone if hidden
 
         input.src = reader.result;
       };
 
       reader.readAsDataURL(input.files[0]);
+
+      input.parentElement.nextElementSibling.classList.add("hidden"); // hide delete icon too
     }
   }
 
@@ -198,19 +201,22 @@ export default class extends ApplicationController {
   }
 
   delete_item_picture(event) {
-    const menu_item_id = event.target.dataset.pictureId
+    const menu_item_id = event.target.dataset.pictureId;
 
     const pictures = this.picture_meal_itemTargets;
-    const meal_pictures = pictures.filter(pic => pic.dataset.pictureId === menu_item_id)
+    const meal_pictures = pictures.filter(
+      (pic) => pic.dataset.pictureId === menu_item_id
+    );
 
-    meal_pictures[0].parentElement.classList.add("hidden")
+    meal_pictures[0].parentElement.classList.add("hidden"); // hide custom pic
 
-    // add standard pic again
-    const inputs = this.meal_picture_inputTargets;
-    const input_picture = inputs.find((pic) => pic.dataset.pictureId === menu_item_id);
-    input_picture.parentElement.classList.remove("hidden")
+    const inputs = this.meal_picture_inputTargets; // add standard pic again
+    const input_picture = inputs.find(
+      (pic) => pic.dataset.pictureId === menu_item_id
+    );
+    input_picture.parentElement.classList.remove("hidden");
 
     // hide the meal pic on phone when deleted
-    meal_pictures[1].classList.add("hidden")
+    meal_pictures[1].classList.add("hidden");
   }
 }
