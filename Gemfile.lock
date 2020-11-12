@@ -323,7 +323,6 @@ PLATFORMS
 DEPENDENCIES
   autoprefixer-rails
   better_errors
-  better_html
   binding_of_caller
   bootsnap (>= 1.4.2)
   byebug

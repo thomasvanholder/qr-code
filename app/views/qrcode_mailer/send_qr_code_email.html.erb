@@ -1,10 +1,14 @@
-<p>Hi</p>
+<p>Hi,</p>
 <p>
-  You have created a QR Menu for <%= @restaurant.name %>.
+  You have created a QR Menu for <strong><%= @restaurant.name %></strong>.
 </p>
 <p>
-  To edit your QR Menu, just follow this link: <%#= edit_restaurant_url(@restaurant) %>.
+  To edit your QR Menu, just follow this link: <br>
+   <%= @restaurant.name %>: <a href="<%= edit_restaurant_url(@restaurant) %>">Edit QR Code Menu</a>.
 </p>
+
+
+
 
 <p>Here is your QR Code. It stays the same whatever changes you might later do.</p>
 
