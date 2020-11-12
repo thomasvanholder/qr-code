@@ -3,14 +3,13 @@
   You have created a QR Menu for <strong><%= @restaurant.name %></strong>.
 </p>
 <p>
-  To edit your QR Menu, just follow this link:
-  <br>
+  To edit your QR Menu, just follow this link: <br>
   <a href="<%= edit_restaurant_url(@restaurant) %>">Edit QR Code Menu</a>.
 </p>
 
-<p>Here is your QR Code. It stays the same whatever changes you might later do.</p>
 
-<%= image_tag(attachments["QR Code Menu - #{@restaurant.name}.svg"].url) %>
+<p>Here is your QR Code. It stays the same whatever changes you might later do.</p>
+<%= @restaurant.qr_code.html_safe %>
 
 <p>Thanks for joining and have a great day!</p>
 <p>Thomas form QR-Code Menu</p>

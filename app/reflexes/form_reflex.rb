@@ -36,3 +36,4 @@ class FormReflex < ApplicationReflex
     string.match(/\d{5,}/)[0]
   end
 end
+
