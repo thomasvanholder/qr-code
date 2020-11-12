@@ -12,7 +12,9 @@
 
 <p>Here is your QR Code. It stays the same whatever changes you might later do.</p>
 
-<%= @svg.html_safe %>
+<%#= @svg.html_safe %>
+
+<%= image_tag(attachments['qr-code.svg'].url) %>
 
 <p>Thanks for joining and have a great day!</p>
 
