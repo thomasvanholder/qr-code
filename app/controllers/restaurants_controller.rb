@@ -4,8 +4,7 @@ class RestaurantsController < ApplicationController
   def index
     @restaurant = Restaurant.first # sample restaurant
 
-    instance = RQRCode::QRCode.new(restaurant_url(@restaurant))
-    @svg = generate_qr_code(instance)
+    @svg = @restaurant.qr_code
   end
 
   def show
@@ -19,19 +18,19 @@ class RestaurantsController < ApplicationController
 
   def qrcode
     @restaurant = Restaurant.find(params[:id])
-    instance = RQRCode::QRCode.new(restaurant_url(@restaurant))
-    @svg = generate_qr_code(instance)
+    @svg = @restaurant.qr_code
   end
 
-  def generate_qr_code(instance)
-    instance.as_svg(
-    offset: 0, # no padding
-      color: "000", # color black
-      shape_rendering: "crispEdges",
-      module_size: 6, # all modules 6px each (size)
-      standalone: true
-    )
-  end
+  # def generate_qr_code(restaurant)
+  #   qr_code = RQRCode::QRCode.new(restaurant_url(restaurant))
+  #   qr_code.as_svg(
+  #     offset: 0, # no padding
+  #     color: "000", # color black
+  #     shape_rendering: "crispEdges",
+  #     module_size: 6, # all modules 6px each (size)
+  #     standalone: true
+  #   )
+  # end
 
   def create
     @restaurant = Restaurant.new(restaurant_params)

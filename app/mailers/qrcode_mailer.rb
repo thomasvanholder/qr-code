@@ -1,19 +1,12 @@
+require 'pry'
+
 class QrcodeMailer < ApplicationMailer
 
   def send_qr_code_email
     @restaurant = params[:restaurant]
 
-
-
     link = "http://localhost3000/restaurants/" + @restaurant.id.to_s + "/qrcode?"
-    instance = RQRCode::QRCode.new(link)
-    attachments.inline["qr-code.svg"] = instance.as_svg(
-      offset: 0, # no padding
-      color: "000", # color black
-      shape_rendering: "crispEdges",
-      module_size: 6, # all modules 6px each (size)
-      standalone: true
-    )
+    attachments.inline["QR Code Menu - #{@restaurant.name}.svg"] = @restaurant.qr_code
 
     mail(
       to: @restaurant.email,
