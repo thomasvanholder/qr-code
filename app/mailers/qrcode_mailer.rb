@@ -13,7 +13,10 @@ class QrcodeMailer < ApplicationMailer
       standalone: true
     )
 
-    mail(to: @restaurant.email, subject: "QR Code - #{@restaurant.name}")
+    mail(
+      to: @restaurant.email,
+      subject: "QR Code - #{@restaurant.name}"
+      )
   end
 end
 
