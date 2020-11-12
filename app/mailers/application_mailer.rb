@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "thomas@qrcodemenucreator.com"
+  default from: "hello@qr-codemenu.com"
   layout "mailer"
 end
