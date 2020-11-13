@@ -29,7 +29,7 @@ Rails.application.configure do
   config.assets.compile = true
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  config.action_controller.asset_host = 'https://www.qr-codemenu.com"'
+  config.action_controller.asset_host = 'https://www.qr-codemenu.com'
   config.action_mailer.asset_host = config.action_controller.asset_host
 
   # Specifies the header that your server uses for sending files.

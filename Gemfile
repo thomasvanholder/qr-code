@@ -39,11 +39,6 @@ gem "stimulus_reflex", "~> 3.3"
 
 gem "noticed", "~> 1.2"
 
-# convert SVG to JPG / PNG
-gem "mini_magick"
-gem 'rmagick'
-
-gem 'active_storage_base64'
 
 group :development, :test do
   gem "dotenv-rails"
@@ -63,6 +58,7 @@ group :development do
   gem "spring"
   gem "spring-watcher-listen", "~> 2.0.0"
   gem "letter_opener"
+  gem "erb_lint"
 end
 
 group :test do
@@ -77,9 +73,6 @@ end
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "better_html"
-group :development do
-  gem "erb_lint"
-end
 
 gem "standard", group: [:development, :test]
 

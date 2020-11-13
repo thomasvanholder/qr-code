@@ -1,5 +1,3 @@
-# require 'pry'
-
 class RestaurantsController < ApplicationController
   def index
     @restaurant = Restaurant.first # sample restaurant
