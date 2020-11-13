@@ -12,9 +12,22 @@
 <div class="w-full max-w-xs mt-2">
   <div class="md:flex md:items-center mb-6">
     <div class="md:w-1/3">
-     <%= form.label :Logo, class: "input-label md:text-right md:mb-0" %>
+      <%= form.label :Logo, class: "input-label md:text-right md:mb-0" %>
     </div>
     <div class="md:w-1/3">
+
+      <% if @restaurant.picture.attached? %>
+        <div class="hidden relative overflow-hidden shadow border rounded-full h-20 w-20">
+          <%= image_tag('icons/upload.svg', alt: "upload icon", class:"p-4") %>
+          <%= form.file_field :picture, class: "input-uploader", data: { target: "form.logo_input", action: "form#preview_logo" } %>
+        </div>
+        <div class="flex place-items-center">
+          <img class="h-20 w-20 shadow border rounded-full cursor-pointer" data-target="form.logo_output" src="<%= cl_path(@restaurant.picture.key) %>"></img>
+          <%= image_tag "icons/delete.svg", class: "ml-2 h-5 w-5 cursor-pointer", data: { action: "click->form#delete_logo" } %>
+        </div>
+      <% else %>
+
+
       <div class="relative overflow-hidden shadow border rounded-full h-20 w-20">
         <%= image_tag('icons/upload.svg', alt: "upload icon", class:"p-4") %>
         <%= form.file_field :picture, class: "input-uploader", data: { target: "form.logo_input", action: "form#preview_logo" } %>
@@ -23,7 +36,11 @@
         <img class="h-20 w-20 shadow border rounded-full cursor-pointer" data-target="form.logo_output"></img>
         <%= image_tag "icons/delete.svg", class: "ml-2 h-5 w-5 cursor-pointer", data: { action: "click->form#delete_logo" } %>
       </div>
-    </div>
+      <% end %>
+
+
   </div>
 </div>
+</div>
+
 

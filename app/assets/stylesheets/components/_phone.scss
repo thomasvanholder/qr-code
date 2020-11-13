@@ -1,4 +1,4 @@
-$color-iphone: #9EADBA;
+$color-iphone: #9eadba;
 
 .iphone-x {
   position: relative;
@@ -57,12 +57,12 @@ $color-iphone: #9EADBA;
   // }
 }
 
-// .speaker1 {
-//   content: "";
-//   height: 3px;
-//   width: 50px;
-//   background-color: #101010;
-//   border-radius: 8px;
-//   transform: translate(-50%, 6px);
-//   box-shadow: inset 0px -3px 3px 0px rgba(256, 256, 256, 0.2);
-// }
+.logo-phone {
+  width: 100px;
+  height: 100px !important;
+}
+
+.photo-item {
+  width: 100px;
+  height: 100px !important;
+}

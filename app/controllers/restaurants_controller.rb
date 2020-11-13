@@ -1,4 +1,6 @@
 class RestaurantsController < ApplicationController
+  before_action :find_restaurant, only: [:show, :qrcode, :send_email_qr_code, :edit ]
+
   def index
     @restaurant = Restaurant.first # sample restaurant
 
@@ -6,7 +8,6 @@ class RestaurantsController < ApplicationController
   end
 
   def show
-    @restaurant = Restaurant.find(params[:id])
   end
 
   def new
@@ -15,7 +16,6 @@ class RestaurantsController < ApplicationController
   end
 
   def qrcode
-    @restaurant = Restaurant.find(params[:id])
   end
 
   def create
@@ -28,10 +28,11 @@ class RestaurantsController < ApplicationController
   end
 
   def edit
+    @categories = @restaurant.categories
+    @restaurant.categories.build.items.build
   end
 
   def send_email_qr_code
-    @restaurant = Restaurant.find(params[:id].to_i)
     @restaurant.update(email: params[:email])
     if @restaurant.save
       # send email with QR Code and edit link
@@ -43,6 +44,10 @@ class RestaurantsController < ApplicationController
   end
 
   private
+
+  def find_restaurant
+    @restaurant = Restaurant.find(params[:id].to_i)
+  end
 
   def restaurant_params
     # _destroy allows to delete categories from restaurant form

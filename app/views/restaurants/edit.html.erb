@@ -1,0 +1,157 @@
+<div class="container mx-auto py-10">
+
+  <div class="lg:text-center">
+    <h3 class="page-title sm:text-4xl sm:leading-10">
+      QR Code Generator
+    </h3>
+  </div>
+
+  <%= form_with model: @restaurant, class: "" do |form| %>
+
+    <div class="grid grid-cols-2 mt-20" data-controller="form">
+      <div class=" md:mx-8 xl:mx-20 text-left">
+
+        <!-- RESTAURANT  -->
+        <h1 class="text-xl">1. Edit Restaurant</h1>
+        <hr class="my-3 w-full">
+        <%= render 'form_restaurant', form: form %>
+
+        <!-- CATEGORY  -->
+        <h1 class="text-xl">2. Edit Categories</h1>
+        <hr class="my-3 w-full">
+
+        <div data-target="form.template_wrapper">
+          <%= form.fields_for :categories do |category| %>
+            <%= render "fields_category", form: category %>
+            <%#= category.fields_for :items, :categories do |item| %>
+                  <%#= render "fields_item", form: item %>
+                <%# end %>
+          <% end %>
+
+          <!-- template - CATEGORY INPUT field  -->
+          <template data-target="form.template_category_field">
+            <%= form.fields_for :categories, Category.new, child_index: 'NEW_CATEGORY' do |category| %>
+              <%= render "fields_category", form: category %>
+              <!-- template - ITEM INPUT field  -->
+              <template data-target="form.template_item_field">
+                <%= category.fields_for :items, Item.new, child_index: 'NEW_MENU_ITEM' do |item| %>
+                  <%= render "fields_item", form: item %>
+                <% end %>
+              </template>
+            <% end %>
+          </template>
+
+          <div data-target="form.links_category">
+            <%= button_tag "Add Category", type: 'button', class: "text-link", data: { action: "click->form#add_category", index: "1" } %>
+          </div>
+        </div>
+
+        <!-- template - CATEGORY PRINT TAB    -->
+        <template data-target="form.template_tab_print">
+          <li class="mr-1" data-target="tabs.tab" data-action="click->tabs#change">
+            <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#" id="tab-NEW_CATEGORY">Lunch</a>
+          </li>
+        </template>
+
+        <!-- MENU ITEMS  -->
+        <h1 class="text-xl mt-5">3. Edit Menu Items</h1>
+        <hr class="my-3 w-full">
+
+        <!-- template - PANEL - MENU ITEMS    -->
+        <template data-target="form.template_panel_print">
+          <div class="hidden py-2 border-b" data-target="tabs.panel">
+            <div id="link-NEW_CATEGORY">
+              <%= button_tag "Add Item", type: 'button', class: "text-link mt-5", data: { action: "click->form#add_item", category: "NEW_CATEGORY" } %>
+            </div>
+          </div>
+        </template>
+
+        <div data-controller="tabs" data-tabs-active-tab="-mb-px border-l border-t border-r rounded-t" data-target="form.list_panels">
+          <ul class="list-reset flex border-b overflow-auto" data-target="form.list_tabs">
+            <%# <li class="-mb-px mr-1" data-target="tabs.tab" data-action="click->tabs#change">
+              <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-700 font-semibold no-underline" href="#">Breakfast</a>
+            </li> %>
+          <% @restaurant.categories.each do |category| %>
+            <% if category.id  %>
+              <li class="mr-1" data-target="tabs.tab" data-action="click->tabs#change">
+                <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#" id="tab-<%= category.id - 1 %>"><%= category.name %></a>
+              </li>
+            <% end %>
+          <% end %>
+          </ul>
+
+
+            <!-- dipslay panel items --->
+            <%= form.fields_for :categories do |category| %>
+            <div class="hidden py-2 border-b" data-target="tabs.panel">
+            <%= category.fields_for :items do |item| %>
+                <%= render "fields_item", form: item %>
+            <% end %>
+
+            <div id="link-NEW_CATEGORY">
+              <%= button_tag "Add Item", type: 'button', class: "text-link mt-5", data: { action: "click->form#add_item", category: "NEW_CATEGORY" } %>
+            </div>
+          </div>
+          <% end %>
+
+
+        </div>
+        <%= form.submit "Create QR Menu", class: "btn-teal hover:bg-transparent hover:text-teal-700 mt-4" %>
+      </div>
+
+
+      <!-- PHONE -->
+      <section class="flex justify-center p-10">
+
+        <div class="iphone-x overflow-scroll sticky" style="top:50px;">
+          <div class="w-full flex sticky top-0 bg-white">
+            <div class="w-1/4"></div>
+            <div class="w-2/4 black-box"></div>
+            <div class="w-1/4 flex space-x-1 mt-2 pr-4">
+              <i class="fas fa-signal"></i>
+              <i class="fas fa-wifi"></i>
+              <i class="fas fa-battery-full"></i>
+            </div>
+          </div>
+
+          <div class="px-5">
+            <!-- iphone: restaurant NAME and LOGO  -->
+            <div class="flex flex-row pt-8 pl-3 items-center space-x-3 h-32">
+              <%= image_tag("icons/photo.svg", class: "logo-phone shadow p-1 rounded-full", data: { target: "form.logo_output" }) %>
+              <div class="text-2xl" id="restaurant-name">Casa Alberto</div>
+            </div>
+
+            <!-- template - iphone: CATEGORY field  -->
+            <template data-target="form.template_category_print">
+              <div class="mt-3 text-lg" id="category-NEW_CATEGORY">Lunch</div>
+            </template>
+            <div class="pl-5 flex space-x-2 overflow-auto" data-target="form.categories"></div>
+            <hr class="mt-5 border-gray-300 w-48 mx-auto">
+
+            <!-- template - iphone: MENU ITEM field  -->
+            <template data-target="form.template_item_print">
+              <div class="flex space-x-2 my-4 justify-between" id="item-NEW_MENU_ITEM">
+                <%= image_tag("icons/photo.svg", class: "h-20 w-20 rounded", id: "item-picture-NEW_MENU_ITEM", data: { target: "form.picture_meal_item", picture_id:"NEW_MENU_ITEM" }) %>
+
+                <div class="w-full">
+                  <p class="font-semibold flex justify-between">
+                    <span id="item-name-NEW_MENU_ITEM">Healthy Bowl</span>
+                    <span id="item-price-NEW_MENU_ITEM"></span>
+                  </p>
+                  <small id="item-description-NEW_MENU_ITEM"></small>
+                </div>
+              </div>
+            </template>
+            <div data-target="form.items"></div>
+
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+  <% end %>
+
+</div>
+
+<% console %>

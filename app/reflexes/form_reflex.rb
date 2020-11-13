@@ -30,7 +30,7 @@ class FormReflex < ApplicationReflex
 
   def extract_id(string)
     # get 5 or more digits to match [1604647606030]
-    string.match(/\d{5,}/)[0]
+    string.match(/\d{1,}/)[0]
   end
 end
 
