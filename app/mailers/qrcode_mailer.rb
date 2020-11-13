@@ -5,8 +5,10 @@ class QrcodeMailer < ApplicationMailer
   def send_qr_code_email
     @restaurant = params[:restaurant]
 
-    link = "http://localhost3000/restaurants/" + @restaurant.id.to_s + "/qrcode?"
-    attachments.inline["QR Code Menu - #{@restaurant.name}.svg"] = @restaurant.qr_code
+
+    # attachments.inline["QR Code Menu - #{@restaurant.name}.svg"] = @restaurant.qr_code
+    attachments.inline["qr-code-example.png"] = File.read('../assets/images/qr-code-example.png')
+
 
     mail(
       to: @restaurant.email,

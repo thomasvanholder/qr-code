@@ -4,7 +4,7 @@
     <h1 class="font-semibold text-lg mb-1">Scan Restaurant QR Code</h1>
     <%= link_to "or view here", restaurant_url(@restaurant), class:"text-link" , target: "_blank" %>
     <div class="mt-6">
-      <%= @svg.html_safe %>
+      <%= @restaurant.qr_code.html_safe %>
     </div>
   </div>
 

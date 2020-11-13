@@ -1,4 +1,4 @@
-# require 'pry'
+require 'pry'
 
 class Restaurant < ApplicationRecord
   include Rails.application.routes.url_helpers
@@ -16,15 +16,18 @@ class Restaurant < ApplicationRecord
 
   def create_qr_code
     qr = RQRCode::QRCode.new(restaurant_url(self))
-    svg = qr.as_svg(
+
+    # SVG String is == Base64.decode64
+    svg_string = qr.as_svg(
       offset: 0, # no padding
       color: "000", # color black
       shape_rendering: "crispEdges",
       module_size: 6, # all modules 6px each (size)
       standalone: true
     )
-    self.qr_code = svg
-    self.save
+
+    self.qr_code = svg_string
+    save
   end
 
   class << self

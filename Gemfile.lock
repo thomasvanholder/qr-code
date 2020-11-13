@@ -37,6 +37,8 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
+    active_storage_base64 (1.1.0)
+      rails (~> 6.0)
     activejob (6.0.3.4)
       activesupport (= 6.0.3.4)
       globalid (>= 0.3.6)
@@ -161,6 +163,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2020.0512)
     mimemagic (0.3.5)
+    mini_magick (4.11.0)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.14.2)
@@ -231,6 +234,7 @@ GEM
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
     rexml (3.2.4)
+    rmagick (4.1.2)
     rqrcode (1.1.2)
       chunky_png (~> 1.0)
       rqrcode_core (~> 0.1)
@@ -321,6 +325,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_storage_base64
   autoprefixer-rails
   better_errors
   better_html
@@ -336,12 +341,14 @@ DEPENDENCIES
   jbuilder (~> 2.7)
   letter_opener
   listen (~> 3.2)
+  mini_magick
   noticed (~> 1.2)
   pg (>= 0.18, < 2.0)
   pry-byebug
   pry-rails
   puma (~> 4.1)
   rails (~> 6.0.3, >= 6.0.3.4)
+  rmagick
   rqrcode
   sass-rails (>= 6)
   selenium-webdriver

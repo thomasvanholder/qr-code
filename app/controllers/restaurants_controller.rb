@@ -18,19 +18,7 @@ class RestaurantsController < ApplicationController
 
   def qrcode
     @restaurant = Restaurant.find(params[:id])
-    @svg = @restaurant.qr_code
   end
-
-  # def generate_qr_code(restaurant)
-  #   qr_code = RQRCode::QRCode.new(restaurant_url(restaurant))
-  #   qr_code.as_svg(
-  #     offset: 0, # no padding
-  #     color: "000", # color black
-  #     shape_rendering: "crispEdges",
-  #     module_size: 6, # all modules 6px each (size)
-  #     standalone: true
-  #   )
-  # end
 
   def create
     @restaurant = Restaurant.new(restaurant_params)
@@ -63,6 +51,7 @@ class RestaurantsController < ApplicationController
     params.require(:restaurant).permit(
       :name,
       :picture,
+      :qr_code_png,
       # item attributes are nested inside each category
       categories_attributes: [:id, :name, :_destroy, { items_attributes: %i[id name price description picture _destroy] }]
     )

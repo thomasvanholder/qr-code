@@ -9,7 +9,8 @@
 
 
 <p>Here is your QR Code. It stays the same whatever changes you might later do.</p>
-<%= @restaurant.qr_code.html_safe %>
+<%= image_tag(attachments['qr-code-example.png'].url) %>
+<button>Click to View your QR Code</button>
 
 <p>Thanks for joining and have a great day!</p>
 <p>Thomas form QR-Code Menu</p>

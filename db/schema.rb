@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 2020_11_12_132116) do
     t.index ["restaurant_id"], name: "index_categories_on_restaurant_id"
   end
 
-  create_table "items", force: :cascade do |t|
+  create_table "items", force: :cascadbe do |t|
     t.string "name"
     t.float "price"
     t.string "description"
