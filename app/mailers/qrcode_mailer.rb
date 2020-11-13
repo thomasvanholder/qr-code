@@ -5,7 +5,7 @@ class QrcodeMailer < ApplicationMailer
 
 
     # attachments.inline["QR Code Menu - #{@restaurant.name}.svg"] = @restaurant.qr_code
-    attachments.inline["qr-code-example.png"] = File.read('../assets/images/qr-code-example.png')
+    # attachments.inline["qr-code-example.png"] = File.read('../assets/images/qr-code-example.png')
 
 
     mail(
