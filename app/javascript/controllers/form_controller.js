@@ -10,12 +10,16 @@ export default class extends ApplicationController {
     "meal_picture_input",
     "links_category",
     "list_tabs",
+    "one_tab",
     "list_panels",
+    "one_panel",
+    "one_category",
     "template_category_field",
     "template_category_print",
     "template_item_print",
     "categories",
     "items",
+    "one_item",
     "template_tab_print",
     "template_panel_print",
     "template_wrapper",
@@ -98,8 +102,11 @@ export default class extends ApplicationController {
   }
 
   delete_category(event) {
+    const category_id = event.target.dataset.categoryId
+    console.log(`category id: ${category_id}`);
+
     // 1. delete 2-fold (in browser and in DB)
-    let wrapper = event.target.closest(".nested-fields"); // look in parent for class
+    const wrapper = event.target.closest(".nested-fields"); // look in parent for class
     if (wrapper.dataset.newRecord == "true") {
       // remove field if it's a new record added during session
       wrapper.remove();
@@ -109,30 +116,33 @@ export default class extends ApplicationController {
       wrapper.style.display = "none"; //remove visibility from page
     }
 
-    // 2a. delete nav element
-    let element_id = wrapper.querySelector("input[name*='_destroy']");
-    let regex_id = element_id.name.match(/\d{5,}/)[0];
-    console.log(regex_id);
+    // 2. delete tab element
+    const all_tabs = this.one_tabTargets
+    console.log(all_tabs)
+    const selected_tab = all_tabs.find(tab => tab.dataset.tabId === category_id);
+    console.log(selected_tab)
+    selected_tab.remove();
 
-    let all_tabs = this.list_tabsTarget.getElementsByTagName("li");
-    for (let tab of all_tabs) {
-      if (tab.innerHTML.includes(regex_id)) {
-        // match extracted_id
-        tab.remove();
+    // 3. delete panel element
+    const all_panels = this.one_panelTargets
+    console.log(all_panels);
+    const selected_panel = all_panels.find(panel => panel.dataset.panelId === category_id);
+    console.log(selected_panel);
+    selected_panel.remove();
+
+    // 4. delete phone tab
+    const all_categories = this.one_categoryTargets
+    const selected_category = all_categories.find(category => category.dataset.categoryId === category_id);
+    selected_category.remove();
+
+    // 5. delete phone item element
+    const all_items = this.one_itemTargets;
+    all_items.forEach(item =>
+    {
+      if (item.dataset.categoryId === category_id) {
+        item.remove()
       }
-    }
-    // 2b. delete panel element
-    let one_panel = this.list_panelsTarget.querySelector(`#link-${regex_id}`);
-    let panel_div = one_panel.parentElement;
-    panel_div.remove();
-
-    // 3. delete printed element
-    let input_element = wrapper.querySelector("input");
-    let extracted_id = input_element.name.replace(/\D/g, "");
-    let print_element = this.categoriesTarget.querySelector(
-      `#category-${extracted_id}`
-    );
-    print_element.remove();
+    });
   }
 
   preview_logo() {

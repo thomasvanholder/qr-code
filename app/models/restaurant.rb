@@ -7,6 +7,8 @@ class Restaurant < ApplicationRecord
   has_many :categories, inverse_of: :restaurant
   has_many :notifications, as: :recipient
 
+  has_many :items, through: :categories
+
   # save only new restaurant if it has categories (all_blank)
   accepts_nested_attributes_for :categories, reject_if: :all_blank, allow_destroy: true
 

@@ -11,7 +11,7 @@ puts "Starting seeds: #{start_time}"
 
 puts stars
 puts "-> Creating restaurants"
-1.times do
+3.times do
   file = URI.open("https://source.unsplash.com/400x300/?logo")
   restaurant = Restaurant.new(
     name: Faker::Restaurant.name

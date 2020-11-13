@@ -1,5 +1,5 @@
 class RestaurantsController < ApplicationController
-  before_action :find_restaurant, only: [:show, :qrcode, :send_email_qr_code, :edit ]
+  before_action :find_restaurant, only: [:show, :qrcode, :send_email_qr_code, :edit, :update ]
 
   def index
     @restaurant = Restaurant.first # sample restaurant
@@ -23,13 +23,22 @@ class RestaurantsController < ApplicationController
     if @restaurant.save
       redirect_to restaurant_qrcode_url(@restaurant), notice: { title: "QR Menu created", content: "Anyone with the QR code can now view this menu." }
     else
-      render :home
+      render :new
     end
   end
 
   def edit
     @categories = @restaurant.categories
     @restaurant.categories.build.items.build
+  end
+
+  def update
+    @restaurant.update(restaurant_params)
+    if @restaurant.save
+      redirect_to restaurant_qrcode_url(@restaurant), notice: { title: "QR Menu updated", content: "Anyone with the QR code can now view this menu." }
+    else
+      render :edit
+    end
   end
 
   def send_email_qr_code

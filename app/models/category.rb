@@ -3,4 +3,6 @@ class Category < ApplicationRecord
 
   has_many :items, inverse_of: :category
   accepts_nested_attributes_for :items, reject_if: :all_blank, allow_destroy: true
+
+  # validates :name, presence: true
 end
