@@ -1,4 +1,4 @@
-<div class="container mx-auto py-10">
+<div class="container mx-auto py-6">
 
   <div class="lg:text-center">
     <h3 class="page-title sm:text-4xl sm:leading-10">
@@ -22,12 +22,9 @@
 
         <div data-target="form.template_wrapper">
           <%= form.fields_for :categories do |category| %>
-            <% if category.object.name %>
-              <%= render "fields_category", form: category %>
-            <% end %>
-            <%#= category.fields_for :items, :categories do |item| %>
-              <%#= render "fields_item", form: item %>
-              <%# end %>
+              <% if category.object.name %>
+                <%= render "fields_category", form: category %>
+              <% end %>
             <% end %>
 
             <!-- template - CATEGORY INPUT field  -->
@@ -51,7 +48,7 @@
           <!-- template - CATEGORY PRINT TAB    -->
           <template data-target="form.template_tab_print">
             <li class="mr-1" data-target="tabs.tab" data-action="click->tabs#change">
-              <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#" id="tab-NEW_CATEGORY">Lunch</a>
+              <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#" data-target="form.one_tab" id="tab-NEW_CATEGORY">Lunch</a>
             </li>
           </template>
 
@@ -61,10 +58,8 @@
 
           <!-- template - PANEL - MENU ITEMS    -->
           <template data-target="form.template_panel_print">
-            <div class="hidden py-2 border-b" data-target="tabs.panel form.one_panel">
-              <div id="link-NEW_CATEGORY">
+            <div class="hidden py-2 border-b" data-target="tabs.panel form.one_panel" id="NEW_CATEGORY">
                 <%= button_tag "Add Item", type: 'button', class: "text-link mt-5", data: { action: "click->form#add_item", category: "NEW_CATEGORY" } %>
-              </div>
             </div>
           </template>
 
@@ -76,7 +71,7 @@
               <% @restaurant.categories.each_with_index do |category, index| %>
                 <% if category.name %>
                   <li class="mr-1" data-target="tabs.tab" data-action="click->tabs#change">
-                    <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#" data-target="form.one_tab" data-tab-id="<%= category.id %>"><%= category.name %></a>
+                    <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#" data-target="form.one_tab" data-tab-id="<%= category.id %>" id="tab-<%= category.id %>"><%= category.name %></a>
                   </li>
                 <% end %>
               <% end %>
@@ -85,7 +80,7 @@
 
             <!-- dipslay panel items --->
             <%= form.fields_for :categories do |category| %>
-               <% if category.object.name %>
+              <% if category.object.name %>
                 <div class="hidden py-2 border-b" data-target="tabs.panel form.one_panel" data-panel-id="<%= category.object.id %>">
                   <%= category.fields_for :items do |item| %>
                     <%= render "fields_item", form: item %>
@@ -121,13 +116,15 @@
 
               <!-- template - iphone: CATEGORY field  -->
               <template data-target="form.template_category_print">
-                <div class="mt-3 text-lg" id="category-NEW_CATEGORY">Lunch</div>
+                <div class="mt-3 text-lg" data-target="form.one_category" id="category-NEW_CATEGORY"></div>
               </template>
 
               <div class="pl-5 flex space-x-2 overflow-auto" data-target="form.categories">
                 <% if @restaurant.categories %>
                   <% @restaurant.categories.each do |category| %>
-                    <div class="mt-3 text-lg" data-target="form.one_category" data-category-id="<%= category.id %>"><%= category.name %></div>
+                    <% if category.name %>
+                      <div class="mt-3 text-lg" data-target="form.one_category" id="category-<%= category.id %>" data-category-id="<%= category.id %>"><%= category.name %></div>
+                    <% end %>
                   <% end %>
                 <% end %>
               </div>
@@ -135,7 +132,7 @@
 
               <!-- template - iphone: MENU ITEM field  -->
               <template data-target="form.template_item_print">
-                <div class="flex space-x-2 my-4 justify-between" id="item-NEW_MENU_ITEM">
+                <div class="flex space-x-2 my-4 justify-between" id="item-NEW_MENU_ITEM" data-target="form.one_item">
                   <%= image_tag("icons/photo.svg", class: "h-20 w-20 rounded", id: "item-picture-NEW_MENU_ITEM", data: { target: "form.picture_meal_item", picture_id:"NEW_MENU_ITEM" }) %>
 
                   <div class="w-full">
@@ -152,7 +149,7 @@
                   <% @restaurant.items.each do |item| %>
                     <div class="flex space-x-2 my-4 justify-between" id="item-NEW_MENU_ITEM" data-target="form.one_item" data-category-id="<%= item.category.id %>">
                       <% if item.picture.attached? %>
-                        <img class="h-20 w-20 rounded" src="<%= cl_path(item.picture.key) %>"></img>
+                        <img class="h-20 w-20 rounded" data-target="form.picture_meal_item" data-picture-id="<%= item.id %>" src="<%= cl_path(item.picture.key) %>"></img>
                     <% end %>
 
                     <div class="w-full">

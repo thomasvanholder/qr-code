@@ -101,8 +101,18 @@ export default class extends ApplicationController {
     return extracted_id[0].split("[").pop();
   }
 
+  get_category_id(existId, event) {
+    if (existId) {
+      return existId;
+    } else {
+      const name = event.target.previousElementSibling.name
+      return name.match(/\d{5,}/);
+    }
+  }
+
   delete_category(event) {
-    const category_id = event.target.dataset.categoryId
+    const existId = event.target.dataset.categoryId
+    const category_id = this.get_category_id(existId, event)
     console.log(`category id: ${category_id}`);
 
     // 1. delete 2-fold (in browser and in DB)
@@ -118,24 +128,36 @@ export default class extends ApplicationController {
 
     // 2. delete tab element
     const all_tabs = this.one_tabTargets
-    console.log(all_tabs)
-    const selected_tab = all_tabs.find(tab => tab.dataset.tabId === category_id);
-    console.log(selected_tab)
+    let selected_tab = ''
+    if (existId) {
+      selected_tab = all_tabs.find(tab => tab.dataset.tabId === category_id);
+    } else {
+      selected_tab = all_tabs.find(tab => tab.id.match(/\d{2,}/)[0] == category_id); //explicit two equal signs
+    }
     selected_tab.parentElement.remove();
 
     // 3. delete panel element
     const all_panels = this.one_panelTargets
-    console.log(all_panels);
-    const selected_panel = all_panels.find(panel => panel.dataset.panelId === category_id);
-    console.log(selected_panel);
+    let selected_panel = ''
+    if (existId) {
+      selected_panel =  all_panels.find(panel => panel.dataset.panelId === category_id);
+    } else {
+      selected_panel = all_panels.find((panel) => panel.id == category_id); //explicit two equal signs
+    }
     selected_panel.remove();
 
     // 4. delete phone tab
     const all_categories = this.one_categoryTargets
-    const selected_category = all_categories.find(category => category.dataset.categoryId === category_id);
+    let selected_category = ''
+     if (existId) {
+      selected_category = all_categories.find(category => category.dataset.categoryId === category_id);
+    } else {
+      selected_category = all_categories.find(category => category.id.match(/\d{2,}/)[0]== category_id); //explicit two equal signs
+    }
     selected_category.remove();
 
     // 5. delete phone item element
+    // TO BE COMPLETED !!!!!
     const all_items = this.one_itemTargets;
     all_items.forEach(item =>
     {
@@ -169,11 +191,11 @@ export default class extends ApplicationController {
   }
 
   preview_meal_picture(event) {
-    const regex_id = this.extract_menu_item_id(event.target);
+    const menu_item_id = event.target.dataset.pictureId;
     const input = event.target;
 
     const pictures = this.picture_meal_itemTargets;
-    const meal_pictures = pictures.filter(pic => pic.dataset.pictureId === regex_id)
+    const meal_pictures = pictures.filter(pic => pic.dataset.pictureId === menu_item_id)
 
     if (input.files && input.files[0]) {
       let reader = new FileReader();
@@ -212,8 +234,10 @@ export default class extends ApplicationController {
 
   delete_item_picture(event) {
     const menu_item_id = event.target.dataset.pictureId;
+    console.log(`menu item id: ${menu_item_id}`)
 
     const pictures = this.picture_meal_itemTargets;
+    console.log(pictures)
     const meal_pictures = pictures.filter(
       (pic) => pic.dataset.pictureId === menu_item_id
     );
