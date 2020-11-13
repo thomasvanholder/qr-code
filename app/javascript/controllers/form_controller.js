@@ -121,7 +121,7 @@ export default class extends ApplicationController {
     console.log(all_tabs)
     const selected_tab = all_tabs.find(tab => tab.dataset.tabId === category_id);
     console.log(selected_tab)
-    selected_tab.remove();
+    selected_tab.parentElement.remove();
 
     // 3. delete panel element
     const all_panels = this.one_panelTargets
