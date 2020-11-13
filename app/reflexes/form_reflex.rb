@@ -1,7 +1,4 @@
 # frozen_string_literal: true
-
-# require 'pry'
-
 # Any declared instance variables will be made available to the Rails controller and view.
 class FormReflex < ApplicationReflex
   def print_restaurant

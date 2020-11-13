@@ -1,5 +1,3 @@
-# require 'pry'
-
 class QrcodeMailer < ApplicationMailer
 
   def send_qr_code_email

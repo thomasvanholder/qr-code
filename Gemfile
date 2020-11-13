@@ -43,7 +43,6 @@ gem "noticed", "~> 1.2"
 group :development, :test do
   gem "dotenv-rails"
   gem "pry-rails"
-  gem "pry-byebug"
   gem "better_errors"
   gem "binding_of_caller"
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
