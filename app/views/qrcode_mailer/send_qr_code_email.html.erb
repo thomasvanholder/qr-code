@@ -9,9 +9,12 @@
 
 
 <p>Here is your QR Code. It stays the same whatever changes you might later do.</p>
-<%= image_tag "qr-code-example.png" %>
+<%= link_to image_tag("qr-code-example.png", style:"height:75px;width:75px") %>
 
-random in between
+<%= link_to restaurant_url@(restaurant) do %>
+    <%= image_tag "qr-code-example.png", width: 75, height: 75, alt: 'Qr Code image'%>
+<% end %>
+
 <%#= image_tag(attachments['qr-code-example.png'].url) %>
 <button>Click to View your QR Code</button>
 
