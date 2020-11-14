@@ -221,10 +221,11 @@ export default class extends ApplicationController {
 
   preview_meal_picture(event) {
     const menu_item_id = event.target.dataset.pictureId;
+    console.log(`Menu Item ID: ${menu_item_id}`)
     const input = event.target;
 
     const pictures = this.picture_meal_itemTargets;
-    const meal_pictures = pictures.filter(pic => pic.dataset.pictureId === menu_item_id)
+    const meal_pictures = pictures.filter(pic => pic.dataset.pictureId == menu_item_id)
 
     if (input.files && input.files[0]) {
       let reader = new FileReader();
@@ -236,7 +237,7 @@ export default class extends ApplicationController {
         input.parentElement.classList.add("hidden");
         meal_pictures[0].parentElement.classList.remove("hidden");
         meal_pictures[0].parentElement.classList.add("flex");
-        meal_pictures[1].classList.remove("hidden"); // show meal pic on phone if hidden
+        meal_pictures[1].parentElement.classList.remove("hidden"); // show meal pic on phone if hidden
 
         input.src = reader.result;
       };

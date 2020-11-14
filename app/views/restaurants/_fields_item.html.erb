@@ -14,12 +14,12 @@
     <% else %>
       <div class="relative overflow-hidden shadow border rounded h-20 w-20 flex place-items-center">
         <%= image_tag('icons/upload.svg', alt: "upload icon", class:"p-3") %>
-        <%= form.file_field :picture, class: "input-uploader rounded", data: { target: "form.meal_picture_input", action: "form#preview_meal_picture", picture_id:"NEW_MENU_ITEM" } %>
+        <%= form.file_field :picture, class: "input-uploader rounded", data: { target: "form.meal_picture_input", action: "form#preview_meal_picture", picture_id: form.object.id } %>
       </div>
       <%= image_tag "icons/delete.svg", class: "ml-2 h-5 w-5 cursor-pointer", data: { action: "click->form#delete_item_picture", picture_id:"NEW_MENU_ITEM", target:"delete_icon_meal_picture" } %>
 
       <div class="hidden place-items-center">
-        <img class="h-20 w-20 shadow border rounded cursor-pointer" data-target="form.picture_meal_item" data-picture-id="NEW_MENU_ITEM"></img>
+        <img class="h-20 w-20 shadow border rounded cursor-pointer" data-target="form.picture_meal_item" data-picture-id="<%= form.object.id %>"></img>
         <%= image_tag "icons/delete.svg", class: "ml-2 h-5 w-5 cursor-pointer", data: { action: "click->form#delete_item_picture", picture_id:"NEW_MENU_ITEM" } %>
       </div>
     <% end %>
