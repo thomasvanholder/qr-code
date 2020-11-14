@@ -52,4 +52,4 @@ end
 puts "#{Item.count} items created"
 
 puts stars
-puts "End seed in #{(Time.now - start_time).round(2)} s)"
+puts "End seed in #{(Time.now - start_time).round(2)} s"
