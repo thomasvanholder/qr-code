@@ -107,7 +107,7 @@
                 <% else %>
                   <%= image_tag("icons/photo.svg", class: "logo-phone shadow p-1 rounded-full", data: { target: "form.logo_output" }) %>
                 <% end %>
-                <div class="text-2xl" id="restaurant-name">Casa Alberto</div>
+                <div class="text-2xl" id="restaurant-name"><%= @restaurant.name %></div>
               </div>
 
               <!-- template - iphone: CATEGORY field  -->
