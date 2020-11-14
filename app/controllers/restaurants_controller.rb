@@ -33,8 +33,10 @@ class RestaurantsController < ApplicationController
   end
 
   def update
+    # if params [:restaurant][:picture] is not sent, call purge on existing active_storage
     if @restaurant.update(restaurant_params)
-      byebug
+      @restaurant.picture.purge if !params[:restaurant]["picture"].present?
+      # for every menu item check if picture is not present, call purge on existing active_storage
       redirect_to restaurant_qrcode_url(@restaurant), notice: { title: "QR Menu updated", content: "Anyone with the QR code can now view this menu." }
     else
       render :edit

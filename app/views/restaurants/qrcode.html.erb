@@ -1,15 +1,4 @@
-<div class="container mx-auto h-screen flex flex-col items-center justify-center">
-
-  <div class="text-center mb-16">
-    <h1 class="font-semibold text-lg mb-1">Scan Restaurant QR Code</h1>
-    <%= link_to "or view here", restaurant_url(@restaurant), class:"text-link" , target: "_blank" %>
-    <div class="my-6">
-      <%= @restaurant.qr_code.html_safe %>
-    </div>
-    <div class="mb-8">
-      <%= link_to "Edit QR-Menu", edit_restaurant_url(@restaurant), class:"btn-teal hover:bg-transparent hover:text-teal-700"  %>
-    </div>
-  </div>
+<div class="container mx-auto my-32 flex flex-col items-center justify-center">
 
   <%= form_with(url: "/send-email-qr-code", method: "post", remote: true) do %>
     <div class="mb-4">
@@ -22,5 +11,17 @@
       <%= submit_tag("Send email  with QR Code", class:"btn-teal hover:bg-transparent hover:text-teal-700") %>
     </div>
   <% end %>
+
+  <div class="text-center mt-16">
+    <h1 class="font-semibold text-lg mb-1">Scan Restaurant QR Code</h1>
+    <%= link_to "or view here", restaurant_url(@restaurant), class:"text-link" , target: "_blank" %>
+    <div class="my-6">
+      <%= @restaurant.qr_code.html_safe %>
+    </div>
+    <div class="mb-8">
+      <%= link_to "Edit QR-Menu", edit_restaurant_url(@restaurant), class:"btn-teal hover:bg-transparent hover:text-teal-700"  %>
+    </div>
+  </div>
+
 
 </div>

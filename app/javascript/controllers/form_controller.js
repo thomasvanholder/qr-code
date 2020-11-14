@@ -199,6 +199,7 @@ export default class extends ApplicationController {
       };
 
       reader.readAsDataURL(input.files[0]);
+      console.log(input.files);
     }
   }
 
@@ -241,6 +242,9 @@ export default class extends ApplicationController {
     // phone_logo.src = "../../assets/icons/photo.svg"; // set to original picture icon
 
     const input = this.logo_inputTarget;
+    console.log(input.files)
+    input.value = ''
+    console.log(input.files)
     input.parentElement.classList.remove("hidden");
   }
 

@@ -23,31 +23,34 @@ puts "#{Restaurant.count} restaurants created"
 
 puts stars
 puts "-> Creating categories"
-CATEGORIES = %w[breakfast lunch dinner desert snacks vegan fish]
+CATEGORIES = %w[breakfast lunch dinner desert snacks vegan fish']
+CATEGORIES_ICONS = %w[☕️ 🍲 🍽 🍨 🍿 ☘️ 🍤]
 Restaurant.all.each do |restaurant|
   2.times do |num|
     Category.create(
-      name: CATEGORIES[num],
+      name: CATEGORIES[num] + ' ' + CATEGORIES_ICONS[num],
       restaurant: restaurant
     )
   end
 end
 puts "#{Category.count} categories created"
 
+ICONS = ['🌶', '☘',]
 puts stars
 puts "-> Creating menu items"
 Category.all.each do |category|
-  4.times do
-    menu_item = Item.new(
-      name: Faker::Food.dish,
-      price: rand(5..25),
-      description: Faker::Food.description.slice(0..65),
-      category: category
-    )
-    file = URI.open("https://source.unsplash.com/400x300/?#{category.name}")
-    menu_item.picture.attach(io: file, filename: "food.png", content_type: "image/png")
-    menu_item.save
-  end
+    icon = rand(1..5) > 3 ? " #{ICONS.sample}" : " "
+    4.times do
+      menu_item = Item.new(
+        name: Faker::Food.dish + icon,
+        price: rand(5..25),
+        description: Faker::Food.description.slice(0..65),
+        category: category
+      )
+      file = URI.open("https://source.unsplash.com/400x300/?#{category.name.split.first}")
+      menu_item.picture.attach(io: file, filename: "food.png", content_type: "image/png")
+      menu_item.save
+    end
 end
 puts "#{Item.count} items created"
 
