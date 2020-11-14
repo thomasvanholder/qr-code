@@ -29,7 +29,23 @@ export default class extends ApplicationController {
   connect() {
     super.connect();
     // add your code here, if applicable
+    this.load();
   }
+
+  load() {
+    const path = window.location.href; // check if page is edit
+    console.log([path])
+    if (path.endsWith("edit")) {
+      const panels = this.one_panelTargets;
+      panels.forEach((panel, index) => {
+        const update = panel.innerHTML.replace(/NEW_CATEGORY/g, index);
+        panel.innerHTML = update
+        // // const update_hidden_id = panel.nextElementSibling.innerHTML.replace(/NEW_CATEGORY/g, index)
+        // panel.nextElementSibling.innerHTML = update_hidden_id;
+      })
+    }
+  }
+
 
   // prettier-ignore
   add_category(event) {
@@ -54,8 +70,7 @@ export default class extends ApplicationController {
     const menu_item_id = new Date().getTime();
     // console.log(`Category ID: ${category_id}`)
     // console.log(`Menu item ID: ${menu_item_id}`)
-
-    let all_templates = this.template_wrapperTarget.getElementsByTagName(
+    const all_templates = this.template_wrapperTarget.getElementsByTagName(
       "template"
     );
     for (let template of all_templates) {
@@ -254,3 +269,4 @@ export default class extends ApplicationController {
     meal_pictures[1].classList.add("hidden");
   }
 }
+

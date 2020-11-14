@@ -33,8 +33,7 @@ class RestaurantsController < ApplicationController
   end
 
   def update
-    @restaurant.update(restaurant_params)
-    if @restaurant.save
+    if @restaurant.update(restaurant_params)
       redirect_to restaurant_qrcode_url(@restaurant), notice: { title: "QR Menu updated", content: "Anyone with the QR code can now view this menu." }
     else
       render :edit

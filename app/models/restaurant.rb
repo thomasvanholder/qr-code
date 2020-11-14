@@ -4,8 +4,7 @@ class Restaurant < ApplicationRecord
   after_create :create_qr_code
 
   # avoid validation block because restaurant is not yet created
-  has_many :categories, inverse_of: :restaurant
-  has_many :notifications, as: :recipient
+  has_many :categories, inverse_of: :restaurant, dependent: :destroy
 
   has_many :items, through: :categories
 
@@ -20,7 +19,7 @@ class Restaurant < ApplicationRecord
     # SVG String is == Base64.decode64
     svg_string = qr.as_svg(
       offset: 0, # no padding
-      color: "000", # color black
+      color: "000", # color black p
       shape_rendering: "crispEdges",
       module_size: 6, # all modules 6px each (size)
       standalone: true

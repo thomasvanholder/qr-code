@@ -65,9 +65,6 @@
 
           <div data-controller="tabs" data-tabs-active-tab="-mb-px border-l border-t border-r rounded-t" data-target="form.list_panels">
             <ul class="list-reset flex border-b overflow-auto" data-target="form.list_tabs">
-              <%# <li class="-mb-px mr-1" data-target="tabs.tab" data-action="click->tabs#change">
-              <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-700 font-semibold no-underline" href="#">Breakfast</a>
-            </li> %>
               <% @restaurant.categories.each_with_index do |category, index| %>
                 <% if category.name %>
                   <li class="mr-1" data-target="tabs.tab" data-action="click->tabs#change">
@@ -77,19 +74,18 @@
               <% end %>
             </ul>
 
-
             <!-- dipslay panel items --->
-            <%= form.fields_for :categories do |category| %>
-              <% if category.object.name %>
-                <div class="hidden py-2 border-b" data-target="tabs.panel form.one_panel" data-panel-id="<%= category.object.id %>">
+            <%= form.fields_for :categories, child_index: 'NEW_CATEGORY', include_id: false do |category| %>
+              <%if category.object.name %>
+                <div class="hidden py-2 border-b" data-target="tabs.panel form.one_panel" data-panel-id="<%= category.object.id  %>">
                   <%= category.fields_for :items do |item| %>
                     <%= render "fields_item", form: item %>
                   <% end %>
 
                   <%= button_tag "Add Item", type: 'button', class: "text-link mt-5", data: { action: "click->form#add_item", category: "NEW_CATEGORY" } %>
                 </div>
-              <% end %>
-            <% end %>
+              <%end %>
+            <%end %>
 
 
           </div>
