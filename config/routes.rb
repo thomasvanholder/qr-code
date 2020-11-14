@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :restaurants
   get '/restaurants/:id/qrcode', to: "restaurants#qrcode", as: "restaurant_qrcode"
   post "/send-email-qr-code", to: "restaurants#send_email_qr_code"
+  post "/purge_item_picture", to: "restaurants#purge_item_picture"
 
   get "/404", to: "errors#not_found"
   get "/422", to: "errors#unacceptable"

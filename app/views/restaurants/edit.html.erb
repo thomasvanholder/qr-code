@@ -24,6 +24,11 @@
           <%= form.fields_for :categories do |category| %>
               <% if category.object.name %>
                 <%= render "fields_category", form: category %>
+                 <template data-target="form.template_item_field" data-category-id="<%=category.object.id%>">
+                  <%= category.fields_for :items, Item.new, child_index: 'NEW_MENU_ITEM' do |item| %>
+                    <%= render "fields_item", form: item %>
+                  <% end %>
+                </template>
               <% end %>
             <% end %>
 
@@ -82,7 +87,7 @@
                     <%= render "fields_item", form: item %>
                   <% end %>
 
-                  <%= button_tag "Add Item", type: 'button', class: "text-link mt-5", data: { action: "click->form#add_item", category: "NEW_CATEGORY" } %>
+                  <%= button_tag "Add Item", type: 'button', class: "text-link mt-5", data: { action: "click->form#add_item", category: "NEW_CATEGORY", category_id: category.object.id  } %>
                 </div>
               <%end %>
             <%end %>

@@ -1,4 +1,6 @@
 import ApplicationController from "./application_controller";
+// Import UJS so we can access the Rails.ajax method
+import Rails from "@rails/ujs";
 /* This is the custom StimulusReflex controller for the Example Reflex.
  * Learn more at: https://docs.stimulusreflex.com
  */
@@ -17,6 +19,8 @@ export default class extends ApplicationController {
     "template_category_field",
     "template_category_print",
     "template_item_print",
+    "template_item_field",
+    "item_fields_template",
     "categories",
     "items",
     "one_item",
@@ -63,23 +67,35 @@ export default class extends ApplicationController {
   }
 
   add_item(event) {
-    const category_id = event.target.dataset.category;
+    const new_category_id = event.target.dataset.category;
+    const category_id = event.target.dataset.categoryId;
     const menu_item_id = new Date().getTime();
-    // console.log(`Category ID: ${category_id}`)
-    // console.log(`Menu item ID: ${menu_item_id}`)
-    const all_templates = this.template_wrapperTarget.getElementsByTagName(
-      "template"
-    );
-    for (let template of all_templates) {
-      // get correct template which matches category_id
-      if (template.innerHTML.includes(category_id)) {
-        const content = template.innerHTML.replace(
-          /NEW_MENU_ITEM/g,
-          menu_item_id
-        );
-        event.target.insertAdjacentHTML("beforebegin", content);
-      }
-    }
+    console.log(`New Category ID: ${new_category_id}`);
+    console.log(`Category ID: ${category_id}`);
+    console.log(`Menu item ID: ${menu_item_id}`)
+
+    // get template and insert new random menu id
+    const all_fields = this.template_item_fieldTargets;
+    let one_field = all_fields.find(template => template.dataset.categoryId === category_id);
+    one_field = one_field.innerHTML.replace(/NEW_MENU_ITEM/g, menu_item_id);
+    event.target.insertAdjacentHTML("beforebegin", one_field);
+
+
+    // const all_templates = this.template_wrapperTarget.getElementsByTagName(
+    //   "template"
+    // );
+    // // console.log(all_templates)
+    // for (let template of all_templates) {
+    //     // console.log(template)
+    //   // get correct template which matches new_category_id
+    //   if (template.innerHTML.includes(new_category_id)) {
+    //     const content = template.innerHTML.replace(
+    //       /NEW_MENU_ITEM/g,
+    //       menu_item_id
+    //     );
+    //     event.target.insertAdjacentHTML("beforebegin", content);
+    //   }
+    // }
 
     const print_content = this.template_item_printTarget.innerHTML.replace(
       /NEW_MENU_ITEM/g,
@@ -253,7 +269,6 @@ export default class extends ApplicationController {
     console.log(`menu item id: ${menu_item_id}`)
 
     const pictures = this.picture_meal_itemTargets;
-    console.log(pictures)
     const meal_pictures = pictures.filter(
       (pic) => pic.dataset.pictureId === menu_item_id
     );
@@ -268,6 +283,19 @@ export default class extends ApplicationController {
 
     // hide the meal pic on phone when deleted
     meal_pictures[1].classList.add("hidden");
+    this.deletePicture(menu_item_id)
   }
+
+  deletePicture(id) {
+    console.log|("indeside")
+    console.log(window.location.host);
+    console.log(window.location)
+    Rails.ajax({
+      type: "post",
+      url: window.location.origin + "/purge_item_picture",
+      data: id,
+    });
+  }
+
 }
 

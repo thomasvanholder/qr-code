@@ -29,7 +29,6 @@ class RestaurantsController < ApplicationController
 
   def edit
     @categories = @restaurant.categories
-    # @restaurant.categories.build.items.build
   end
 
   def update
@@ -52,6 +51,12 @@ class RestaurantsController < ApplicationController
     else
       render :qrcode
     end
+  end
+
+  def purge_item_picture
+    menu_id = params.keys.first.to_i
+    item = Item.find(menu_id)
+    item.picture.purge
   end
 
   private
