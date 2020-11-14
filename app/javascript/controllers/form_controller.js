@@ -23,7 +23,8 @@ export default class extends ApplicationController {
     "template_tab_print",
     "template_panel_print",
     "template_wrapper",
-    "delete_icon_meal_picture"
+    "delete_icon_meal_picture",
+    "one_panel_item"
   ];
 
   connect() {
@@ -39,10 +40,16 @@ export default class extends ApplicationController {
       const panels = this.one_panelTargets;
       panels.forEach((panel, index) => {
         const update = panel.innerHTML.replace(/NEW_CATEGORY/g, index);
-        panel.innerHTML = update
-        // // const update_hidden_id = panel.nextElementSibling.innerHTML.replace(/NEW_CATEGORY/g, index)
-        // panel.nextElementSibling.innerHTML = update_hidden_id;
-      })
+        panel.innerHTML = update;
+      });
+
+      // set item form id to item id from db
+      // const items = this.one_panel_itemTargets;
+      // items.forEach((item) => {
+      //   const item_id = item.dataset.objectId
+      //   const update = item.innerHTML.replace(/UPDATE_ITEM_ID/g, item_id);
+      //   item.innerHTML = update
+      // })
     }
   }
 

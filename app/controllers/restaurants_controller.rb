@@ -29,11 +29,12 @@ class RestaurantsController < ApplicationController
 
   def edit
     @categories = @restaurant.categories
-    @restaurant.categories.build.items.build
+    # @restaurant.categories.build.items.build
   end
 
   def update
     if @restaurant.update(restaurant_params)
+      byebug
       redirect_to restaurant_qrcode_url(@restaurant), notice: { title: "QR Menu updated", content: "Anyone with the QR code can now view this menu." }
     else
       render :edit
@@ -64,7 +65,6 @@ class RestaurantsController < ApplicationController
       :picture,
       :qr_code_png,
       # item attributes are nested inside each category
-      categories_attributes: [:id, :name, :_destroy, { items_attributes: %i[id name price description picture _destroy] }]
-    )
+      categories_attributes: [:id, :name, :_destroy, items_attributes: [:id, :name ,:price ,:description, :picture, :_destroy]])
   end
 end
