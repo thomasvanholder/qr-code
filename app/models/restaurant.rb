@@ -1,4 +1,5 @@
 class Restaurant < ApplicationRecord
+
   include Rails.application.routes.url_helpers
 
   after_create :create_qr_code
@@ -12,6 +13,13 @@ class Restaurant < ApplicationRecord
   accepts_nested_attributes_for :categories, reject_if: :all_blank, allow_destroy: true
 
   has_one_attached :picture
+
+  extend FriendlyId
+  friendly_id :random_code, use: :slugged
+
+  def random_code
+    SecureRandom.hex(10) #=> "92b15d6c8dc4beb5f559"
+  end
 
   def create_qr_code
     qr = RQRCode::QRCode.new(restaurant_url(self))

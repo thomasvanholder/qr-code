@@ -38,6 +38,7 @@ gem "faker"
 gem "stimulus_reflex", "~> 3.3"
 
 gem "noticed", "~> 1.2"
+gem 'friendly_id', '~> 5.4.0'
 
 
 group :development, :test do
