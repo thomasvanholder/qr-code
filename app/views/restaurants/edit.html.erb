@@ -148,17 +148,17 @@
             <div data-target="form.items">
               <% if @restaurant.items %>
                 <% @restaurant.items.each do |item| %>
-                  <div class="flex space-x-2 my-4 justify-between" id="item-NEW_MENU_ITEM" data-target="form.one_item" data-category-id="<%= item.category.id %>">
+                  <div class="flex space-x-2 my-4 justify-between" id="item-<%=item.id %>" data-target="form.one_item" data-category-id="<%= item.category.id %>">
                     <% if item.picture.attached? %>
                       <img class="h-20 w-20 rounded" data-target="form.picture_meal_item" data-picture-id="<%= item.id %>" src="<%= cl_path(item.picture.key) %>"></img>
                   <% end %>
 
                   <div class="w-full">
                     <p class="font-semibold flex justify-between">
-                      <span id="item-name-NEW_MENU_ITEM"><%= item.name %></span>
-                      <span id="item-price-NEW_MENU_ITEM"><%= item.price %></span>
+                      <span id="item-name-<%=item.id %>"><%= item.name %></span>
+                      <span id="item-price-<%=item.id %>"><%= item.price %></span>
                     </p>
-                    <small id="item-description-NEW_MENU_ITEM"><%= item.description %></small>
+                    <small id="item-description-<%=item.id %>"><%= item.description %></small>
                   </div>
                 </div>
 
