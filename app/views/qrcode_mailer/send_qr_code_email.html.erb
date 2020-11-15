@@ -11,10 +11,37 @@
 <p>Here is your QR Code. It stays the same whatever changes you might later do.</p>
 <%#= link_to image_tag("qr-code-example.png", style:"height:75px;width:75px") %>
 
-<%= link_to restaurant_url(@restaurant) do %>
-  <%= image_tag(attachments['qr-code-example.png'].url, style:"height: 125px; width:125px;") %>
-<% end %>
+<div style="position:relative">
+  <%= image_tag(attachments['qr-code-example.png'].url, class:"qr-img") %>
+  <%= link_to "Click to view QR Code", restaurant_qrcode_url(@restaurant), class:"btn-qr"%>
+</div>
 
 <p>Thanks for joining and have a great day!</p>
 <p>Thomas form QR-Code Menu</p>
 
+<style>
+  .qr-img {
+    height: 125px;
+    width:125px;
+    margin-left: 23px;
+  }
+  .btn-qr {
+    cursor: pointer;
+    background-color: #38b2ac;
+    background-color: rgb(56, 178, 172);
+    color: #fff;
+    color: rgb(255, 255, 255);
+    font-weight: 600;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-width: 1px;
+    border-color: #38b2ac;
+    border-color: rgba(56, 178, 172);
+    border-radius: 0.25rem;
+    position: absolute;
+    left: 0px;
+    top: 43px;
+  }
+</style>
