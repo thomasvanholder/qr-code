@@ -9,14 +9,11 @@
 
 
 <p>Here is your QR Code. It stays the same whatever changes you might later do.</p>
-<%= link_to image_tag("qr-code-example.png", style:"height:75px;width:75px") %>
+<%#= link_to image_tag("qr-code-example.png", style:"height:75px;width:75px") %>
 
-<%= link_to restaurant_url@(restaurant) do %>
-    <%= image_tag "qr-code-example.png", width: 75, height: 75, alt: 'Qr Code image'%>
+<%= link_to restaurant_url(@restaurant) do %>
+  <%= image_tag(attachments['qr-code-example.png'].url, style:"height: 125px; width:125px;") %>
 <% end %>
-
-<%#= image_tag(attachments['qr-code-example.png'].url) %>
-<button>Click to View your QR Code</button>
 
 <p>Thanks for joining and have a great day!</p>
 <p>Thomas form QR-Code Menu</p>

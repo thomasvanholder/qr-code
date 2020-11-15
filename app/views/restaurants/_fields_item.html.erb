@@ -19,7 +19,7 @@
       <%= image_tag "icons/delete.svg", class: "ml-2 h-5 w-5 cursor-pointer", data: { action: "click->form#delete_item_picture", picture_id:"NEW_MENU_ITEM", target:"delete_icon_meal_picture" } %>
 
       <div class="hidden place-items-center">
-        <img class="h-20 w-20 shadow border rounded cursor-pointer" data-target="form.picture_meal_item" data-picture-id="<%= form.object.id %>"></img>
+        <img class="h-20 w-20 shadow border rounded cursor-pointer" data-target="form.picture_meal_item" data-picture-id="NEW_MENU_ITEM"></img>
         <%= image_tag "icons/delete.svg", class: "ml-2 h-5 w-5 cursor-pointer", data: { action: "click->form#delete_item_picture", picture_id:"NEW_MENU_ITEM" } %>
       </div>
     <% end %>

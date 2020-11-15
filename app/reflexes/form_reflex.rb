@@ -9,6 +9,7 @@ class FormReflex < ApplicationReflex
     id = element.dataset.category_id || extract_id(element.name)
     morph "#category-#{id}", element.value
     morph "#tab-#{id}", element.value
+    # byebug
   end
 
   def print_item

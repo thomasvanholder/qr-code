@@ -122,12 +122,6 @@ export default class extends ApplicationController {
     print_element.remove();
   }
 
-  extract_menu_item_id(element) {
-    let extracted_id = element.name.match(
-      /[i][t][e][m][s].[a-z]{3,}\S\S\d{5,}/
-    );
-    return extracted_id[0].split("[").pop();
-  }
 
   get_category_id(existId, event) {
     if (existId) {
@@ -219,25 +213,48 @@ export default class extends ApplicationController {
     }
   }
 
+  extract_menu_item_id(element) {
+    if (element.target.dataset.pictureId) {
+      return event.target.dataset.pictureId;
+    } else {
+      const extracted_id = element.target.name.match(/items_attributes\S\S\d{5,}/);
+      return extracted_id[0].split("[").pop();
+    }
+  }
+
+
   preview_meal_picture(event) {
-    const menu_item_id = event.target.dataset.pictureId;
+    const menu_item_id = this.extract_menu_item_id(event);
     console.log(`Menu Item ID: ${menu_item_id}`)
     const input = event.target;
 
-    const pictures = this.picture_meal_itemTargets;
-    const meal_pictures = pictures.filter(pic => pic.dataset.pictureId == menu_item_id)
+    const pics = this.picture_meal_itemTargets;
+    console.log(pics)
+    const meal_pics = pics.filter(pic => {
+      console.log(pic.dataset)
+      if (pic.dataset.pictureId) {
+        return pic.dataset.pictureId == menu_item_id;
+      } else {
+        console.log("pic name");
+        console.log(pic);
+        let extracted_id = pic.name.match(/items_attributes\S\S\d{5,}/);
+        extracted_id = extracted_id[0].split("[").pop();
+        extracted_id == menu_item_id;
+      }
+    });
+    console.log(meal_pics)
 
     if (input.files && input.files[0]) {
       let reader = new FileReader();
 
       reader.onload = function () {
-        meal_pictures.forEach((pic) => {
+        meal_pics.forEach((pic) => {
           pic.src = reader.result; //set src attribute on target img html element
         });
         input.parentElement.classList.add("hidden");
-        meal_pictures[0].parentElement.classList.remove("hidden");
-        meal_pictures[0].parentElement.classList.add("flex");
-        meal_pictures[1].parentElement.classList.remove("hidden"); // show meal pic on phone if hidden
+        meal_pics[0].parentElement.classList.remove("hidden");
+        meal_pics[0].parentElement.classList.add("flex");
+        meal_pics[1].parentElement.classList.remove("hidden"); // show meal pic on phone if hidden
 
         input.src = reader.result;
       };
@@ -266,31 +283,41 @@ export default class extends ApplicationController {
   }
 
   delete_item_picture(event) {
-    const menu_item_id = event.target.dataset.pictureId;
-    console.log(`menu item id: ${menu_item_id}`)
+    const menu_item_id = this.extract_menu_item_id(event);
+    console.log(`DELETE_ITEM_PICTURE --> menu item id: ${menu_item_id}`)
 
-    const pictures = this.picture_meal_itemTargets;
-    const meal_pictures = pictures.filter(
+    const pics = this.picture_meal_itemTargets;
+    console.log(pics)
+    const meal_pics = pics.filter(
       (pic) => pic.dataset.pictureId === menu_item_id
     );
 
-    meal_pictures[0].parentElement.classList.add("hidden"); // hide custom pic
+    meal_pics[0].parentElement.classList.add("hidden"); // hide custom pic
 
     const inputs = this.meal_picture_inputTargets; // add standard pic again
-    const input_picture = inputs.find(
-      (pic) => pic.dataset.pictureId === menu_item_id
+    const input_picture = inputs.find(pic => {
+      if (pic.dataset.pictureId) {
+        return pic.dataset.pictureId == menu_item_id;
+      } else {
+        let extracted_id = pic.name.match(/items_attributes\S\S\d{5,}/);
+        extracted_id = extracted_id[0].split("[").pop();
+        return extracted_id == menu_item_id;
+      }
+    }
     );
+    console.log(input_picture)
+    input_picture.removeAttribute("src");
+    console.log(input_picture)
     input_picture.parentElement.classList.remove("hidden");
 
     // hide the meal pic on phone when deleted
-    meal_pictures[1].classList.add("hidden");
+    meal_pics[1].classList.add("hidden");
     this.deletePicture(menu_item_id)
   }
 
   deletePicture(id) {
     console.log|("indeside")
     console.log(window.location.host);
-    console.log(window.location)
     Rails.ajax({
       type: "post",
       url: window.location.origin + "/purge_item_picture",

@@ -54,6 +54,7 @@ class RestaurantsController < ApplicationController
   end
 
   def purge_item_picture
+  # check if id exist
     menu_id = params.keys.first.to_i
     item = Item.find(menu_id)
     item.picture.purge
