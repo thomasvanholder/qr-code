@@ -3,8 +3,11 @@
   You have created a QR Menu for <strong><%= @restaurant.name %></strong>.
 </p>
 
-<p>To edit your menu or print your QR Code, follow this link: <br></p>
-<small>Your QR Code always stays the same!</small>
+<p>To edit your menu or print your QR Code, click the image below.</p>
+<p>Your QR Code always stays the same!</p>
+
+<br>
+<br>
 
 <div style="position:relative">
   <%= image_tag(attachments.inline["qr-example.png"].url, class:"qr-img") %>
