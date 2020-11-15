@@ -2,17 +2,12 @@
 <p>
   You have created a QR Menu for <strong><%= @restaurant.name %></strong>.
 </p>
-<p>
-  To edit your QR Menu, just follow this link: <br>
-  <a href="<%= edit_restaurant_url(@restaurant) %>">Edit QR Code Menu</a>.
-</p>
 
-
-<p>Here is your QR Code. It stays the same whatever changes you might later do.</p>
-<%#= link_to image_tag("qr-code-example.png", style:"height:75px;width:75px") %>
+<p>To edit your menu or print your QR Code, follow this link: <br></p>
+<small>Your QR Code always stays the same!</small>
 
 <div style="position:relative">
-  <%= image_tag(attachments['qr-code-example.png'].url, class:"qr-img") %>
+  <%= image_tag(attachments.inline["qr-example.png"].url, class:"qr-img") %>
   <%= link_to "Click to view QR Code", restaurant_qrcode_url(@restaurant), class:"btn-qr"%>
 </div>
 
