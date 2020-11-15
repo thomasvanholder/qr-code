@@ -225,25 +225,25 @@ export default class extends ApplicationController {
 
   preview_meal_picture(event) {
     const menu_item_id = this.extract_menu_item_id(event);
-    console.log(`Menu Item ID: ${menu_item_id}`)
+    console.log(`Preview Meal Picture --> Menu Item ID: ${menu_item_id}`)
     const input = event.target;
+    console.log(`input:  ${input}`)
 
     const pics = this.picture_meal_itemTargets;
-    console.log(pics)
     const meal_pics = pics.filter(pic => {
-      console.log(pic.dataset)
       if (pic.dataset.pictureId) {
         return pic.dataset.pictureId == menu_item_id;
       } else {
-        console.log("pic name");
-        console.log(pic);
         let extracted_id = pic.name.match(/items_attributes\S\S\d{5,}/);
         extracted_id = extracted_id[0].split("[").pop();
         extracted_id == menu_item_id;
       }
     });
-    console.log(meal_pics)
+    console.log(`meal_pics ${meal_pics}`)
 
+    // console.log(`input files:`)
+    // console.log(input.files)
+    // console.log(input.value = '')
     if (input.files && input.files[0]) {
       let reader = new FileReader();
 
@@ -303,10 +303,10 @@ export default class extends ApplicationController {
         extracted_id = extracted_id[0].split("[").pop();
         return extracted_id == menu_item_id;
       }
-    }
-    );
-    console.log(input_picture)
-    input_picture.removeAttribute("src");
+    });
+    input_picture.value = '' // set input.files of pic to empty
+
+    // input_picture.removeAttribute("src");
     console.log(input_picture)
     input_picture.parentElement.classList.remove("hidden");
 
@@ -316,8 +316,6 @@ export default class extends ApplicationController {
   }
 
   deletePicture(id) {
-    console.log|("indeside")
-    console.log(window.location.host);
     Rails.ajax({
       type: "post",
       url: window.location.origin + "/purge_item_picture",
