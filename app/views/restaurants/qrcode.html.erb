@@ -1,15 +1,19 @@
 <div class="container mx-auto my-32 flex flex-col items-center justify-center">
 
+
   <%= form_with(url: "/send-email-qr-code", method: "post", remote: true) do %>
-    <div class="mb-4">
+    <div class="mb-2">
       <span class="text-lg">Hey, there!</span>
       <p class="text-md text-gray-700">Fill in your email to <span class="underline font-semibold">edit</span> your QR code later.</p>
     </div>
-    <div class="flex flex-col md:flex-row">
+    <div class="flex flex-col md:flex-row mb-2">
       <%= email_field_tag(:email, @restaurant.email, placeholder:"example@gmail.com", class:"w-full md:w-64 form-input transition duration-150 ease-in-out sm:text-sm sm:leading-5") %>
       <%= hidden_field_tag(:id, @restaurant.id) %>
       <%= submit_tag("Send email  with QR Code", class:"btn-teal hover:bg-transparent hover:text-teal-700") %>
     </div>
+    <% if @restaurant.email %>
+      Your email: <%= @restaurant.email %>
+    <% end %>
   <% end %>
 
   <div class="text-center mt-16" data-controller="print">
