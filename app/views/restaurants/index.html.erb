@@ -1,8 +1,8 @@
 <div class="py-6 bg-white">
   <div class="max-w-screen-lg mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="lg:text-center">
-      <p class="text-base leading-6 text-teal-600 font-semibold tracking-wide uppercase">Free</p>
-      <h3 class="page-title sm:text-4xl sm:leading-10">
+    <div class="xs:text-left sm:text-center">
+      <p class="leading-6 text-teal-600 font-semibold tracking-wide uppercase">Free</p>
+      <h3 class=" page-title sm:text-4xl sm:leading-10">
         QR Code Creator
       </h3>
     </div>
@@ -13,13 +13,17 @@
 </div>
 
 
-<section class="container max-w-screen-xl mx-auto text-center">
+
+  <div class="container text-2xl mt-8 mobile-view-text hidden mx-auto text-center">
+  Create your own menu in 3 simple steps! <br>
+  <span class="underline">To create menu, view website on laptop or desktop</span>
+  </div>
+
+<section class="container max-w-screen-xl mx-auto text-center mobile-view">
   <h1 class="text-3xl mb-5">Create your own menu in 3 simple steps!</h1>
   <div class="mt-2 mb-8">
     <%= link_to "Create Your Own QR-Menu", new_restaurant_url, class:"btn-teal hover:bg-transparent hover:text-teal-700"  %>
   </div>
-
-
   <div class="flex">
     <!-- LEFT Col-->
     <div class="w-1/3 space-y-5 pt-20 flex flex-col items-end">
@@ -56,10 +60,10 @@
 <section class="text-center mx-auto my-16">
   <h1 class="text-3xl">Scan example menu</h1>
   <div>
-    <%= link_to "or click here", restaurant_url(@restaurant), class:"text-link" %>
+    <%= link_to "click here for example", restaurant_url(@restaurant), class:"text-link" %>
   </div>
 
-  <div class="my-3 flex">
+  <div class="my-3 flex mobile-view">
     <div class="w-5/12 flex justify-end items-center">
        <div class="handwriting">Try it out! 📷</div>
       <%= image_tag "arrows/arrow_44", class:"arrow four ml-5" %>
@@ -68,7 +72,7 @@
     <div class="w-5/12"></div>
   </div>
 
-   <div class="my-10">
+   <div class="my-10 mobile-view">
     <%= link_to "Create Your Own QR-Menu", new_restaurant_url, class:"btn-teal hover:bg-transparent hover:text-teal-700"  %>
   </div>
 
@@ -98,5 +102,14 @@
   }
 
   .arrow.four {
+  }
+
+  @media (max-width: 1024px) {
+    .mobile-view-text {
+      display: block;
+    }
+    .mobile-view {
+      display: none;
+  }
   }
 </style>
