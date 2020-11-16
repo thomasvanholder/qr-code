@@ -11,7 +11,7 @@ puts "Starting seeds: #{start_time}"
 
 puts stars
 puts "-> Creating restaurants"
-5.times do
+1.times do
   file = URI.open("https://source.unsplash.com/400x300/?logo")
   restaurant = Restaurant.new(
     name: Faker::Restaurant.name
@@ -26,7 +26,7 @@ puts "-> Creating categories"
 CATEGORIES = %w[breakfast lunch dinner desert snacks vegan fish']
 CATEGORIES_ICONS = %w[☕️ 🍲 🍽 🍨 🍿 ☘️ 🍤]
 Restaurant.all.each do |restaurant|
-  2.times do |num|
+  5.times do |num|
     Category.create(
       name: CATEGORIES[num].capitalize + ' ' + CATEGORIES_ICONS[num],
       restaurant: restaurant
