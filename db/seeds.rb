@@ -28,7 +28,7 @@ CATEGORIES_ICONS = %w[☕️ 🍲 🍽 🍨 🍿 ☘️ 🍤]
 Restaurant.all.each do |restaurant|
   5.times do |num|
     Category.create(
-      name: CATEGORIES[num].capitalize + ' ' + CATEGORIES_ICONS[num],
+      name: CATEGORIES[num].capitalize,
       restaurant: restaurant
     )
   end

@@ -10,7 +10,7 @@
   <div data-controller="active-tab" data-action="scroll@window->active-tab#highlight_nav">
     <div class="tabs show pl-5 flex space-x-2 py-8 mb-4 sticky bg-white border-b font-semibold overflow-auto top-0">
       <% @restaurant.categories.each do |category| %>
-        <a id="nav-<%= category.name %>" data-category="<%= category.name %>" data-target="active-tab.nav" href="#<%= category.name %>"><%= category.name.capitalize %></a>
+        <a id="nav-<%= category.name %>" class="block" data-category="<%= category.name %>" data-target="active-tab.nav" href="#<%= category.name %>"><%= category.name.capitalize %></a>
       <% end %>
     </div>
 
