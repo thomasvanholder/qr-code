@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(version: 2020_11_17_054743) do
     t.string "category"
     t.string "address"
     t.string "email"
+    t.string "source"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

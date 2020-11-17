@@ -5,6 +5,7 @@ class CreateLeads < ActiveRecord::Migration[6.0]
       t.string :category
       t.string :address
       t.string :email
+      t.string :source
 
       t.timestamps
     end
