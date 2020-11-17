@@ -14,11 +14,9 @@ class LeadsController < ApplicationController
     unique_leads = Lead.select(:name, :email).distinct.select(&:email)
     without_empty_emails = unique_leads.select { |lead| !lead.email.empty? }
 
-    # without_empty_emails.each do |lead|
-    #   CampaignMailer.with(lead: lead).prospect_mail.deliver_now
-    # end
-    without_empty_emails.take(2).each do |lead|
+    without_empty_emails.each do |lead|
       CampaignMailer.with(lead: lead).prospect_mail.deliver_now
     end
+
   end
 end
