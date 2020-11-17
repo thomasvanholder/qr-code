@@ -1,3 +1,5 @@
+require 'csv'
+
 class RestaurantsController < ApplicationController
   before_action :find_restaurant, only: [:show, :qrcode, :send_email_qr_code, :edit, :update ]
 
@@ -21,7 +23,7 @@ class RestaurantsController < ApplicationController
   def create
     @restaurant = Restaurant.new(restaurant_params)
     if @restaurant.save
-      redirect_to restaurant_qrcode_url(@restaurant), notice: { title: "QR Menu created", content: "Anyone with the QR code can now view this menu." }
+      redirect_to restaurant_qrcode_url(@restaurant) #, notice: { title: "QR Menu created", content: "Anyone with the QR code can now view this menu." }
     else
       render :new
     end
@@ -45,7 +47,7 @@ class RestaurantsController < ApplicationController
   def send_email_qr_code
     @restaurant.update(email: params[:email])
     if @restaurant.save
-      # send email with QR Code and edit link
+    # send email with QR Code and edit link
       QrcodeMailer.with(restaurant: @restaurant).send_qr_code_email.deliver_now
       redirect_to restaurant_qrcode_url(@restaurant), notice: { title: "Email sent with QR Code", content: "Use email link to edit your QR Menu" }
     else

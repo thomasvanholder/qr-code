@@ -18,7 +18,7 @@ class FormReflex < ApplicationReflex
 
   def print_price
     id = element.dataset.item || extract_menu_id(element.name)
-    morph "#item-price-#{id}", "$#{element.value}"
+    morph "#item-price-#{id}", "€#{element.value}"
   end
 
   def print_description
