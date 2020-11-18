@@ -40,6 +40,7 @@ gem "stimulus_reflex", "~> 3.3"
 gem "noticed", "~> 1.2"
 gem 'friendly_id', '~> 5.4.0'
 
+# gem 'ahoy_matey'
 
 group :development, :test do
   gem "dotenv-rails"
