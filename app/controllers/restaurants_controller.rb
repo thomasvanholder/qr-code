@@ -23,7 +23,7 @@ class RestaurantsController < ApplicationController
   def create
     @restaurant = Restaurant.new(restaurant_params)
     if @restaurant.save
-      redirect_to restaurant_qrcode_url(@restaurant) #, notice: { title: "QR Menu created", content: "Anyone with the QR code can now view this menu." }
+      redirect_to restaurant_qrcode_url(@restaurant) , notice: { title: "QR Menu created", content: "Anyone with the QR code can now view this menu." }
     else
       render :new
     end

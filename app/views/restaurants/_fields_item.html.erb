@@ -2,7 +2,7 @@
 
   <div class="md:flex md:items-center mt-auto w-1/4">
     <% if form.object.picture.attached? %>
-      <div class="hidden relative overflow-hidden shadow border rounded h-20 w-20 flex place-items-center">
+      <div class="hidden relative overflow-hidden shadow border rounded h-20 w-20 place-items-center">
         <%= image_tag('icons/upload.svg', alt: "upload icon", class:"p-3") %>
         <%= form.file_field :picture, class: "input-uploader rounded", data: { target: "form.meal_picture_input", action: "form#preview_meal_picture", picture_id: form.object.id } %>
       </div>

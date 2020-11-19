@@ -39,6 +39,9 @@
 .btn-teal {
   @apply cursor-pointer bg-teal-500 text-white font-semibold py-2 px-4 border border-teal-500 rounded;
 }
+.btn-red {
+  @apply cursor-pointer bg-red-500 text-white font-semibold py-2 px-4 border border-red-500 rounded;
+}
 
 .page-title {
   @apply text-center mt-3 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 ;

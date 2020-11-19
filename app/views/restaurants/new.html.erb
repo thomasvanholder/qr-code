@@ -6,12 +6,13 @@
     </h3>
   </div>
 
-  <%= form_with model: @restaurant, class: "" do |form| %>
+  <%= form_with(model: @restaurant) do |form| %>
 
     <div class="grid grid-cols-2 mt-20" data-controller="form">
       <div class=" md:mx-8 xl:mx-20 text-left">
 
-        <!-- RESTAURANT  -->
+        <!-- RESTAURANT
+         -->
         <h1 class="text-xl">1. Add Restaurant</h1>
         <hr class="my-3 w-full">
         <%= render 'form_restaurant', form: form %>
@@ -66,6 +67,7 @@
 
         </div>
         <%= form.submit "Create QR Menu", class: "btn-teal hover:bg-transparent hover:text-teal-700 mt-4", data: { "disable-with": "Saving..." } %>
+
       </div>
 
 

@@ -6,11 +6,13 @@ const webpack = require('webpack');
 environment.loaders.delete('nodeModules');
 
 // Bootstrap 4 has a dependency over jQuery & Popper.js:
-environment.plugins.prepend('Provide',
+environment.plugins.prepend(
+  "Provide",
   new webpack.ProvidePlugin({
     // $: 'jquery',
     // jQuery: 'jquery',
     // Popper: ['popper.js', 'default']
+    Rails: ["@rails/ujs"],
   })
 );
 

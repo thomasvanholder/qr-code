@@ -12,18 +12,21 @@
   </div>
 </div>
 
-
-
-  <div class="container text-2xl mt-8 mobile-view-text hidden mx-auto text-center">
-  Create your own menu in 3 simple steps! <br>
-  <span class="underline">To create menu, view website on laptop or desktop</span>
+<div class="text-center my-8 mx-auto">
+  <div class="text-red-500 pt-6 md:w-2/3 mx-auto lg:w-1/3 rounded-md font-semibold text-3xl w-auto">Create your menu in 3 simple steps! 👇</div>
+  <div class="mt-2 text-base leading-6 text-gray-600">To create menu, view website on laptop or desktop</div>
+  <div class="mt-5">
+    <%= link_to "Create Your Own QR-Menu", new_restaurant_url, class:"btn-red hover:bg-transparent hover:text-teal-700"  %>
   </div>
+</div>
+<div class="container mobile-view-text hidden mx-auto" >
+  <div class="border-b border-gray-300 p-5 text-lg"></div>
+  <div class=""></div>
+  <%= render "phone", restaurant: @restaurant %>
+</div>
 
-<section class="container max-w-screen-xl mx-auto text-center mobile-view">
-  <h1 class="text-3xl mb-5">Create your own menu in 3 simple steps!</h1>
-  <div class="mt-2 mb-8">
-    <%= link_to "Create Your Own QR-Menu", new_restaurant_url, class:"btn-teal hover:bg-transparent hover:text-teal-700"  %>
-  </div>
+<section class="container max-w-screen-xl mt-16 mx-auto text-center mobile-view">
+
   <div class="flex">
     <!-- LEFT Col-->
     <div class="w-1/3 space-y-5 pt-20 flex flex-col items-end">
@@ -44,7 +47,7 @@
       <div>
         <div class="handwriting">1. <br>
           Add restaurant</div>
-          <%= image_tag "arrows/arrow_36.svg", class:"arrow one w-20" %>
+        <%= image_tag "arrows/arrow_36.svg", class:"arrow one w-20" %>
       </div>
 
       <div>
@@ -65,14 +68,14 @@
 
   <div class="my-3 flex mobile-view">
     <div class="w-5/12 flex justify-end items-center">
-       <div class="handwriting">Try it out! 📷</div>
+      <div class="handwriting">Try it out! 📷</div>
       <%= image_tag "arrows/arrow_44", class:"arrow four ml-5" %>
     </div>
     <div class="w-2/12 svg-wrapper "><%= @svg.html_safe%></div>
     <div class="w-5/12"></div>
   </div>
 
-   <div class="my-10 mobile-view">
+  <div class="my-10 mobile-view">
     <%= link_to "Create Your Own QR-Menu", new_restaurant_url, class:"btn-teal hover:bg-transparent hover:text-teal-700"  %>
   </div>
 

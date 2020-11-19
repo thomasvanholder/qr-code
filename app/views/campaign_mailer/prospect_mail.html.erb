@@ -2,19 +2,29 @@
 
 <p>Die Restaurants in Wien haben dieses Jahr eine schwierige Zeit hinter sich. Von der Beschränkung der Öffnungszeiten, über die Begrenzung der Gästezahl bis hin zum Verlust von Personal.<br>
 
-Um Restaurants dabei zu helfen, hygienischer und effizienter zu sein, haben wir ein digitales QR-Code-Menü-Tool geschaffen.<br>
-Es ist völlig kostenlos:<br>
-<%= link_to "qrcodemenu.com", root_url %>
+  Um Restaurants dabei zu helfen, hygienischer und effizienter zu sein, haben wir ein digitales QR-Code-Menü-Tool geschaffen.</p>
+<p>Sie können Ihr eigenes digitales Menü in 3 einfachen Schritten erstellen.
+  Es ist völlig kostenlos:<br>
+  <%= link_to "qrcodemenu.com", root_url %>
 </p>
 
-<p>Wir hoffen, dass es <%= @lead.name.titleize %> auch helfen könnte.</p>
+<%= image_tag(attachments.inline["app_example.png"].url, class:"example-img") %>
 
-<p>Grüße,<p>
-<p>QR Code Menu<p>
+<p>Wir hoffen, dass es <strong><%= @lead.name.titleize %></strong> auch helfen könnte.</p>
+
+<p>Grüße,
+</p>
+<p>QR Code Menu
+</p>
 
 
 <style>
   body {
     font-family: "Roboto";
+  }
+
+  .example-img {
+    height: 300px;
+    width:350px;
   }
 </style>
