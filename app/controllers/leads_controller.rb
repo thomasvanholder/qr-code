@@ -2,8 +2,8 @@ require_relative "../services/scraper_restaurants.rb"
 
 class LeadsController < ApplicationController
 
-  def self.create_leads
-    scraper = ScraperRestaurants.new("wien")
+  def self.create_leads(location, pagina)
+    scraper = ScraperRestaurants.new(location, pagina)
     leads = scraper.call
     leads.each do |lead|
       Lead.create!(lead)

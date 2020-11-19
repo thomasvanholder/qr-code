@@ -2,14 +2,15 @@ require "open-uri"
 require 'nokogiri'
 
 class ScraperRestaurants
-  def initialize(keyword)
+  def initialize(keyword, pagina)
     @base_url = "https://www.herold.at/gelbe-seiten/#{keyword}/was_restaurant/?page="
+    @pagina = pagina
     @restaurants = []
   end
 
   def call
     100.times do |num|
-      count = 100 + 1
+      count = @pagina + 1
       url = @base_url + count.to_s
       p "URL >>> " + url
       puts "-------------------"
