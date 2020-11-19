@@ -10,7 +10,7 @@ class ScraperRestaurants
 
   def call
     100.times do |num|
-      count = @pagina + 1
+      count = pagina + num
       url = @base_url + count.to_s
       p "URL >>> " + url
       puts "-------------------"
