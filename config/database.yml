@@ -80,6 +80,13 @@ test:
 #
 production:
   <<: *default
-  database: qr_code_production
-  username: qr_code
-  password: <%= ENV['QR_CODE_DATABASE_PASSWORD'] %>
+  # database: qr_code_production
+  # username: qr_code
+  # password: <%= ENV['QR_CODE_DATABASE_PASSWORD'] %>
+  # DIGITAL OCEAN
+  host     : app-42a037f3-340f-40f7-92c5-a39fd7916855-do-user-8282565-0.b.db.ondigitalocean.com
+  port     : 25060
+  username : db
+  password : kb5sadtvsgli7x8o
+  database : db
+  sslmode  : require
