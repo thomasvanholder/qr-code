@@ -1,15 +1,10 @@
-<div class="container mx-auto py-6">
+<div class="container mx-auto">
 
-  <div class="lg:text-center">
-    <h3 class="page-title sm:text-4xl sm:leading-10">
-      QR Code Generator
-    </h3>
-  </div>
+  <%= form_with(model: @restaurant, data: { controller: "autosave", target: "autosave.form", action: "ajax:success->autosave#success ajax:error->autosave#error" }) do |form| %>
 
-  <%= form_with model: @restaurant, class: "" do |form| %>
-
-    <div class="grid md:grid-cols-2 mt-20" data-controller="form">
+    <div class="grid md:grid-cols-2 mt-10" data-controller="form">
       <div class=" md:mx-8 xl:mx-20 text-left">
+      <span class="text-muted" data-target="autosave.status"></span>
 
         <!-- RESTAURANT  -->
         <h1 class="text-xl">1. Edit Restaurant</h1>

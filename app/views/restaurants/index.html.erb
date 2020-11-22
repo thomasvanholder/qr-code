@@ -1,118 +1,174 @@
-<div class="py-6 bg-white">
-  <div class="max-w-screen-lg mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="xs:text-left sm:text-center">
-      <p class="leading-6 text-teal-600 font-semibold tracking-wide uppercase">Free</p>
-      <h3 class=" page-title sm:text-4xl sm:leading-10">
-        QR Code Creator
-      </h3>
-    </div>
-    <div class="mt-10">
-      <%= render "features" %>
-    </div>
+<div class="container mx-auto">
+
+  <%= form_with(model: @restaurant) do |form| %>
+
+    <div class="grid md:grid-cols-2 mt-10" data-controller="form">
+      <div class=" md:mx-8 xl:mx-20 text-left">
+      <span class="text-muted" data-target="autosave.status"></span>
+
+        <!-- RESTAURANT  -->
+        <h1 class="text-xl">1. Edit Restaurant</h1>
+        <hr class="my-3 w-full">
+        <%= render 'form_restaurant', form: form %>
+
+        <!-- CATEGORY  -->
+        <h1 class="text-xl">2. Edit Categories</h1>
+        <hr class="my-3 w-full">
+
+        <div data-target="form.template_wrapper">
+          <%= form.fields_for :categories do |category| %>
+            <% if category.object.name %>
+              <%= render "fields_category", form: category %>
+              <template data-target="form.template_item_field" data-category-id="<%=category.object.id%>">
+                <%= category.fields_for :items, Item.new, child_index: 'NEW_MENU_ITEM' do |item| %>
+                  <%= render "fields_item", form: item %>
+                <% end %>
+              </template>
+            <% end %>
+          <% end %>
+
+          <!-- template - CATEGORY INPUT field  -->
+          <template data-target="form.template_category_field">
+            <%= form.fields_for :categories, Category.new, child_index: 'NEW_CATEGORY' do |category| %>
+              <%= render "fields_category", form: category %>
+              <!-- template - ITEM INPUT field  -->
+              <template data-target="form.template_item_field">
+                <%= category.fields_for :items, Item.new, child_index: 'NEW_MENU_ITEM' do |item| %>
+                  <%= render "fields_item", form: item %>
+                <% end %>
+              </template>
+            <% end %>
+          </template>
+
+          <div data-target="form.links_category">
+            <%= button_tag "Add Category", type: 'button', class: "text-link", data: { action: "click->form#add_category", index: "1" } %>
+          </div>
+        </div>
+
+        <!-- template - CATEGORY PRINT TAB    -->
+        <template data-target="form.template_tab_print">
+          <li class="mr-1" data-target="tabs.tab" data-action="click->tabs#change">
+            <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#" data-target="form.one_tab" id="tab-NEW_CATEGORY">Lunch</a>
+          </li>
+        </template>
+
+        <!-- MENU ITEMS  -->
+        <h1 class="text-xl mt-5">3. Edit Menu Items</h1>
+        <hr class="my-3 w-full">
+
+        <!-- template - PANEL - MENU ITEMS    -->
+        <template data-target="form.template_panel_print">
+          <div class="hidden py-2 border-b" data-target="tabs.panel form.one_panel" id="NEW_CATEGORY">
+            <%= button_tag "Add Item", type: 'button', class: "text-link mt-5", data: { action: "click->form#add_item", category: "NEW_CATEGORY" } %>
+          </div>
+        </template>
+
+        <div data-controller="tabs" data-tabs-active-tab="-mb-px border-l border-t border-r rounded-t" data-target="form.list_panels">
+          <ul class="list-reset flex border-b overflow-auto" data-target="form.list_tabs">
+            <% @restaurant.categories.each_with_index do |category, index| %>
+              <% if category.name %>
+                <li class="mr-1" data-target="tabs.tab" data-action="click->tabs#change">
+                  <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#" data-target="form.one_tab" data-tab-id="<%= category.id %>" id="tab-<%= category.id %>"><%= category.name %></a>
+                </li>
+              <% end %>
+            <% end %>
+          </ul>
+
+          <!-- dipslay panel items --->
+          <%= form.fields_for :categories, child_index: 'NEW_CATEGORY', include_id: false do |category| %>
+            <%if category.object.name %>
+              <div class="hidden py-2 border-b" data-target="tabs.panel form.one_panel" data-panel-id="<%= category.object.id  %>">
+                <%= category.fields_for :items do |item| %>
+                  <%= render "fields_item", form: item %>
+                <% end %>
+
+                <%= button_tag "Add Item", type: 'button', class: "text-link mt-5", data: { action: "click->form#add_item", category: "NEW_CATEGORY", category_id: category.object.id  } %>
+              </div>
+            <%end %>
+          <%end %>
+
+
+        </div>
+        <%= form.submit "Create QR Menu", class: "btn-teal hover:bg-transparent hover:text-teal-700 mt-4", data: { "disable-with": "Saving..." }%>
+      </div>
+
+
+      <!-- PHONE -->
+      <section class="flex justify-center p-10">
+
+        <div class="iphone-x overflow-scroll sticky" style="top:50px;">
+          <%= render "restaurants/phone/blackbox" %>
+
+          <div class="px-5">
+            <!-- iphone: restaurant NAME and LOGO  -->
+            <div class="flex flex-row pt-8 pl-3 items-center space-x-3 h-32">
+              <% if @restaurant.picture.attached? %>
+                <img class= "logo-phone shadow p-1 rounded-full" data-target="form.logo_output" src="<%= cl_path(@restaurant.picture.key) %>">
+              <% else %>
+                <%= image_tag("icons/photo.svg", class: "logo-phone shadow p-1 rounded-full", data: { target: "form.logo_output" }) %>
+              <% end %>
+              <div class="text-2xl" id="restaurant-name"><%= @restaurant.name %></div>
+            </div>
+
+            <!-- template - iphone: CATEGORY field  -->
+            <template data-target="form.template_category_print">
+              <div class="mt-3 text-lg" data-target="form.one_category" id="category-NEW_CATEGORY"></div>
+            </template>
+
+            <div class="pl-5 flex space-x-2 overflow-auto" data-target="form.categories">
+              <% if @restaurant.categories %>
+                <% @restaurant.categories.each do |category| %>
+                  <% if category.name %>
+                    <div class="mt-3 text-lg" data-target="form.one_category" id="category-<%= category.id %>" data-category-id="<%= category.id %>"><%= category.name %></div>
+                  <% end %>
+                <% end %>
+              <% end %>
+            </div>
+            <hr class="mt-5 border-gray-300 w-48 mx-auto">
+
+            <!-- template - iphone: MENU ITEM field  -->
+            <template data-target="form.template_item_print">
+              <div class="flex space-x-2 my-4 justify-between" id="item-NEW_MENU_ITEM" data-target="form.one_item">
+                <%= image_tag("icons/photo.svg", class: "h-20 w-20 rounded", id: "item-picture-NEW_MENU_ITEM", data: { target: "form.picture_meal_item", picture_id:"NEW_MENU_ITEM" }) %>
+
+                <div class="w-full">
+                  <p class="font-semibold flex justify-between">
+                    <span id="item-name-NEW_MENU_ITEM">Healthy Bowl</span>
+                    <span id="item-price-NEW_MENU_ITEM"></span>
+                  </p>
+                  <small id="item-description-NEW_MENU_ITEM"></small>
+                </div>
+              </div>
+            </template>
+            <div data-target="form.items">
+            <% @restaurant.categories.each do |cat| %>
+                <% if cat.items %>
+                  <% cat.items.each do |item| %>
+                  <div class="flex space-x-2 my-4 justify-between" id="item-<%=item.id %>" data-target="form.one_item" data-category-id="<%= item.category.id %>">
+                    <img  mg class="h-20 w-20 rounded" data-target="form.picture_meal_item" data-picture-id="<%= item.id %>" src="<%= cl_path(item.picture.key) if item.picture.attached?  %>"></img>
+
+                    <div class="w-full">
+                      <p class="font-semibold flex justify-between">
+                        <span id="item-name-<%=item.id %>"><%= item.name %></span>
+                        <span id="item-price-<%=item.id %>"><%= item.price %></span>
+                      </p>
+                      <small id="item-description-<%=item.id %>"><%= item.description %></small>
+                    </div>
+                  </div>
+
+                  <% end %>
+                <% end %>
+            <% end %>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
   </div>
+
+<% end %>
+
 </div>
 
-<div class="text-center my-8 mx-auto">
-  <div class="text-red-500 pt-6 md:w-2/3 mx-auto lg:w-1/3 rounded-md font-semibold text-3xl w-auto">Create your menu in 3 simple steps! 👇</div>
-  <div class="mt-2 text-base leading-6 text-gray-600">To create menu, view website on laptop or desktop</div>
-  <div class="mt-5">
-    <%= link_to "Create Your Own QR-Menu", new_restaurant_url, class:"btn-red hover:bg-transparent hover:text-teal-700"  %>
-  </div>
-</div>
-<div class="container mobile-view-text hidden mx-auto" >
-  <div class="border-b border-gray-300 p-5 text-lg"></div>
-  <div class=""></div>
-  <%= render "phone", restaurant: @restaurant %>
-</div>
-
-<section class="container max-w-screen-xl mt-16 mx-auto text-center mobile-view">
-
-  <div class="flex">
-    <!-- LEFT Col-->
-    <div class="w-1/3 space-y-5 pt-20 flex flex-col items-end">
-      <div class="handwriting">2. <br>
-        Add categories</div>
-      <div class="flex justify-center">
-        <%= image_tag "arrows/arrow_26.svg", class:"arrow two" %>
-      </div>
-    </div>
-
-    <!-- MIDDLE Col-->
-    <div class="w-1/3">
-      <%= render "phone", restaurant: @restaurant %>
-    </div>
-
-    <!-- RIGHT Col-->
-    <div class="w-1/3 space-y-56 flex flex-col items-start">
-      <div>
-        <div class="handwriting">1. <br>
-          Add restaurant</div>
-        <%= image_tag "arrows/arrow_36.svg", class:"arrow one w-20" %>
-      </div>
-
-      <div>
-        <%= image_tag "arrows/arrow_26.svg", class:"arrow three" %>
-        <div class="handwriting">3. <br>
-          Add menu items</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<section class="text-center mx-auto my-16">
-  <h1 class="text-3xl">Scan example menu</h1>
-  <div>
-    <%= link_to "click here for example", restaurant_url(@restaurant), class:"text-link" %>
-  </div>
-
-  <div class="my-3 flex mobile-view">
-    <div class="w-5/12 flex justify-end items-center">
-      <div class="handwriting">Try it out! 📷</div>
-      <%= image_tag "arrows/arrow_44", class:"arrow four ml-5" %>
-    </div>
-    <div class="w-2/12 svg-wrapper "><%= @svg.html_safe%></div>
-    <div class="w-5/12"></div>
-  </div>
-
-  <div class="my-10 mobile-view">
-    <%= link_to "Create Your Own QR-Menu", new_restaurant_url, class:"btn-teal hover:bg-transparent hover:text-teal-700"  %>
-  </div>
-
-</section>
-
-
-<style>
-  .svg-wrapper > svg{
-    display: unset;
-  }
-
-  .handwriting {
-  font-family: "Gochi Hand";
-  font-size: 34px;
-  }
-
-  .arrow.one {
-  transform: rotate(295deg);
-  }
-
-  .arrow.two {
-    transform: rotate(245deg);
-  }
-
-  .arrow.three {
-    transform: rotate(418deg);
-  }
-
-  .arrow.four {
-  }
-
-  @media (max-width: 1024px) {
-    .mobile-view-text {
-      display: block;
-    }
-    .mobile-view {
-      display: none;
-  }
-  }
-</style>

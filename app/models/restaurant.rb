@@ -1,5 +1,6 @@
 class Restaurant < ApplicationRecord
 
+
   include Rails.application.routes.url_helpers
 
   after_create :create_qr_code
@@ -16,6 +17,8 @@ class Restaurant < ApplicationRecord
 
   extend FriendlyId
   friendly_id :random_code, use: :slugged
+
+
 
   def random_code
     SecureRandom.hex(10) #=> "92b15d6c8dc4beb5f559"

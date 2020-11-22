@@ -1,6 +1,6 @@
 <%= content_tag :div, class: "nested-fields", data: { new_record: form.object.new_record? }  do %>
   <div class="flex flex-row items-center my-3">
-    <%= form.text_field :name, class: "input-box", data: { reflex: "keyup->Form#print_category", category_id: form.object.id  } %>
+    <%= form.text_field :name, class: "input-box", data: { reflex: "keyup->Form#print_category", category_id: form.object.id, action: "keyup->autosave#save"   } %>
     <%= image_tag "icons/delete.svg", class: "ml-2 h-5 w-5 cursor-pointer", data: { action: "click->form#delete_category", category_id: form.object.id } %>
   </div>
 

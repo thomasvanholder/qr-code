@@ -76,4 +76,6 @@ gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "better_html"
 
 gem "standard", group: [:development, :test]
+# gem 'amoeba'
+gem 'deep_cloneable', '~> 3.0.0'
 

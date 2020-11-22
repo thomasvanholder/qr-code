@@ -100,6 +100,8 @@ GEM
     concurrent-ruby (1.1.7)
     crass (1.0.6)
     debug_inspector (0.0.3)
+    deep_cloneable (3.0.0)
+      activerecord (>= 3.1.0, < 7)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.7.6)
@@ -328,6 +330,7 @@ DEPENDENCIES
   byebug
   capybara (>= 2.15)
   cloudinary (~> 1.16.0)
+  deep_cloneable (~> 3.0.0)
   dotenv-rails
   erb_lint
   faker

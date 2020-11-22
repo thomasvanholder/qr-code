@@ -4,7 +4,7 @@
       <%= form.label :Restaurant, class: "input-label md:text-right md:mb-0" %>
     </div>
     <div class="md:w-2/3">
-      <%= form.text_field :name, class: "input-box focus:outline-none focus:shadow-outline", placeholder: "Casa Alberto", data: { reflex: "keyup->Form#print_restaurant"} %>
+      <%= form.text_field :name, class: "input-box focus:outline-none focus:shadow-outline", placeholder: "Casa Alberto", data: { reflex: "keyup->Form#print_restaurant", action: "keyup->autosave#save" } %>
     </div>
   </div>
 </div>

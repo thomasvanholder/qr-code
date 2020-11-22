@@ -5,4 +5,5 @@ class Category < ApplicationRecord
   accepts_nested_attributes_for :items, reject_if: :all_blank, allow_destroy: true
 
   # validates :name, presence: true
+
 end

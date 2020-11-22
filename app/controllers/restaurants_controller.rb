@@ -1,10 +1,17 @@
 require 'csv'
 
 class RestaurantsController < ApplicationController
-  before_action :find_restaurant, only: [:show, :qrcode, :send_email_qr_code, :edit, :update ]
+  before_action :find_restaurant, only: [:show,:edit, :update,:generator, :qrcode, :send_email_qr_code, ]
 
   def index
-    @restaurant = Restaurant.first # sample restaurant
+    # example = Restaurant.first.amoeba_dup # copy sample restaurant incl children and grandchildren
+    # example = Restaurant.first
+    example = Restaurant.first.deep_clone include: { categories: :items } do |original, copy|
+      copy.picture.attach(original.picture.blob) if (copy.is_a?(Restaurant) || copy.is_a?(Item)) && original.picture.attached?
+    end
+
+
+    @restaurant = example
 
     @svg = @restaurant.qr_code
   end
@@ -16,6 +23,7 @@ class RestaurantsController < ApplicationController
     @restaurant = Restaurant.new
     @restaurant.categories.build.items.build
   end
+
 
   def qrcode
   end
@@ -29,6 +37,10 @@ class RestaurantsController < ApplicationController
     end
   end
 
+  def generator
+    @categories = @restaurant.categories
+  end
+
   def edit
     @categories = @restaurant.categories
   end
@@ -38,7 +50,7 @@ class RestaurantsController < ApplicationController
     if @restaurant.update(restaurant_params)
       @restaurant.picture.purge if !params[:restaurant]["picture"].present?
       # for every menu item check if picture is not present, call purge on existing active_storage
-      redirect_to restaurant_qrcode_url(@restaurant), notice: { title: "QR Menu updated", content: "Anyone with the QR code can now view this menu." }
+      # render :generator, notice: { title: "QR Menu updated", content: "Anyone with the QR code can now view this menu." }
     else
       render :edit
     end
@@ -66,7 +78,6 @@ class RestaurantsController < ApplicationController
 
   def find_restaurant
     @restaurant = Restaurant.friendly.find(params[:id])
-
   end
 
   def restaurant_params
