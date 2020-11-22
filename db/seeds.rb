@@ -25,39 +25,42 @@ end
 puts "#{Restaurant.count} restaurants created"
 
 puts stars
-puts "-> Categories and Menu Items 🇳🇱"
+puts "-> Creating categories and menu items 🇳🇱"
 CATEGORY_ITEMS = {
   voorgerechten: [
-    { name: 'Surf en Turf', price: 7, description: '' },
-    { name: 'Broodplankje van Rijn', price: 11, description: '' },
-    { name: 'Gebakken Brie ☘️', price: 9, description: '' },
-    { name: "Gamba's Piri Piri", price: 11, description: '' }
+    { name: 'Surf en Turf', price: 7, description: "Gebakken kleine gamba's met geplukte sparerib uit de oven, aioli.", pic_title:"surf_en_turf.jpg" },
+    { name: 'Broodplankje van Rijn', price: 11, description: "Geserveerd met kruidenboter, áioli en heerlijke echte gezouten boter.", pic_title:"broodplankje.jpg" },
+    { name: 'Gebakken Brie ☘️', price: 9, description: "Met gebakken champignons, bordgarnituur en bloemenhoning, crostini en balsamico.", pic_title:"gebakken_brie.jpg" },
+    { name: "Gamba's Piri Piri", price: 11, description: "Gebakken gamba's, geserveerd in hete knoflook olie en chili met een broodgarnituur en aioli.", pic_title:"gambas_piri.jpg" }
   ],
   soepen: [
-    { name: 'Tomatensoep ☘️', price: 7, description: ''},
-    { name: 'Uiensoep ☘️', price: 7, description: ''}
+    { name: 'Tomatensoep ☘️', price: 7, description: "Traditionele huisgemaakte tomatensoep met pesto room en een soepstengel.", pic_title:"tomatensoep.jpg"},
+    { name: 'Uiensoep ☘️', price: 7, description: "Huisgemaakte klassieke uiensoep met kaascroutons. Oma's Recept.", pic_title:"uiensoep.jpg"}
   ],
   vleesgerechten: [
-    { name: 'Vlees Trio (300gr.)', price: 7, description: ''},
-    { name: 'Ossenhaas', price: 23.5, description: ''},
-    { name: 'Kippendij', price: 19, description: ''},
-    { name: 'Maaltijdsalade', price: 19, description: ''}
+    { name: 'Steak (400gr.)', price: 7, description: "Mals biefstukje geserveerd met een bordgarnituur, saus naar keuze, frites en salade.", pic_title:"steak.jpg"},
+    { name: 'Ossenhaas', price: 23.5, description: "2x spiesje geregen met Malse ossenhaas 220 gram met saus naar keuze. Geserveerd met goudgele frites.", pic_title:"ossenhaas.jpg"},
+    { name: 'Kippendij', price: 19, description: "Geserveerd met heerlijke pindasaus, salade, kroepoek, frites.", pic_title:"kippendij.jpg"},
+    { name: 'Maaltijdsalade', price: 19, description: "Zeer rijk belegde groene frisse maaltijdsalade met runder carpaccio geserveerd met frites.", pic_title:"maaltijdsalade.jpeg"}
   ]
 }
 
 CATEGORY_ITEMS.each do |category, items|
   cat_instance = Category.create(
-    name: category.to_s,
+    name: category.to_s.capitalize,
     restaurant: Restaurant.first
     )
 
   items.each do |item|
-    Item.create(
+    one_item = Item.create(
       name: item[:name],
       price: item[:price],
       description: item[:description],
       category: cat_instance
     )
+    path = "#{Rails.root}/app/assets/images/items/#{item[:pic_title]}"
+    file = File.open(path)
+    one_item.picture.attach(io: file, filename: "#{item[:name]}", content_type: "image/jpg")
   end
 end
 
