@@ -9,6 +9,7 @@ class FormReflex < ApplicationReflex
     id = element.dataset.category_id || extract_id(element.name)
     morph "#category-#{id}", element.value
     morph "#tab-#{id}", element.value
+    morph "#header-#{id}", element.value
   end
 
   def print_item
@@ -32,8 +33,6 @@ class FormReflex < ApplicationReflex
     # get 5 or more digits to match [1604647606030]
     string.match(/\d{1,}/)[0]
   end
-
-
 
   def extract_menu_id(string)
     sol = string.match(/items_attributes\S\S\d{1,}/)[0]

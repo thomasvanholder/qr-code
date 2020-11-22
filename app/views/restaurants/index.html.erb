@@ -65,24 +65,24 @@
 
         <div data-controller="tabs" data-tabs-active-tab="-mb-px border-l border-t border-r rounded-t" data-target="form.list_panels">
           <ul class="list-reset flex border-b overflow-auto" data-target="form.list_tabs">
-            <% @restaurant.categories.each_with_index do |category, index| %>
+            <% @restaurant.categories.each do |category| %>
               <% if category.name %>
                 <li class="mr-1" data-target="tabs.tab" data-action="click->tabs#change">
-                  <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#" data-target="form.one_tab" data-tab-id="<%= category.id %>" id="tab-<%= category.id %>"><%= category.name %></a>
+                  <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#" data-target="form.one_tab" data-tab-id="<%= category.object_id %>" id="tab-<%= category.object_id %>"><%= category.name %></a>
                 </li>
               <% end %>
             <% end %>
           </ul>
 
           <!-- dipslay panel items --->
-          <%= form.fields_for :categories, child_index: 'NEW_CATEGORY', include_id: false do |category| %>
-            <%if category.object.name %>
-              <div class="hidden py-2 border-b" data-target="tabs.panel form.one_panel" data-panel-id="<%= category.object.id  %>">
-                <%= category.fields_for :items do |item| %>
+          <%= form.fields_for :categories, child_index: 'NEW_CATEGORY', include_id: false do |form_category| %>
+            <%if form_category.object.name %>
+              <div class="hidden py-2 border-b" data-target="tabs.panel form.one_panel" data-panel-id="<%= form_category.object.object_id  %>">
+                <%= form_category.fields_for :items do |item| %>
                   <%= render "fields_item", form: item %>
                 <% end %>
 
-                <%= button_tag "Add Item", type: 'button', class: "text-link mt-5", data: { action: "click->form#add_item", category: "NEW_CATEGORY", category_id: category.object.id  } %>
+                <%= button_tag "Add Item", type: 'button', class: "text-link mt-5", data: { action: "click->form#add_item", category: "NEW_CATEGORY", category_id: form_category.object.id  } %>
               </div>
             <%end %>
           <%end %>
@@ -119,7 +119,7 @@
               <% if @restaurant.categories %>
                 <% @restaurant.categories.each do |category| %>
                   <% if category.name %>
-                    <div class="mt-3 text-lg" data-target="form.one_category" id="category-<%= category.id %>" data-category-id="<%= category.id %>"><%= category.name %></div>
+                    <div class="mt-3 text-lg" data-target="form.one_category" id="category-<%= category.object_id %>" data-category-id="<%= category.object_id %>"><%= category.name %></div>
                   <% end %>
                 <% end %>
               <% end %>
@@ -143,16 +143,18 @@
             <div data-target="form.items">
             <% @restaurant.categories.each do |cat| %>
                 <% if cat.items %>
+                  <h2 class="text-lg font-semibold border-b py-3 shadow-category" data-target="form.phone_header" data-category-id="<%= cat.object_id %>" id="header-<%= cat.object_id %>"><%= cat.name.capitalize %></h2>
                   <% cat.items.each do |item| %>
-                  <div class="flex space-x-2 my-4 justify-between" id="item-<%=item.id %>" data-target="form.one_item" data-category-id="<%= item.category.id %>">
-                    <img  mg class="h-20 w-20 rounded" data-target="form.picture_meal_item" data-picture-id="<%= item.id %>" src="<%= cl_path(item.picture.key) if item.picture.attached?  %>"></img>
-
+                  <div class="flex space-x-2 my-4 justify-between" id="item-<%=item.object_id %>" data-target="form.one_item" data-category-id="<%= item.category.object_id %>">
+                   <% if item.picture.attached? %>
+                    <img class="h-20 w-20 rounded" data-target="form.picture_meal_item" data-picture-id="<%= item.object_id %>" src="<%= cl_path(item.picture.key) %>"></img>
+                  <% end %>
                     <div class="w-full">
                       <p class="font-semibold flex justify-between">
-                        <span id="item-name-<%=item.id %>"><%= item.name %></span>
-                        <span id="item-price-<%=item.id %>"><%= item.price %></span>
+                        <span id="item-name-<%=item.object_id %>"><%= item.name %></span>
+                        <span id="item-price-<%=item.object_id %>">€<%= item.price %></span>
                       </p>
-                      <small id="item-description-<%=item.id %>"><%= item.description %></small>
+                      <small id="item-description-<%=item.object_id %>"><%= item.description %></small>
                     </div>
                   </div>
 

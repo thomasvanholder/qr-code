@@ -28,6 +28,7 @@ export default class extends ApplicationController {
     "template_panel_print",
     "template_wrapper",
     "delete_icon_meal_picture",
+    "phone_header"
   ];
 
   connect() {
@@ -179,6 +180,15 @@ export default class extends ApplicationController {
     selected_category.remove();
 
     // 5. delete phone item element
+    const all_headers = this.phone_headerTargets
+    console.log(all_headers)
+    let selected_header = ''
+     if (existId) {
+      selected_header = all_headers.find(header =>header.dataset.categoryId == category_id)
+     }
+    selected_header.remove();
+
+
     // TO BE COMPLETED !!!!!
     const all_items = this.one_itemTargets;
     all_items.forEach(item =>

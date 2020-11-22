@@ -34,7 +34,7 @@
                   <p class="font-semibold flex justify-between">
                     <span><%= item.name %></span>
                     <% if item.price %>
-                      <span>€<%= item.price %></span>
+                      <span><%= item.price %></span>
                     <% end %>
                   </p>
                   <% if item.price %>
@@ -57,12 +57,5 @@
     .tabs.show {
       top: 25px;
     }
-  }
-
-  .shadow-category {
-    box-shadow: 0 0px 15px -3px rgba(8, 0, 0, 0.2), 0 -5px 3px 0px rgba(0, 0, 0, 0.05);
-    border-radius: 8px;
-    text-align: left;
-    padding-left: 20px;
   }
 </style>
