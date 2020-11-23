@@ -1,4 +1,4 @@
-<%= content_tag :div, class: "nested-fields flex my-4", data: { new_record: form.object.new_record? } do %>
+<%= content_tag :div, class: "nested-fields flex my-4", data: { new_record: form.object.new_record?, item: form.object.object_id } do %>
 
   <div class="md:flex md:items-center mt-auto w-1/4">
     <% if form.object.picture.attached? %>
@@ -40,7 +40,7 @@
     </div>
 
     <%= form.text_field :description, class: "mt-2 w-full border-b border-dashed", data: { reflex: "keyup->Form#print_description", item: form.object.object_id}, placeholder: "description" %>
-    <%= form.hidden_field :id, value: form.object.object_id  %>
+    <%#= form.hidden_field :id, value: form.object.object_id  %>
   </div>
 
 <%= form.hidden_field :_destroy %>
@@ -48,8 +48,3 @@
 <% end %>
 
 <hr class="border-gray-300 w-full mx-auto">
-
-
-<style>
-
-</style>

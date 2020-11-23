@@ -15,4 +15,4 @@ application.load(definitionsFromContext(context))
 application.register("tabs", Tabs);
 application.register("alert", Alert);
 
-StimulusReflex.initialize(application, { consumer, controller, debug: true })
+StimulusReflex.initialize(application, { consumer, controller, debug: false })

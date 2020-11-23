@@ -1,6 +1,10 @@
 <%= content_tag :div, class: "nested-fields", data: { new_record: form.object.new_record? }  do %>
   <div class="flex flex-row items-center my-3">
-    <%= form.text_field :name, class: "input-box", data: { reflex: "keyup->Form#print_category", category_id: form.object.object_id, action: "keyup->autosave#save"   } %>
+    <% if form.object.new_record? %>
+      <%= form.text_field :name, class: "input-box", data: { reflex: "keyup->Form#print_category", action: "keyup->autosave#save"  } %>
+    <% else %>
+      <%= form.text_field :name, class: "input-box", data: { reflex: "keyup->Form#print_category", category_id: form.object.object_id, action: "keyup->autosave#save" } %>
+    <% end %>
     <%= image_tag "icons/delete.svg", class: "ml-2 h-5 w-5 cursor-pointer", data: { action: "click->form#delete_category", category_id: form.object.object_id} %>
   </div>
 

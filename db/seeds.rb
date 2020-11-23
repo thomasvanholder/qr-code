@@ -42,17 +42,17 @@ CATEGORY_ITEMS = {
     { name: 'Ossenhaas', price: 23.5, description: "2x spiesje geregen met Malse ossenhaas 220 gram met saus naar keuze. Geserveerd met goudgele frites.", pic_title:"ossenhaas.jpg"},
     { name: 'Kippendij', price: 19, description: "Geserveerd met heerlijke pindasaus, salade, kroepoek, frites.", pic_title:"kippendij.jpg"},
   ],
-  visgerechten: [
-    { name: 'Scholfilet', price: 20, description: "Geserveerd met huisgemaakte renroulade saus, bordgarnituur, goudgele frites en een frisse salade.", pic_title:"scholfilet.jpg"},
-    { name: 'Preistamppot met zalm', price: 22, description: "Heerlijke smeuïge stamppot met geroerbakte prei en zalm uit de oven met een mosterd dille marinade", pic_title:"preistamppot_zalm.jpg"},
-    { name: 'Maaltijdsalade', price: 19, description: "Zeer rijk belegde groene frisse maaltijdsalade met huisgerookte zalm geserveerd met frites.", pic_title:"maaltijdsalade.jpeg"}
-  ],
-  desserts: [
-    { name: 'Notenijs', price: 8, description: "Huisgemaakt notenijs met merengue roomkaramel en karamelsaus.", pic_title:"notenijs.jpg"},
-    { name: 'Verwenkoffie', price: 6.5, description: "Likeur of whisky in de koffie, toef slagroom en eenbonbon", pic_title:"verwenkoffie.jpg"},
-    { name: 'Creme de Catalana', price: 7, description: "Heerlijk romig ,geserveerd met vanille ijs en aardbeien saus.", pic_title:"catalana.jpg"},
-    { name: 'Ouderwets Lekekr', price: 6, description: "Advocaatje xl met een lekkere toef slagroom en een Belgische bonbon.", pic_title:"advocaat.jpg"}
-  ],
+  # visgerechten: [
+  #   { name: 'Scholfilet', price: 20, description: "Geserveerd met huisgemaakte renroulade saus, bordgarnituur, goudgele frites en een frisse salade.", pic_title:"scholfilet.jpg"},
+  #   { name: 'Preistamppot met zalm', price: 22, description: "Heerlijke smeuïge stamppot met geroerbakte prei en zalm uit de oven met een mosterd dille marinade", pic_title:"preistamppot_zalm.jpg"},
+  #   { name: 'Maaltijdsalade', price: 19, description: "Zeer rijk belegde groene frisse maaltijdsalade met huisgerookte zalm geserveerd met frites.", pic_title:"maaltijdsalade.jpeg"}
+  # ],
+  # desserts: [
+  #   { name: 'Notenijs', price: 8, description: "Huisgemaakt notenijs met merengue roomkaramel en karamelsaus.", pic_title:"notenijs.jpg"},
+  #   { name: 'Verwenkoffie', price: 6.5, description: "Likeur of whisky in de koffie, toef slagroom en eenbonbon", pic_title:"verwenkoffie.jpg"},
+  #   { name: 'Creme de Catalana', price: 7, description: "Heerlijk romig ,geserveerd met vanille ijs en aardbeien saus.", pic_title:"catalana.jpg"},
+  #   { name: 'Ouderwets Lekekr', price: 6, description: "Advocaatje xl met een lekkere toef slagroom en een Belgische bonbon.", pic_title:"advocaat.jpg"}
+  # ],
   bieren: [
     { name: 'palm', price: 3.8},
     { name: 'duvel', price: 4.8},

@@ -4,16 +4,9 @@ class RestaurantsController < ApplicationController
   before_action :find_restaurant, only: [:show,:edit, :update,:generator, :qrcode, :send_email_qr_code, ]
 
   def index
-    # example = Restaurant.first.amoeba_dup # copy sample restaurant incl children and grandchildren
-    # example = Restaurant.first
-    example = Restaurant.first.deep_clone include: { categories: :items } do |original, copy|
+    @restaurant = Restaurant.first.deep_clone include: { categories: :items } do |original, copy|
       copy.picture.attach(original.picture.blob) if (copy.is_a?(Restaurant) || copy.is_a?(Item)) && original.picture.attached?
     end
-
-
-    @restaurant = example
-
-    @svg = @restaurant.qr_code
   end
 
   def show
@@ -23,7 +16,6 @@ class RestaurantsController < ApplicationController
     @restaurant = Restaurant.new
     @restaurant.categories.build.items.build
   end
-
 
   def qrcode
   end

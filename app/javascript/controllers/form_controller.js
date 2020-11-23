@@ -18,7 +18,7 @@ export default class extends ApplicationController {
     "one_category",
     "template_category_field",
     "template_category_print",
-    "template_item_print",
+    "template_item_phone",
     "template_item_field",
     "item_fields_template",
     "categories",
@@ -38,75 +38,60 @@ export default class extends ApplicationController {
   }
 
   load() {
-    const path = window.location.href; // check if page is edit
-    if (path.endsWith("edit")) {
+    // const path = window.location.href; // check if page is edit
+    // if (path.endsWith("edit")) {
+    if (location.pathname == "/") {
       const panels = this.one_panelTargets;
       panels.forEach((panel, index) => {
         const update = panel.innerHTML.replace(/NEW_CATEGORY/g, index);
         panel.innerHTML = update;
       });
       // https://api.rubyonrails.org/v4.0.1/classes/ActiveRecord/NestedAttributes/ClassMethods.html
-    }
+  }
   }
 
   // prettier-ignore
   add_category(event) {
     const id = new Date().getTime(); // create random time-stamp as unique category identifier
+    console.log(this.template_category_printTarget);
     // 1. create extra input
-    this.add_element(id, this.template_category_printTarget, this.categoriesTarget, "beforeend");
+    this.add_cat_element(this.template_category_printTarget, this.categoriesTarget, "beforeend", id);
     // 2. print on iphone
-    this.add_element(id, this.template_category_fieldTarget, this.links_categoryTarget, "beforebegin");
+    this.add_cat_element(this.template_category_fieldTarget, this.links_categoryTarget, "beforebegin",id);
     // 3. print on tab nav
-    this.add_element(id, this.template_tab_printTarget, this.list_tabsTarget, "beforeend");
+    this.add_cat_element(this.template_tab_printTarget, this.list_tabsTarget, "beforeend",id);
     // 4. print tab panel
-    this.add_element(id, this.template_panel_printTarget, this.list_panelsTarget, "beforeend");
+    this.add_cat_element(this.template_panel_printTarget, this.list_panelsTarget, "beforeend",id);
   }
 
-  add_element(id, input, output, position) {
+  add_cat_element(input, output, position, id) {
     const content = input.innerHTML.replace(/NEW_CATEGORY/g, id);
     output.insertAdjacentHTML(position, content);
   }
 
+  add_item_element(input, output, position,id) {
+    let content = input.innerHTML.replace(/NEW_MENU_ITEM/g, id).replace(/data-item="\d{5,}"/g, '');
+    output.insertAdjacentHTML(position, content);
+  }
+
   add_item(event) {
-    const new_category_id = event.target.dataset.category;
-    const category_id = event.target.dataset.categoryId;
+    const category_id = event.target.parentElement.dataset.panelId;
     const menu_item_id = new Date().getTime();
-    console.log(`New Category ID: ${new_category_id}`);
     console.log(`Category ID: ${category_id}`);
     console.log(`Menu item ID: ${menu_item_id}`)
 
     // get template and insert new random menu id
     const all_fields = this.template_item_fieldTargets;
     let one_field = all_fields.find(template => template.dataset.categoryId === category_id);
-    one_field = one_field.innerHTML.replace(/NEW_MENU_ITEM/g, menu_item_id);
-    event.target.insertAdjacentHTML("beforebegin", one_field);
-
-
-    // const all_templates = this.template_wrapperTarget.getElementsByTagName(
-    //   "template"
-    // );
-    // // console.log(all_templates)
-    // for (let template of all_templates) {
-    //     // console.log(template)
-    //   // get correct template which matches new_category_id
-    //   if (template.innerHTML.includes(new_category_id)) {
-    //     const content = template.innerHTML.replace(
-    //       /NEW_MENU_ITEM/g,
-    //       menu_item_id
-    //     );
-    //     event.target.insertAdjacentHTML("beforebegin", content);
-    //   }
-    // }
-
-    const print_content = this.template_item_printTarget.innerHTML.replace(
-      /NEW_MENU_ITEM/g,
-      menu_item_id
-    );
-    this.itemsTarget.insertAdjacentHTML("beforeend", print_content);
+    this.add_item_element(one_field, event.target, "beforebegin", menu_item_id);
+    // print on phone
+    const all_headers = this.phone_headerTargets;
+    const one_header = all_headers.find(header => header.dataset.categoryId === category_id)
+    this.add_item_element(this.template_item_phoneTarget, one_header.parentElement, "beforeend", menu_item_id);
   }
 
   delete_item(event) {
-    let wrapper = event.target.closest(".nested-fields"); // look in parent for class
+    const wrapper = event.target.closest(".nested-fields"); // look in parent for class
     if (wrapper.dataset.newRecord == "true") {
       // remove field if it's a new record added during session
       wrapper.remove();
@@ -116,10 +101,9 @@ export default class extends ApplicationController {
       wrapper.style.display = "none"; //remove visibility from page
     }
 
-    // 3. delete printed element
-    let input_element = wrapper.querySelector("input");
-    let regex_id = this.extract_menu_item_id(input_element);
-    let print_element = this.itemsTarget.querySelector(`#item-${regex_id}`);
+    const item_id = wrapper.dataset.item
+    // let print_element = this.itemsTarget.find(`#item-${item}`); // delete item from phone
+    const print_element = this.one_itemTargets.find(item => item.dataset.itemId === item_id); // delete item from phone;
     print_element.remove();
   }
 
@@ -181,7 +165,6 @@ export default class extends ApplicationController {
 
     // 5. delete phone item element
     const all_headers = this.phone_headerTargets
-    console.log(all_headers)
     let selected_header = ''
      if (existId) {
       selected_header = all_headers.find(header =>header.dataset.categoryId == category_id)
@@ -237,7 +220,6 @@ export default class extends ApplicationController {
     const menu_item_id = this.extract_menu_item_id(event);
     console.log(`Preview Meal Picture --> Menu Item ID: ${menu_item_id}`)
     const input = event.target;
-    console.log(`input:  ${input}`)
 
     const pics = this.picture_meal_itemTargets;
     const meal_pics = pics.filter(pic => {
@@ -249,13 +231,10 @@ export default class extends ApplicationController {
         extracted_id == menu_item_id;
       }
     });
-    console.log(`meal_pics ${meal_pics}`)
+    console.log(meal_pics)
 
-    // console.log(`input files:`)
-    // console.log(input.files)
-    // console.log(input.value = '')
     if (input.files && input.files[0]) {
-      let reader = new FileReader();
+      const reader = new FileReader();
 
       reader.onload = function () {
         meal_pics.forEach((pic) => {
@@ -264,13 +243,12 @@ export default class extends ApplicationController {
         input.parentElement.classList.add("hidden");
         meal_pics[0].parentElement.classList.remove("hidden");
         meal_pics[0].parentElement.classList.add("flex");
-        meal_pics[1].parentElement.classList.remove("hidden"); // show meal pic on phone if hidden
+        meal_pics[1].classList.remove("hidden"); // show meal pic on phone if hidden
 
         input.src = reader.result;
       };
 
       reader.readAsDataURL(input.files[0]);
-
       input.parentElement.nextElementSibling.classList.add("hidden"); // hide delete icon too
     }
   }
@@ -283,7 +261,6 @@ export default class extends ApplicationController {
 
     const phone_logo = logos[1];
     phone_logo.classList.add("hidden")
-    // phone_logo.src = "../../assets/icons/photo.svg"; // set to original picture icon
 
     const input = this.logo_inputTarget;
     console.log(input.files)
@@ -294,10 +271,10 @@ export default class extends ApplicationController {
 
   delete_item_picture(event) {
     const menu_item_id = this.extract_menu_item_id(event);
-    console.log(`DELETE_ITEM_PICTURE --> menu item id: ${menu_item_id}`)
+    console.log(`DELETE_ITEM_PICTURE --> menu item id: ${menu_item_id}`);
 
     const pics = this.picture_meal_itemTargets;
-    console.log(pics)
+    console.log(pics);
     const meal_pics = pics.filter(
       (pic) => pic.dataset.pictureId === menu_item_id
     );
@@ -305,7 +282,7 @@ export default class extends ApplicationController {
     meal_pics[0].parentElement.classList.add("hidden"); // hide custom pic
 
     const inputs = this.meal_picture_inputTargets; // add standard pic again
-    const input_picture = inputs.find(pic => {
+    const input_picture = inputs.find((pic) => {
       if (pic.dataset.pictureId) {
         return pic.dataset.pictureId == menu_item_id;
       } else {
@@ -314,15 +291,12 @@ export default class extends ApplicationController {
         return extracted_id == menu_item_id;
       }
     });
-    input_picture.value = '' // set input.files of pic to empty
+    input_picture.value = ""; // set input.files of pic to empty
 
-    // input_picture.removeAttribute("src");
-    console.log(input_picture)
     input_picture.parentElement.classList.remove("hidden");
 
-    // hide the meal pic on phone when deleted
-    meal_pics[1].classList.add("hidden");
-    this.deletePicture(menu_item_id)
+    meal_pics[1].classList.add("hidden"); // hide the meal pic on phone when deleted
+    this.deletePicture(menu_item_id);
   }
 
   deletePicture(id) {
