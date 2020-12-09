@@ -24,6 +24,7 @@ puts "-> Creating restaurants"
 end
 puts "#{Restaurant.count} restaurants created"
 
+
 puts stars
 puts "-> Creating categories and menu items 🇳🇱"
 CATEGORY_ITEMS = {
@@ -63,6 +64,9 @@ CATEGORY_ITEMS = {
     { name: 'Hertog Jan', price: 3.6},
   ]
 }
+
+
+
 
 CATEGORY_ITEMS.each do |category, items|
   cat_instance = Category.create(

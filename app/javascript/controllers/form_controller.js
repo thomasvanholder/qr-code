@@ -215,15 +215,16 @@ export default class extends ApplicationController {
     }
   }
 
-
   preview_meal_picture(event) {
     const menu_item_id = this.extract_menu_item_id(event);
     console.log(`Preview Meal Picture --> Menu Item ID: ${menu_item_id}`)
     const input = event.target;
 
     const pics = this.picture_meal_itemTargets;
+    console.log(pics)
     const meal_pics = pics.filter(pic => {
       if (pic.dataset.pictureId) {
+        console.log(pic.dataset.pictureId === menu_item_id);
         return pic.dataset.pictureId == menu_item_id;
       } else {
         let extracted_id = pic.name.match(/items_attributes\S\S\d{5,}/);

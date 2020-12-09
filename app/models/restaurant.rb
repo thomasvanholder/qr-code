@@ -19,7 +19,6 @@ class Restaurant < ApplicationRecord
   friendly_id :random_code, use: :slugged
 
 
-
   def random_code
     SecureRandom.hex(10) #=> "92b15d6c8dc4beb5f559"
   end
